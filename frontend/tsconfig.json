@@ -7,6 +7,13 @@
     "baseUrl": ".",
     "paths": {
       "shared-lib": ["libs/shared-lib/index.ts"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
     }
   }
 }
