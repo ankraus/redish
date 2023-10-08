@@ -1,19 +1,27 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { ModuleFederationPlugin } = require("webpack").container;
 
 module.exports = {
   mode: "development",
   entry: {
-    index: "./src/index.ts",
-    print: "./src/print.ts",
+    worm: "./games/worm/src/index.ts",
   },
   devtool: "inline-source-map",
   devServer: {
-    static: "./dist",
+    static: path.join(__dirname, "dist/games/worm"),
+    port: 3002,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "redish Games",
+      title: "redish worm",
+    }),
+    new ModuleFederationPlugin({
+      name: "worm",
+      filename: "remoteEntry.js",
+      library: { type: "var", name: "worm" },
+      exposes: { "./game": "./games/worm/src/game" },
+      shared: {},
     }),
   ],
   module: {
@@ -45,10 +53,7 @@ module.exports = {
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist/games/worm"),
     clean: true,
-  },
-  optimization: {
-    runtimeChunk: "single",
-  },
+  }
 };

@@ -1,18 +1,18 @@
 import "./style.scss";
-import printMe from "./print";
 
 function component() {
-  const element = document.createElement("div");
-  const btn = document.createElement("button");
+  import("worm/game").then((worm) => {
+    const headline = document.createElement("h1");
+    headline.innerHTML = "Hello redish " + worm.test;
+    document.body.appendChild(headline);
 
-  element.innerHTML = "Hello redish";
-
-  btn.innerHTML = "Click me and check the console!";
-  btn.onclick = printMe;
-
-  element.appendChild(btn);
-
-  return element;
+    const gameWorm = document.createElement(worm.name);
+    document.body.appendChild(gameWorm);
+  });
 }
 
-document.body.appendChild(component());
+const h = document.createElement("h1");
+h.innerHTML = "hello";
+document.body.appendChild(h);
+
+setTimeout(() => component(),2000);

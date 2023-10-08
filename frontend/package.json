@@ -5,15 +5,15 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "start": "webpack serve --open"
+    "build": "webpack --config webpack.frame.config.js && webpack --config webpack.games.worm.config.js",
+    "watch": "npx concurrently \"webpack --watch --config webpack.frame.config.js\" \"webpack --watch --config webpack.games.worm.config.js\"",
+    "start": "npx concurrently \"webpack serve --open --config webpack.frame.config.js\" \"webpack serve --config webpack.games.worm.config.js\""
   },
   "author": "",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@types/lodash": "^4.14.199",
     "css-loader": "^6.8.1",
+    "external-remotes-plugin": "^1.0.0",
     "html-webpack-plugin": "^5.5.3",
     "sass": "^1.69.0",
     "sass-loader": "^13.3.2",
