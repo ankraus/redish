@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@frontend/redish-ui": ["libs/redish/ui/src/index.ts"]
+      "@frontend/redish-ui": ["libs/redish/ui/src/index.ts"],
+      "worm/Module": ["apps/games/worm/src/remote-entry.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
