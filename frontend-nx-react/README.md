@@ -31,6 +31,10 @@ or at https://nx.dev/react-tutorial/1-code-generation.
 
 `nx g @nx/react:lib redish-ui --directory libs/redish/ui`
 
+### Create component
+
+`nx g @nx/react:component redish-header --project redish-ui`
+
 ## Running tasks
 
 To execute tasks with Nx use the following syntax:
