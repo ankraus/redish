@@ -40,6 +40,10 @@ or at https://nx.dev/react-tutorial/1-code-generation.
 
 `nx generate @nx/react:remote --name=games-worm --devServerPort=4301 --directory=apps/games/worm --host=redish --e2eTestRunner=none --projectNameAndRootFormat=as-provided --routing=true --style=scss --typescriptConfiguration=true --unitTestRunner=none --no-interactive`
 
+### Create backend app
+
+`nx generate @nx/nest:application --name=redish-backend --frontendProject=redish --directory=apps/redish-backend --projectNameAndRootFormat=as-provided --strict=true --no-interactive`
+
 ### Create lib
 
 `nx g @nx/react:lib redish-ui --directory libs/redish/ui`

@@ -51,7 +51,8 @@
       "options": {
         "buildTarget": "redish:build",
         "hmr": true,
-        "port": 4200
+        "port": 4200,
+        "proxyConfig": "apps/redish/proxy.conf.json"
       },
       "configurations": {
         "development": {
