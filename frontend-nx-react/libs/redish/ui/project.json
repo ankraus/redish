@@ -1,0 +1,16 @@
+{
+  "name": "redish-ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/redish/ui/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/redish/ui/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

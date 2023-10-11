@@ -27,6 +27,10 @@ Learn more about [Nx generators on the docs](https://nx.dev/plugin-features/use-
 
 or at https://nx.dev/react-tutorial/1-code-generation.
 
+### Create lib
+
+`nx g @nx/react:lib redish-ui --directory libs/redish/ui`
+
 ## Running tasks
 
 To execute tasks with Nx use the following syntax:
