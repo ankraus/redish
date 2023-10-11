@@ -8,6 +8,7 @@ call: `npx create-nx-workspace@latest frontend --preset=react-monorepo --style=s
 
 as showcased here: [Nx | Add a Svelte Project](https://nx.dev/showcase/example-repos/add-svelte#add-a-svelte-project)
 
+and here [Nx | Set up Vite manually](https://nx.dev/recipes/vite/set-up-vite-manually)
 
 ## Start the app
 
