@@ -13,13 +13,13 @@
         "outputPath": "dist/apps/redish",
         "index": "apps/redish/src/index.html",
         "baseHref": "/",
-        "main": "apps/redish/src/main.tsx",
+        "main": "apps/redish/src/main.ts",
         "tsConfig": "apps/redish/tsconfig.app.json",
         "assets": ["apps/redish/src/favicon.ico", "apps/redish/src/assets"],
         "styles": ["apps/redish/src/styles.scss"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/redish/webpack.config.js"
+        "webpackConfig": "apps/redish/webpack.config.ts"
       },
       "configurations": {
         "development": {
@@ -40,16 +40,18 @@
           "sourceMap": false,
           "namedChunks": false,
           "extractLicenses": true,
-          "vendorChunk": false
+          "vendorChunk": false,
+          "webpackConfig": "apps/redish/webpack.config.prod.ts"
         }
       }
     },
     "serve": {
-      "executor": "@nx/webpack:dev-server",
+      "executor": "@nx/react:module-federation-dev-server",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "redish:build",
-        "hmr": true
+        "hmr": true,
+        "port": 4200
       },
       "configurations": {
         "development": {
@@ -68,17 +70,20 @@
         "lintFilePatterns": ["apps/redish/**/*.{ts,tsx,js,jsx}"]
       }
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
       "options": {
-        "jestConfig": "apps/redish/jest.config.ts",
-        "passWithNoTests": true
+        "buildTarget": "redish:build",
+        "watch": false,
+        "port": 4200
       },
       "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
+        "development": {
+          "buildTarget": "redish:build:development"
+        },
+        "production": {
+          "buildTarget": "redish:build:production"
         }
       }
     }

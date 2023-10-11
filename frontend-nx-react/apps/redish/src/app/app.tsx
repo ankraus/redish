@@ -1,14 +1,23 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
+import * as React from 'react';
+
 import NxWelcome from './nx-welcome';
+
+import { Link, Route, Routes } from 'react-router-dom';
 import { RedishHeader } from '@frontend/redish-ui';
 
 export function App() {
   return (
-    <div>
+    <React.Suspense fallback={null}>
       <RedishHeader />
-      <NxWelcome title="redish" />
-    </div>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+      </ul>
+      <Routes>
+        <Route path="/" element={<NxWelcome title="redish" />} />
+      </Routes>
+    </React.Suspense>
   );
 }
 
