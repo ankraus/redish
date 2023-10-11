@@ -1,7 +1,7 @@
 import { ModuleFederationConfig } from '@nx/webpack';
 
 const config: ModuleFederationConfig = {
-  name: 'worm',
+  name: 'games-worm',
   exposes: {
     './Module': './src/remote-entry.ts',
   },

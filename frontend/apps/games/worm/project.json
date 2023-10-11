@@ -1,5 +1,5 @@
 {
-  "name": "worm",
+  "name": "games-worm",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/games/worm/src",
   "projectType": "application",
@@ -52,16 +52,16 @@
       "executor": "@nx/react:module-federation-dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "worm:build",
+        "buildTarget": "games-worm:build",
         "hmr": true,
         "port": 4301
       },
       "configurations": {
         "development": {
-          "buildTarget": "worm:build:development"
+          "buildTarget": "games-worm:build:development"
         },
         "production": {
-          "buildTarget": "worm:build:production",
+          "buildTarget": "games-worm:build:production",
           "hmr": false
         }
       }
@@ -77,16 +77,16 @@
       "executor": "@nx/web:file-server",
       "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "worm:build",
+        "buildTarget": "games-worm:build",
         "watch": false,
         "port": 4301
       },
       "configurations": {
         "development": {
-          "buildTarget": "worm:build:development"
+          "buildTarget": "games-worm:build:development"
         },
         "production": {
-          "buildTarget": "worm:build:production"
+          "buildTarget": "games-worm:build:production"
         }
       }
     }

@@ -5,7 +5,7 @@ import NxWelcome from './nx-welcome';
 import { Link, Route, Routes } from 'react-router-dom';
 import { RedishHeader } from '@frontend/redish-ui';
 
-const Worm = React.lazy(() => import('worm/Module'));
+const Worm = React.lazy(() => import('games-worm/Module'));
 
 export function App() {
   return (
