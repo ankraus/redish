@@ -1,7 +1,7 @@
 import { ModuleFederationConfig } from '@nx/webpack';
 
 const config: ModuleFederationConfig = {
-  name: 'redish',
+  name: 'redish-frontend',
   remotes: ['games-worm'],
 };
 

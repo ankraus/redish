@@ -12,8 +12,8 @@ export class UsersController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
+  @Get('/:id')
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<User | null> {
     return this.userService.findOne(id);
   }
 }

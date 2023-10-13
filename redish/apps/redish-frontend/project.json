@@ -1,7 +1,7 @@
 {
-  "name": "redish",
+  "name": "redish-frontend",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/redish/src",
+  "sourceRoot": "apps/redish-frontend/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,16 +10,16 @@
       "defaultConfiguration": "production",
       "options": {
         "compiler": "babel",
-        "outputPath": "dist/apps/redish",
-        "index": "apps/redish/src/index.html",
+        "outputPath": "dist/apps/redish-frontend",
+        "index": "apps/redish-frontend/src/index.html",
         "baseHref": "/",
-        "main": "apps/redish/src/main.ts",
-        "tsConfig": "apps/redish/tsconfig.app.json",
-        "assets": ["apps/redish/src/favicon.ico", "apps/redish/src/assets"],
-        "styles": ["apps/redish/src/styles.scss"],
+        "main": "apps/redish-frontend/src/main.ts",
+        "tsConfig": "apps/redish-frontend/tsconfig.app.json",
+        "assets": ["apps/redish-frontend/src/favicon.ico", "apps/redish-frontend/src/assets"],
+        "styles": ["apps/redish-frontend/src/styles.scss"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/redish/webpack.config.ts"
+        "webpackConfig": "apps/redish-frontend/webpack.config.ts"
       },
       "configurations": {
         "development": {
@@ -31,8 +31,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/redish/src/environments/environment.ts",
-              "with": "apps/redish/src/environments/environment.prod.ts"
+              "replace": "apps/redish-frontend/src/environments/environment.ts",
+              "with": "apps/redish-frontend/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
@@ -41,7 +41,7 @@
           "namedChunks": false,
           "extractLicenses": true,
           "vendorChunk": false,
-          "webpackConfig": "apps/redish/webpack.config.prod.ts"
+          "webpackConfig": "apps/redish-frontend/webpack.config.prod.ts"
         }
       }
     },
@@ -49,16 +49,17 @@
       "executor": "@nx/react:module-federation-dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "redish:build",
+        "buildTarget": "redish-frontend:build",
         "hmr": true,
-        "port": 4200
+        "port": 4200,
+        "proxyConfig": "apps/redish-frontend/proxy.conf.json"
       },
       "configurations": {
         "development": {
-          "buildTarget": "redish:build:development"
+          "buildTarget": "redish-frontend:build:development"
         },
         "production": {
-          "buildTarget": "redish:build:production",
+          "buildTarget": "redish-frontend:build:production",
           "hmr": false
         }
       }
@@ -67,23 +68,23 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/redish/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/redish-frontend/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "redish:build",
+        "buildTarget": "redish-frontend:build",
         "watch": false,
         "port": 4200
       },
       "configurations": {
         "development": {
-          "buildTarget": "redish:build:development"
+          "buildTarget": "redish-frontend:build:development"
         },
         "production": {
-          "buildTarget": "redish:build:production"
+          "buildTarget": "redish-frontend:build:production"
         }
       }
     }
