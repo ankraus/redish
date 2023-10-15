@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { RestApiModule } from '@redish-backend/rest-api';
+import { ConfigurationModule } from 'libs/redish-backend/shared/src/lib/config/config.module';
 
 @Module({
   imports: [
     RestApiModule,
-    // todo
-    ConfigModule.forRoot(),
+    ConfigurationModule
   ],
   controllers: [AppController],
 })
