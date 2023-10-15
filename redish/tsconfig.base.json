@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@frontend/redish-ui": ["libs/redish/ui/src/index.ts"],
+      "@redish-frontend/ui": ["libs/redish-frontend/ui/src/index.ts"],
       "@redish-backend/domain": ["libs/redish-backend/domain/src/index.ts"],
       "@redish-backend/infrastructure": [
         "libs/redish-backend/infrastructure/src/index.ts"
