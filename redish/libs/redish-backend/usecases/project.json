@@ -1,0 +1,16 @@
+{
+  "name": "redish-backend-usecases",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/redish-backend/usecases/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/redish-backend/usecases/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

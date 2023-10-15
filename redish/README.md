@@ -16,7 +16,17 @@ To start the development server run `nx serve redish-backend`.
 
 ## Architecture
 
-### Module federation
+### Backend
+
+#### Result Pattern
+
+As seen for example [here at Alex Dunn](https://alexdunn.org/2019/02/25/clean-up-your-client-to-business-logic-relationship-with-a-result-pattern-c/) or [here from Isaac Cummings](https://medium.com/@cummingsi1993/the-operation-result-pattern-a-simple-guide-fe10ff959080).
+
+No proper definition found, but we want to prevent throwing exceptions.
+
+### Frontend
+
+#### Module federation
 
 We are making use of [Nx | Module Federation Support](https://nx.dev/concepts/more-concepts/faster-builds-with-module-federation).
 
