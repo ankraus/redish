@@ -1,31 +1,19 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { IDatabaseConfiguration } from '../database-configuration/database-configuration.interface';
+import { ConfigurationService } from '@redish-backend/shared';
 
 const typeOrmModule = TypeOrmModule.forRootAsync({
-  useFactory: () => {
-    const config: IDatabaseConfiguration = {
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'test',
-      synchronize: true,
-      autoLoadEntities: true,
-    };
-
+  useFactory: (configurationService: ConfigurationService) => {
     const options: TypeOrmModuleOptions = {
       // todo dirname as env?
       // entities: [__dirname + './../../**/*.entity{.ts,.js}'],
-      ...config,
+      ...configurationService.getDbConfig(),
       entities: [],
-      type: config.type,
     };
 
     return options;
   },
-  inject: [],
+  inject: [ConfigurationService],
 });
 
 @Module({

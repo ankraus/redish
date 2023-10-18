@@ -21,6 +21,7 @@
         "libs/redish-backend/infrastructure/src/index.ts"
       ],
       "@redish-backend/rest-api": ["libs/redish-backend/rest-api/src/index.ts"],
+      "@redish-backend/shared": ["libs/redish-backend/shared/src/index.ts"],
       "@redish-backend/shell": ["libs/redish-backend/shell/src/index.ts"],
       "@redish-backend/usecases": ["libs/redish-backend/usecases/src/index.ts"],
       "@redish-shared/domain": ["libs/redish-shared/domain/src/index.ts"]
