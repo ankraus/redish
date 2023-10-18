@@ -1,5 +1,5 @@
 {
-  "name": "redish-ui",
+  "name": "redish-frontend-ui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/redish/ui/src",
   "projectType": "library",
