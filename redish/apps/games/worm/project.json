@@ -91,5 +91,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["platform:web", "type:application"]
 }
