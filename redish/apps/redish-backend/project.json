@@ -60,5 +60,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["platform:server", "type:application"]
 }

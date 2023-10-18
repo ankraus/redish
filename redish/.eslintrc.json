@@ -12,9 +12,61 @@
             "enforceBuildableLibDependency": true,
             "allow": [],
             "depConstraints": [
+              // divide server, web and shared
               {
-                "sourceTag": "*",
+                "sourceTag": "platform:server",
+                "onlyDependOnLibsWithTags": ["platform:any", "platform:server"]
+              },
+              {
+                "sourceTag": "platform:web",
+                "onlyDependOnLibsWithTags": ["platform:any", "platform:web"]
+              },
+              // shell / entry -> infrastructure -> usecases -> domain -> shared
+              {
+                "sourceTag": "type:domain",
+                "onlyDependOnLibsWithTags": ["type:domain", "type:shared"]
+              },
+              {
+                "sourceTag": "type:usecases",
+                "onlyDependOnLibsWithTags": ["type:usecases", "type:domain", "type:shared"]
+              },
+              {
+                "sourceTag": "type:infrastructure",
+                "onlyDependOnLibsWithTags": ["type:infrastructure", "type:usecases", "type:domain", "type:shared"]
+              },
+              {
+                "sourceTag": "type:shell",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "type:entry",
+                "onlyDependOnLibsWithTags": ["type:shell", "type:infrastructure", "type:usecases", "type:domain", "type:shared"]
+              },
+              {
+                "sourceTag": "type:application",
+                "onlyDependOnLibsWithTags": ["type:application", "type:entry", "type:shared", "type:ui"]
+              },
+              // frontend tbd
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:util",
+                  "type:domain",
+                  "type:config"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": ["type:ui", "type:config", "type:util", "type:domain"]
+              },
+              {
+                "sourceTag": "type:util",
+                "onlyDependOnLibsWithTags": ["type:util", "type:config", "type:domain"]
+              },
+              {
+                "sourceTag": "type:styles",
+                "onlyDependOnLibsWithTags": ["type:styles"]
               }
             ]
           }

@@ -1,6 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { AddGameCommand } from '@redish-backend/usecases';
-import { AddGameHandler } from 'libs/redish-backend/usecases/src/lib/commands/add-game.handler';
+import { AddGameCommand, AddGameHandler } from '@redish-backend/usecases';
 import { firstValueFrom } from 'rxjs';
 
 @CommandHandler(AddGameCommand)

@@ -1,15 +1,15 @@
 {
   "name": "redish-frontend-ui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/redish/ui/src",
+  "sourceRoot": "libs/redish-frontend/ui/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["platform:web", "type:ui"],
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/redish/ui/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/redish-frontend/ui/**/*.{ts,tsx,js,jsx}"]
       }
     }
   }
