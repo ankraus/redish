@@ -7,3 +7,6 @@ export { MyPlayerRepository } from './lib/my-repositories/my-player.repository';
 
 // command bus
 export { CqrsCommandBusAdapter } from './lib/cqrs/cqrs-command-bus.adapter';
+
+// services
+export { NestAuthenticationService } from './lib/authentication/nest-authentication.service';

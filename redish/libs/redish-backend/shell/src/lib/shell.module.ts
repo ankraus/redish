@@ -5,8 +5,10 @@ import {
   MyGameRepository,
   MyGameSessionRepository,
   MyPlayerRepository,
+  NestAuthenticationService,
 } from '@redish-backend/infrastructure';
 import {
+  AuthenticationService,
   GameRepository,
   GameSessionRepository,
   PlayerRepository,
@@ -32,6 +34,11 @@ const providers: Provider[] = [
     provide: RedishCommandBus,
     useExisting: CqrsCommandBusAdapter,
   },
+
+  {
+    provide: AuthenticationService,
+    useExisting: NestAuthenticationService,
+  }
 ];
 
 @Global()

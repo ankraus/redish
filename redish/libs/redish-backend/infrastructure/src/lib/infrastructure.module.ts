@@ -8,6 +8,8 @@ import { CqrsCommandBusAdapter } from './cqrs/cqrs-command-bus.adapter';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CqrsStartGameSessionHandlerProxy } from './cqrs/cqrs-start-game-session-handler.proxy';
 import { CqrsAddGameHandlerProxy } from './cqrs/cqrs-add-game-handler.proxy';
+import { NestAuthenticationModule } from './authentication/nest-authentication.module';
+import { NestAuthenticationService } from './authentication/nest-authentication.service';
 
 const repositories = [
   MyGameRepository,
@@ -20,14 +22,28 @@ const cqrsHandlerProxies = [
   CqrsAddGameHandlerProxy,
 ];
 
+const services = [NestAuthenticationService];
+
 @Module({
-  imports: [DomainModule, TypeOrmRootModule, CqrsModule],
+  imports: [
+    DomainModule,
+    TypeOrmRootModule,
+    CqrsModule,
+    NestAuthenticationModule,
+  ],
   providers: [
     ...repositories,
+    ...services,
     CqrsCommandBusAdapter,
     TypeOrmRootModule,
+    NestAuthenticationModule,
     ...cqrsHandlerProxies,
   ],
-  exports: [...repositories, CqrsCommandBusAdapter, TypeOrmRootModule],
+  exports: [
+    ...repositories,
+    ...services,
+    CqrsCommandBusAdapter,
+    TypeOrmRootModule,
+  ],
 })
 export class InfrastructureModule {}

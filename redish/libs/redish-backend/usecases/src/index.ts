@@ -1,10 +1,16 @@
 export * from './lib/usecases.module';
-export { GameFacade } from './lib/game.facade';
 export { AddGameCommand } from './lib/commands/add-game.command';
 export { StartGameSessionCommand } from './lib/commands/start-game-session.command';
-export { CommandBus } from './lib/interfaces/command-bus';
 export { StartGameSessionHandler } from './lib/commands/start-game-session.handler';
 export { AddGameHandler } from './lib/commands/add-game.handler';
+
+// facades
+export { GameFacade } from './lib/game.facade';
+export { AuthenticationFacade } from './lib/authentication.facade';
+
+// interfaces
+export { CommandBus } from './lib/interfaces/command-bus';
+export { AuthenticationService } from './lib/interfaces/authentication.service';
 
 // repositories
 export { BaseRepository } from './lib/repositories/base.repository';
