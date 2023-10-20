@@ -8,7 +8,7 @@ import {CreateUserDTO, UuidDTO} from '@redish-shared/domain';
 export class AuthenticationFacade {
   constructor(private _authentication: AuthenticationService) {}
 
-  public authenticateUser(user: Authentication): Observable<Result> {
+  public authenticateUser(user: Authentication): Promise<Result<UuidDTO>> {
     return this._authentication.authenticateUser(user);
   }
 

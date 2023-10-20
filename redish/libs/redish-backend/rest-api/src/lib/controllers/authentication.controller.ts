@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {AuthenticationFacade} from '@redish-backend/usecases';
 import {GameReadDto} from '../dtos/game-read.dto';
-import {IGame} from '@redish-shared/domain';
+import {AuthenticateUserDTO, IGame} from '@redish-shared/domain';
 import {Authentication, Result, User} from '@redish-backend/domain';
 import {firstValueFrom, take} from 'rxjs';
 import {CreateUserDTO, UuidDTO} from '@redish-shared/domain';
@@ -14,22 +14,13 @@ import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
 export class AuthenticationController {
   constructor(private authenticationFacade: AuthenticationFacade) { }
 
-  @ApiOkResponse({type: [GameReadDto]})
-  @Get()
-  public async authenticateUser(): Promise<IGame> {
-    // for example
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const newAuth = new Authentication();
-    const result = await firstValueFrom(
-      this.authenticationFacade.authenticateUser({}).pipe(take(1))
-    );
+  @ApiOkResponse()
+  @Post('login')
+  public async authenticateUser(@Body() authenticateUserDto: AuthenticateUserDTO): Promise<Result<UuidDTO>> {
+    // this will be expaneded upon with JWT
+    // for now, only the uuid will be returned if login was successful
 
-    if (result.success) {
-      // return result.result.hash;
-      return new GameReadDto('sdf', '', 0, 1);
-    }
-
-    throw result.error;
+    return this.authenticationFacade.authenticateUser(authenticateUserDto);
   }
 
   @ApiCreatedResponse({type: Result<UuidDTO>})

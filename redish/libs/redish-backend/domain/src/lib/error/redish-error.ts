@@ -1,6 +1,7 @@
 const registrationError = 100;
 const gameError = 200;
 const databaseError = 300;
+const authenticationError = 400;
 
 export class RedishError {
   constructor(
@@ -16,6 +17,7 @@ export class RedishError {
       static EMAIL_ALREADY_EXISTS = registrationError + 3;
       static GAME_MAX_NUMBER_PLAYERS = gameError + 1;
       static DATABASE_ERROR = databaseError + 1;
+      static AUTHENTICATION_ERROR = authenticationError + 1;
     };
 
     public static userNameTooShort(): RedishError {
@@ -50,6 +52,13 @@ export class RedishError {
       return new RedishError(
         RedishError.Domain.Codes.DATABASE_ERROR,
         'A database error has occurred'
+      )
+    }
+
+    public static authenticationError(): RedishError{
+      return new RedishError(
+        RedishError.Domain.Codes.AUTHENTICATION_ERROR,
+        'Email or password incorrect'
       )
     }
   };

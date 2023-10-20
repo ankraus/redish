@@ -2,8 +2,8 @@ import {Inject, Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Authentication, Result, User as DomainUser, RedishError} from '@redish-backend/domain';
 import {AuthenticationService} from '@redish-backend/usecases';
-import {CreateUserDTO, UuidDTO} from '@redish-shared/domain';
-import {hash} from 'bcrypt';
+import {CreateUserDTO, UuidDTO, AuthenticateUserDTO} from '@redish-shared/domain';
+import {hash, compare} from 'bcrypt';
 import {randomUUID} from 'crypto';
 import {Observable, of} from 'rxjs';
 import {UserRepository} from '../typeorm-repositories/user.repository';
@@ -18,6 +18,7 @@ export class NestAuthenticationService extends AuthenticationService {
     super();
   }
 
+  // is this override still needed?
   override async createUser(user: CreateUserDTO): Promise<Result<UuidDTO>> {
     const username = user.username;
 
@@ -47,8 +48,22 @@ export class NestAuthenticationService extends AuthenticationService {
     }
   }
 
-  public authenticateUser(user: Authentication): Observable<Result> {
-    console.log('Authenticated!');
-    return of(Result.success());
+  public async authenticateUser(user: AuthenticateUserDTO): Promise<Result<UuidDTO>> {
+    const email = user.email;
+    const dbUser = await this.userRepository.findOneByEmail(email);
+    
+    if(!dbUser){
+      return Result.error(RedishError.Domain.authenticationError());
+    }
+    
+    const pwPlain = user.password;
+    const pwHash = dbUser.pw;
+    const success = await compare(pwPlain, pwHash);
+
+    if(success) {
+      return Result.success(new UuidDTO(dbUser.id));
+    } else {
+      return Result.error(RedishError.Domain.authenticationError());
+    }
   }
 }
