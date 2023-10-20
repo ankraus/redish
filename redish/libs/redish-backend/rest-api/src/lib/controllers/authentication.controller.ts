@@ -1,17 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { AuthenticationFacade } from '@redish-backend/usecases';
-import { GameReadDto } from '../dtos/game-read.dto';
-import { IGame } from '@redish-shared/domain';
-import { Authentication } from '@redish-backend/domain';
-import { firstValueFrom, take } from 'rxjs';
+import {Body, Controller, Get, Post} from '@nestjs/common';
+import {AuthenticationFacade} from '@redish-backend/usecases';
+import {GameReadDto} from '../dtos/game-read.dto';
+import {IGame} from '@redish-shared/domain';
+import {Authentication, Result, User} from '@redish-backend/domain';
+import {firstValueFrom, take} from 'rxjs';
+import {CreateUserDTO, UuidDTO} from '@redish-shared/domain';
+import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
+
+
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthenticationController {
-  constructor(private authenticationFacade: AuthenticationFacade) {}
+  constructor(private authenticationFacade: AuthenticationFacade) { }
 
-  @ApiOkResponse({ type: [GameReadDto] })
+  @ApiOkResponse({type: [GameReadDto]})
   @Get()
   public async authenticateUser(): Promise<IGame> {
     // for example
@@ -27,5 +30,11 @@ export class AuthenticationController {
     }
 
     throw result.error;
+  }
+
+  @ApiCreatedResponse({type: Result<UuidDTO>})
+  @Post('register')
+  async createUser(@Body() createUserDto: CreateUserDTO): Promise<Result<UuidDTO>> {
+    return this.authenticationFacade.createUser(createUserDto);
   }
 }

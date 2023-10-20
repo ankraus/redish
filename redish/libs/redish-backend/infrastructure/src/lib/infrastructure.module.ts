@@ -10,11 +10,15 @@ import { CqrsStartGameSessionHandlerProxy } from './cqrs/cqrs-start-game-session
 import { CqrsAddGameHandlerProxy } from './cqrs/cqrs-add-game-handler.proxy';
 import { NestAuthenticationModule } from './authentication/nest-authentication.module';
 import { NestAuthenticationService } from './authentication/nest-authentication.service';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {User} from './typeorm-entities/user.entity';
+import {UserRepository} from './typeorm-repositories/user.repository';
 
 const repositories = [
   MyGameRepository,
   MyGameSessionRepository,
   MyPlayerRepository,
+  UserRepository
 ];
 
 const cqrsHandlerProxies = [
@@ -30,6 +34,7 @@ const services = [NestAuthenticationService];
     TypeOrmRootModule,
     CqrsModule,
     NestAuthenticationModule,
+    TypeOrmModule.forFeature([User])
   ],
   providers: [
     ...repositories,

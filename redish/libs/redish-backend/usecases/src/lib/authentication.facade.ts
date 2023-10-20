@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AuthenticationService } from './interfaces/authentication.service';
 import { Authentication, Result } from '@redish-backend/domain';
 import { Observable } from 'rxjs';
+import {CreateUserDTO, UuidDTO} from '@redish-shared/domain';
 
 @Injectable()
 export class AuthenticationFacade {
@@ -10,4 +11,8 @@ export class AuthenticationFacade {
   public authenticateUser(user: Authentication): Observable<Result> {
     return this._authentication.authenticateUser(user);
   }
+
+  public createUser(user: CreateUserDTO): Promise<Result<UuidDTO>> {
+    return this._authentication.createUser(user);
+  } 
 }
