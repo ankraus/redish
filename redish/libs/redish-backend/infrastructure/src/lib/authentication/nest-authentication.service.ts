@@ -25,8 +25,7 @@ export class NestAuthenticationService extends AuthenticationService {
     super();
   }
 
-  // is this override still needed?
-  override async createUser(user: CreateUserDTO): Promise<Result<UuidDTO>> {
+  public async createUser(user: CreateUserDTO): Promise<Result<UuidDTO>> {
     if (user.password.length === 0) {
       return Result.error(RedishError.Domain.passwordTooShort());
     }

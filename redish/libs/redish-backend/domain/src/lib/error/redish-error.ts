@@ -11,7 +11,7 @@ export class RedishError {
   constructor(
     public code: number,
     public message: string,
-    public exception: Error | null = null
+    public cause: unknown = null
   ) {}
 
   public static Domain = class {
@@ -107,10 +107,11 @@ export class RedishError {
       );
     }
 
-    public static databaseError() {
+    public static databaseError(cause: unknown = null) {
       return new RedishError(
         RedishError.Infrastructure.Codes.DATABASE_ERROR,
-        'Database error'
+        'Database error',
+        cause
       );
     }
 
