@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { Result } from '@redish-backend/domain';
+import { RedishError, Result } from '@redish-backend/domain';
 import { CommandBus as RedishCommandBus } from '@redish-backend/usecases';
 import { Observable, catchError, from, map, of } from 'rxjs';
-import { RedishInfrastructureError } from '../error/redish-infrastructure-error';
 
 @Injectable()
 export class CqrsCommandBusAdapter extends RedishCommandBus {
@@ -17,7 +16,7 @@ export class CqrsCommandBusAdapter extends RedishCommandBus {
       catchError((e) =>
         of(
           Result.error(
-            RedishInfrastructureError.Infrastructure.unknownCqrsError(e)
+            RedishError.Infrastructure.unknownCqrsError(e)
           )
         )
       )

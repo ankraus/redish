@@ -1,6 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AddGameCommand, AddGameHandler } from '@redish-backend/usecases';
-import { firstValueFrom } from 'rxjs';
 
 @CommandHandler(AddGameCommand)
 export class CqrsAddGameHandlerProxy
@@ -9,7 +8,7 @@ export class CqrsAddGameHandlerProxy
   constructor(private _handler: AddGameHandler) {}
 
   public async execute(command: AddGameCommand): Promise<void> {
-    const result = await firstValueFrom(this._handler.execute(command));
+    const result = await this._handler.execute(command);
 
     if (!result.success) {
       // todo decide on error handling

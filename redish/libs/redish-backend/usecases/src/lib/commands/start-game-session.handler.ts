@@ -21,18 +21,12 @@ export class StartGameSessionHandler {
     }
 
     const session = new GameSession(command.game);
-    let result = session.addPlayer(playerResult.result!);
+    const result = session.addPlayer(playerResult.result!);
     if (!result.success) {
       return result;
     }
 
-    result = await firstValueFrom(
-      this._gamesSessionRepository.add(session).pipe(take(1))
-    );
-    if (!result.success) {
-      return result;
-    }
-
-    return firstValueFrom(this._gamesSessionRepository.save().pipe(take(1)));
+    await this._gamesSessionRepository.save(session);
+    return Result.success();
   }
 }

@@ -28,11 +28,20 @@
               },
               {
                 "sourceTag": "type:usecases",
-                "onlyDependOnLibsWithTags": ["type:usecases", "type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "type:usecases",
+                  "type:domain",
+                  "type:shared"
+                ]
               },
               {
                 "sourceTag": "type:infrastructure",
-                "onlyDependOnLibsWithTags": ["type:infrastructure", "type:usecases", "type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "type:infrastructure",
+                  "type:usecases",
+                  "type:domain",
+                  "type:shared"
+                ]
               },
               {
                 "sourceTag": "type:shell",
@@ -40,11 +49,22 @@
               },
               {
                 "sourceTag": "type:entry",
-                "onlyDependOnLibsWithTags": ["type:shell", "type:infrastructure", "type:usecases", "type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "type:shell",
+                  "type:infrastructure",
+                  "type:usecases",
+                  "type:domain",
+                  "type:shared"
+                ]
               },
               {
                 "sourceTag": "type:application",
-                "onlyDependOnLibsWithTags": ["type:application", "type:entry", "type:shared", "type:ui"]
+                "onlyDependOnLibsWithTags": [
+                  "type:application",
+                  "type:entry",
+                  "type:shared",
+                  "type:ui"
+                ]
               },
               // frontend tbd
               {
@@ -58,11 +78,20 @@
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:ui", "type:config", "type:util", "type:domain"]
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:config",
+                  "type:util",
+                  "type:domain"
+                ]
               },
               {
                 "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": ["type:util", "type:config", "type:domain"]
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:config",
+                  "type:domain"
+                ]
               },
               {
                 "sourceTag": "type:styles",

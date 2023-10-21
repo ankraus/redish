@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { AddGameCommand } from './add-game.command';
-import { Result } from '@redish-backend/domain';
-import { Observable, switchMap } from 'rxjs';
+import { Game, Result } from '@redish-backend/domain';
 import { GameRepository } from '../repositories/game.repository';
 
 @Injectable()
 export class AddGameHandler {
   constructor(private _repository: GameRepository) {}
 
-  public execute(command: AddGameCommand): Observable<Result> {
+  public execute(command: AddGameCommand): Promise<Result<Game>> {
     return this._repository
-      .add(command.game)
-      .pipe(switchMap(() => this._repository.save()));
+      .save(command.game);
   }
 }
