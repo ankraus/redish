@@ -1,10 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthenticationFacade } from '@redish-backend/usecases';
-import { GameReadDto } from '../dtos/game-read.dto';
-import { AuthenticateUserDTO, IGame } from '@redish-shared/domain';
-import { Authentication, Result, User } from '@redish-backend/domain';
-import { firstValueFrom, take } from 'rxjs';
-import { CreateUserDTO, UuidDTO } from '@redish-shared/domain';
+import { AuthenticateUserDTO, CreateUserDTO, UuidDTO } from '@redish-shared/domain';
+import { Result } from '@redish-backend/domain';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')

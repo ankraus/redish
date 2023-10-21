@@ -44,7 +44,7 @@ export class NestAuthenticationService extends AuthenticationService {
 
     const newUser = new DomainUser(id, username, email, pwHash, isActive);
     try {
-      await this.userRepository.saveDomainUser(newUser);
+      await this.userRepository.save(newUser);
       return Result.success(new UuidDTO(newUser.id));
     } catch (error) {
       return Result.error(RedishError.Domain.databaseError());

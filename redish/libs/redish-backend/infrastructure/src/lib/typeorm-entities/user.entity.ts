@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { User as DomainUser } from '@redish-backend/domain';
 
 @Entity()
@@ -30,9 +30,5 @@ export class User {
     this.pw = pw;
     this.isActive = isActive;
     this.email = email;
-  }
-
-  public static fromDomainUser(user: DomainUser): User {
-    return new User(user.id, user.username, user.pw, user.isActive, user.email);
   }
 }
