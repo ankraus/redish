@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
-import { User as DomainUser } from '@redish-backend/domain';
 
 @Entity()
 export class User {

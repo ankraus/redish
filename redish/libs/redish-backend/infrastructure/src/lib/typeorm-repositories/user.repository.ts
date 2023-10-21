@@ -1,9 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../typeorm-entities/user.entity';
-import { User as DomainUser, Result } from '@redish-backend/domain';
+import { User as DomainUser, RedishError, Result } from '@redish-backend/domain';
 import { Repository } from 'typeorm';
 import { UserRepository } from '@redish-backend/usecases';
-import { RedishInfrastructureError } from '../error/redish-infrastructure-error';
 
 export class TypeOrmUserRepository extends UserRepository {
   constructor(
@@ -36,7 +35,7 @@ export class TypeOrmUserRepository extends UserRepository {
       return Result.success();
     } catch (error) {
       return Result.error(
-        RedishInfrastructureError.Infrastructure.databaseError()
+        RedishError.Infrastructure.databaseError()
       );
     }
   }
@@ -47,7 +46,7 @@ export class TypeOrmUserRepository extends UserRepository {
       return Result.success(savedUser as DomainUser);
     } catch (error) {
       return Result.error(
-        RedishInfrastructureError.Infrastructure.databaseError()
+        RedishError.Infrastructure.databaseError()
       );
     }
   }
@@ -57,6 +56,6 @@ export class TypeOrmUserRepository extends UserRepository {
     if (dbUser) {
       return Result.success(dbUser as DomainUser);
     }
-    return Result.error(RedishInfrastructureError.Infrastructure.notFound());
+    return Result.error(RedishError.Infrastructure.notFound());
   }
 }
