@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Game, Result } from '@redish-backend/domain';
 import { GameRepository } from '@redish-backend/usecases';
-import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class MyGameRepository extends GameRepository {

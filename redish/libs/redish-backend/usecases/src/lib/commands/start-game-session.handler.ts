@@ -1,7 +1,7 @@
 import { StartGameSessionCommand } from './start-game-session.command';
 import { GameSession, Result } from '@redish-backend/domain';
 import { firstValueFrom, take } from 'rxjs';
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { GameSessionRepository } from '../repositories/game-session.repository';
 import { PlayerRepository } from '../repositories/player.repository';
 

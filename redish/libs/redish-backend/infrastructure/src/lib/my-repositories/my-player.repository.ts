@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Player, Result } from '@redish-backend/domain';
 import { Observable, of } from 'rxjs';
-import { RedishInfrastructureError } from '../error/redish-infrastructure-error';
 import { PlayerRepository } from '@redish-backend/usecases';
 
 @Injectable()
