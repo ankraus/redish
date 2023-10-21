@@ -12,7 +12,7 @@ export class User {
   email: string;
 
   @Column()
-  pw: string;
+  pwHash: string;
 
   @Column()
   isActive: boolean;
@@ -20,13 +20,13 @@ export class User {
   constructor(
     id: string,
     username: string,
-    pw: string,
+    pwHash: string,
     isActive: boolean,
     email: string
   ) {
     this.id = id;
     this.username = username;
-    this.pw = pw;
+    this.pwHash = pwHash;
     this.isActive = isActive;
     this.email = email;
   }

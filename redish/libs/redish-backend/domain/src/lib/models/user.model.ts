@@ -3,7 +3,7 @@ export class User {
     public id: string,
     public username: string,
     public email: string,
-    public pw: string,
+    public pwHash: string,
     public isActive: boolean
   ) {}
 }

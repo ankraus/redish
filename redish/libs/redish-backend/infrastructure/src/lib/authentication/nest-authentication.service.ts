@@ -4,7 +4,10 @@ import {
   User as DomainUser,
   RedishError,
 } from '@redish-backend/domain';
-import { AuthenticationService, UserRepository } from '@redish-backend/usecases';
+import {
+  AuthenticationService,
+  UserRepository,
+} from '@redish-backend/usecases';
 import {
   CreateUserDTO,
   UuidDTO,
@@ -24,25 +27,49 @@ export class NestAuthenticationService extends AuthenticationService {
 
   // is this override still needed?
   override async createUser(user: CreateUserDTO): Promise<Result<UuidDTO>> {
-    const username = user.username;
+    if (user.password.length === 0) {
+      return Result.error(RedishError.Domain.passwordTooShort());
+    }
 
-    if ((await this.userRepository.findOneByUsername(username)).success) {
+    const usernameResult = await this.userRepository.findOneByUsername(
+      user.username
+    );
+
+    if (
+      usernameResult.error?.code ===
+      RedishError.Infrastructure.Codes.DATABASE_ERROR
+    ) {
+      return Result.error(usernameResult.error);
+    }
+
+    if (usernameResult.success) {
       return Result.error(RedishError.Domain.userNameAlreadyExists());
     }
 
-    const email = user.email;
+    const emailResult = await this.userRepository.findOneByEmail(user.email);
 
-    if ((await this.userRepository.findOneByEmail(email)).success) {
+    if (
+      emailResult.error?.code ===
+      RedishError.Infrastructure.Codes.DATABASE_ERROR
+    ) {
+      return Result.error(emailResult.error);
+    }
+
+    if (emailResult.success) {
       return Result.error(RedishError.Domain.emailAlreadyExists());
     }
 
     const pwHash: string = await hash(user.password, 10);
-    // we should do a check if the password is empty
-
     const id: string = randomUUID();
     const isActive = true;
 
-    const newUser = new DomainUser(id, username, email, pwHash, isActive);
+    const newUser = new DomainUser(
+      id,
+      user.username,
+      user.email,
+      pwHash,
+      isActive
+    );
     try {
       await this.userRepository.save(newUser);
       return Result.success(new UuidDTO(newUser.id));
@@ -55,18 +82,24 @@ export class NestAuthenticationService extends AuthenticationService {
     user: AuthenticateUserDTO
   ): Promise<Result<UuidDTO>> {
     const email = user.email;
-    const dbUser = (await this.userRepository.findOneByEmail(email)).result;
+    const userResult = await this.userRepository.findOneByEmail(email);
 
-    if (!dbUser) {
+    if (
+      userResult.error?.code === RedishError.Infrastructure.Codes.DATABASE_ERROR
+    ) {
+      return Result.error(userResult.error);
+    }
+
+    if (!userResult.success) {
       return Result.error(RedishError.Domain.authenticationError());
     }
 
     const pwPlain = user.password;
-    const pwHash = dbUser.pw;
+    const pwHash = userResult.result!.pwHash;
     const success = await compare(pwPlain, pwHash);
 
     if (success) {
-      return Result.success(new UuidDTO(dbUser.id));
+      return Result.success(new UuidDTO(userResult.result!.id));
     } else {
       return Result.error(RedishError.Domain.authenticationError());
     }

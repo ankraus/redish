@@ -19,6 +19,7 @@ export class RedishError {
       static USERNAME_TOO_SHORT = registrationError + 1;
       static USERNAME_ALREADY_EXISTS = registrationError + 2;
       static EMAIL_ALREADY_EXISTS = registrationError + 3;
+      static PASSWORD_TOO_SHORT = registrationError + 4;
       static GAME_MAX_NUMBER_PLAYERS = gameError + 1;
       static DATABASE_ERROR = databaseError + 1;
       static AUTHENTICATION_ERROR = authenticationError + 1;
@@ -42,6 +43,13 @@ export class RedishError {
       return new RedishError(
         RedishError.Domain.Codes.EMAIL_ALREADY_EXISTS,
         'Email already exists'
+      );
+    }
+
+    public static passwordTooShort(): RedishError {
+      return new RedishError(
+        RedishError.Domain.Codes.PASSWORD_TOO_SHORT,
+        'Password too short'
       );
     }
 
@@ -92,18 +100,18 @@ export class RedishError {
       );
     }
 
-    public static notFound(){
+    public static notFound() {
       return new RedishError(
         RedishError.Infrastructure.Codes.NOT_FOUND,
         'Not found in database'
-      )
+      );
     }
 
-    public static databaseError(){
+    public static databaseError() {
       return new RedishError(
         RedishError.Infrastructure.Codes.DATABASE_ERROR,
         'Database error'
-      )
+      );
     }
 
     public static unknownCqrsError(exception: Error | null = null) {

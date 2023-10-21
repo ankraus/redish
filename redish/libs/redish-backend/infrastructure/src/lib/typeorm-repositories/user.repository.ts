@@ -52,10 +52,14 @@ export class TypeOrmUserRepository extends UserRepository {
   }
 
   private async findOneBy(where: object): Promise<Result<DomainUser>> {
-    const dbUser = await this.usersRepository.findOneBy(where);
-    if (dbUser) {
-      return Result.success(dbUser as DomainUser);
+    try {
+      const dbUser = await this.usersRepository.findOneBy(where);
+      if (dbUser) {
+        return Result.success(dbUser as DomainUser);
+      }
+      return Result.error(RedishError.Infrastructure.notFound());
+    } catch (error) {
+      return Result.error(RedishError.Infrastructure.databaseError())
     }
-    return Result.error(RedishError.Infrastructure.notFound());
   }
 }
