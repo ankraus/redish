@@ -38,7 +38,7 @@ const providers: Provider[] = [
   {
     provide: AuthenticationService,
     useExisting: NestAuthenticationService,
-  }
+  },
 ];
 
 @Global()

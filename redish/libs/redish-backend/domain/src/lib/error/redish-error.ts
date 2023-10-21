@@ -8,7 +8,7 @@ export class RedishError {
     public code: number,
     public message: string,
     public exception: Error | null = null
-  ) { }
+  ) {}
 
   public static Domain = class {
     public static Codes = class {
@@ -52,14 +52,14 @@ export class RedishError {
       return new RedishError(
         RedishError.Domain.Codes.DATABASE_ERROR,
         'A database error has occurred'
-      )
+      );
     }
 
-    public static authenticationError(): RedishError{
+    public static authenticationError(): RedishError {
       return new RedishError(
         RedishError.Domain.Codes.AUTHENTICATION_ERROR,
         'Email or password incorrect'
-      )
+      );
     }
   };
 }

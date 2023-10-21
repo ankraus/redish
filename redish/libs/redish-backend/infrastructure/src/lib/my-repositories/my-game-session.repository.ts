@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  GameSession,
-  Result,
-} from '@redish-backend/domain';
+import { GameSession, Result } from '@redish-backend/domain';
 import { GameSessionRepository } from '@redish-backend/usecases';
 import { Observable, of } from 'rxjs';
 

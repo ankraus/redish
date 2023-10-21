@@ -1,3 +1,1 @@
-export class Authentication {
-  
-}
+export class Authentication {}

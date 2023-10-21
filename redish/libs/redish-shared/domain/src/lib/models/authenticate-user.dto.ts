@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger"
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthenticateUserDTO {
   @ApiProperty()
@@ -7,7 +7,7 @@ export class AuthenticateUserDTO {
   @ApiProperty()
   email: string;
 
-  constructor(password: string, email: string){
+  constructor(password: string, email: string) {
     this.password = password;
     this.email = email;
   }

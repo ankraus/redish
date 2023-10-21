@@ -37,6 +37,7 @@ We are making use of [Nx | Module Federation Support](https://nx.dev/concepts/mo
 ## Nx
 
 Initially built via the nx workspace generator, `npx create-nx-workspace@latest npx create-nx-workspace@latest frontend --preset=react-monorepo`:
+
 - app name redish
 - bundler webpack
 - no e2e test runners
