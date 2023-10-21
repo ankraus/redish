@@ -1,1 +1,2 @@
-export { RegisterUser } from './registerUser';
+export * from './register-user.model';
+export * from './create-user-form-view.model';

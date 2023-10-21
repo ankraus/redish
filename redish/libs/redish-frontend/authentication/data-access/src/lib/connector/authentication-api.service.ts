@@ -22,4 +22,5 @@ export class AuthenticationService {
   }
 }
 
+// todo use inversifyjs?
 export const authenticationService = new AuthenticationService();

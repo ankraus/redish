@@ -1,4 +1,7 @@
-import { RegisterUser } from '@redish-frontend/authentication-models';
+import {
+  CreateUserFormViewModel,
+  RegisterUser,
+} from '@redish-frontend/authentication-models';
 import { useImmer } from 'use-immer';
 import { authenticationService } from '../connector/authentication-api.service';
 
@@ -6,20 +9,15 @@ import { authenticationService } from '../connector/authentication-api.service';
  * facade hook as described in https://thomasburlesonia.medium.com/https-medium-com-thomasburlesonia-react-hooks-rxjs-facades-4e116330bbe1
  */
 export function useAuthenticationFacade(): {
-  register: {
-    registerUser: RegisterUser;
-    handleRegisterUserUsernameChanged: (username: string) => void;
-    handleRegisterUserEmailChanged: (email: string) => void;
-    handleRegisterUserPasswordChanged: (password: string) => void;
-    handleRegisterUserSubmit: () => Promise<void>;
-  };
+  registerViewModel: CreateUserFormViewModel;
 } {
   const initialRegisterUser: RegisterUser = {
     username: '',
     password: '',
     email: '',
   };
-  const [registerUser, updateRegisterUser] = useImmer<RegisterUser>(initialRegisterUser);
+  const [registerUser, updateRegisterUser] =
+    useImmer<RegisterUser>(initialRegisterUser);
 
   const handleRegisterUserUsernameChanged = (username: string) => {
     updateRegisterUser((draft) => {
@@ -48,12 +46,12 @@ export function useAuthenticationFacade(): {
   }
 
   return {
-    register: {
+    registerViewModel: {
       registerUser,
-      handleRegisterUserUsernameChanged,
-      handleRegisterUserEmailChanged,
-      handleRegisterUserPasswordChanged,
-      handleRegisterUserSubmit,
+      handleUsernameChanged: handleRegisterUserUsernameChanged,
+      handleEmailChanged: handleRegisterUserEmailChanged,
+      handlePasswordChanged: handleRegisterUserPasswordChanged,
+      handleSubmit: handleRegisterUserSubmit,
     },
   };
 }
