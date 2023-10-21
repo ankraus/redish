@@ -59,15 +59,15 @@ We use nx feature `@nx/enforce-module-boundaries` to enforce module boundaries. 
 ```json
 {
   "sourceTag": "type:usecases",
-  "onlyDependOnLibsWithTags": ["type:usecases", "type:domain", "type:shared"]
+  "onlyDependOnLibsWithTags": ["type:usecases", "type:domain"]
 },
 {
   "sourceTag": "platform:server",
-  "onlyDependOnLibsWithTags": ["platform:any", "platform:server"]
+  "onlyDependOnLibsWithTags": ["platform:shared", "platform:server"]
 },
 ```
 
-A library tagged with `type:usecases` can only rely on other libraries tagged with `type:usecases`, `type:domain` or `type:shared`. Simultaneously a library tagged with `platform:server` can only import libraries tagged with `platform:any` (shared between frontend and backend) or `platform:server`. Thereby preventing imports from frontend libraries.
+A library tagged with `type:usecases` can only rely on other libraries tagged with `type:usecases` or `type:domain`. Simultaneously a library tagged with `platform:server` can only import libraries tagged with `platform:shared` (shared between frontend and backend) or `platform:server`. Thereby preventing imports from frontend libraries.
 
 ### Generate code
 
