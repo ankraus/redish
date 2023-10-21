@@ -15,23 +15,23 @@
               // divide server, web and shared
               {
                 "sourceTag": "platform:server",
-                "onlyDependOnLibsWithTags": ["platform:any", "platform:server"]
+                "onlyDependOnLibsWithTags": ["platform:shared", "platform:server"]
               },
               {
                 "sourceTag": "platform:web",
-                "onlyDependOnLibsWithTags": ["platform:any", "platform:web"]
+                "onlyDependOnLibsWithTags": ["platform:shared", "platform:web"]
               },
               // shell / entry -> infrastructure -> usecases -> domain -> shared
               {
                 "sourceTag": "type:domain",
-                "onlyDependOnLibsWithTags": ["type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": ["type:domain", "scope:shared"]
               },
               {
                 "sourceTag": "type:usecases",
                 "onlyDependOnLibsWithTags": [
                   "type:usecases",
                   "type:domain",
-                  "type:shared"
+                  "scope:shared"
                 ]
               },
               {
@@ -40,7 +40,7 @@
                   "type:infrastructure",
                   "type:usecases",
                   "type:domain",
-                  "type:shared"
+                  "scope:shared"
                 ]
               },
               {
@@ -54,7 +54,7 @@
                   "type:infrastructure",
                   "type:usecases",
                   "type:domain",
-                  "type:shared"
+                  "scope:shared"
                 ]
               },
               {
@@ -62,8 +62,9 @@
                 "onlyDependOnLibsWithTags": [
                   "type:application",
                   "type:entry",
-                  "type:shared",
-                  "type:ui"
+                  "type:ui",
+                  "scope:shared",
+                  "type:feature"
                 ]
               },
               // frontend tbd
@@ -96,6 +97,14 @@
               {
                 "sourceTag": "type:styles",
                 "onlyDependOnLibsWithTags": ["type:styles"]
+              },
+              // domains
+              {
+                "sourceTag": "scope:authentication",
+                "onlyDependOnLibsWithTags": [
+                  "scope:authentication",
+                  "scope:shared"
+                ]
               }
             ]
           }
