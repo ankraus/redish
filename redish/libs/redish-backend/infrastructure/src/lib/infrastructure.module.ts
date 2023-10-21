@@ -12,13 +12,13 @@ import { NestAuthenticationModule } from './authentication/nest-authentication.m
 import { NestAuthenticationService } from './authentication/nest-authentication.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm-entities/user.entity';
-import { UserRepository } from './typeorm-repositories/user.repository';
+import { TypeOrmUserRepository } from './typeorm-repositories/user.repository';
 
 const repositories = [
   MyGameRepository,
   MyGameSessionRepository,
   MyPlayerRepository,
-  UserRepository,
+  TypeOrmUserRepository,
 ];
 
 const cqrsHandlerProxies = [

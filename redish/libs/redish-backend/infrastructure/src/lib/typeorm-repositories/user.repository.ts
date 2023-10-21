@@ -1,39 +1,62 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../typeorm-entities/user.entity';
-import { User as DomainUser } from '@redish-backend/domain';
+import { User as DomainUser, RedishError, Result } from '@redish-backend/domain';
 import { Repository } from 'typeorm';
+import { UserRepository } from '@redish-backend/usecases';
+import {RedishInfrastructureError} from '../error/redish-infrastructure-error';
 
-export class UserRepository {
+export class TypeOrmUserRepository extends UserRepository {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>
-  ) {}
-
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  ) {
+    super();
   }
 
-  findOne(id: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id: id });
+  async findAll(): Promise<DomainUser[]> {
+    const dbUsers = await this.usersRepository.find();
+    return dbUsers as DomainUser[];
   }
 
-  findOneByUsername(username: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ username: username });
+  async findOneById(id: string): Promise<Result<DomainUser>> {
+    return this.findOneBy({id: id});
   }
 
-  findOneByEmail(email: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ email: email });
+  async findOneByUsername(username: string): Promise<Result<DomainUser>> {
+    return this.findOneBy({username: username});
   }
 
-  async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+  async findOneByEmail(email: string): Promise<Result<DomainUser>> {
+    return this.findOneBy({email: email});
   }
 
-  async save(user: User): Promise<void> {
-    await this.usersRepository.save(user);
+  async remove(user: DomainUser): Promise<Result> {
+    try{
+      await this.usersRepository.remove(user as User);
+      return Result.success();
+    } catch(error){
+      return Result.error(RedishInfrastructureError.Infrastructure.databaseError())
+    }
+  }
+
+  async save(user: DomainUser): Promise<Result<DomainUser>> {
+    try{
+      const savedUser = await this.usersRepository.save(user as User);
+      return Result.success(savedUser as DomainUser);
+    } catch(error){
+      return Result.error(RedishInfrastructureError.Infrastructure.databaseError());
+    }
   }
 
   async saveDomainUser(user: DomainUser): Promise<void> {
     await this.save(User.fromDomainUser(user));
+  }
+
+  private async findOneBy(where: object): Promise<Result<DomainUser>>{
+    const dbUser = await this.usersRepository.findOneBy(where);
+    if(dbUser){
+      return Result.success(dbUser as DomainUser);
+    }
+    return Result.error(RedishInfrastructureError.Infrastructure.notFound());
   }
 }

@@ -17,3 +17,4 @@ export { BaseRepository } from './lib/repositories/base.repository';
 export { PlayerRepository } from './lib/repositories/player.repository';
 export { GameSessionRepository } from './lib/repositories/game-session.repository';
 export { GameRepository } from './lib/repositories/game.repository';
+export { UserRepository } from './lib/repositories/user.repository';

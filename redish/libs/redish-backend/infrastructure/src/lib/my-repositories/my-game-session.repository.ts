@@ -5,13 +5,17 @@ import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class MyGameSessionRepository extends GameSessionRepository {
-  override add(entity: GameSession): Observable<Result<void>> {
-    console.log('game repo: add', entity);
-    return of(Result.success());
+  override save(entity: GameSession): Promise<Result<GameSession>> {
+    throw new Error('Method not implemented.');
+  }
+  override remove(entity: GameSession): Promise<Result<void>> {
+    throw new Error('Method not implemented.');
+  }
+  override findOneById(id: string): Promise<Result<GameSession>> {
+    throw new Error('Method not implemented.');
+  }
+  override findAll(): Promise<GameSession[]> {
+    throw new Error('Method not implemented.');
   }
 
-  override save(): Observable<Result<void>> {
-    console.log('game repo: save');
-    return of(Result.success());
-  }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AuthenticationService } from './interfaces/authentication.service';
 import { Authentication, Result } from '@redish-backend/domain';
-import { Observable } from 'rxjs';
 import { CreateUserDTO, UuidDTO } from '@redish-shared/domain';
 
 @Injectable()
