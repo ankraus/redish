@@ -1,11 +1,10 @@
-import styles from './authentication-ui.module.scss';
 import { CreateUserFormViewModel } from '@redish-frontend/authentication-models';
 
-export function CreateUserForm(props: {viewModel: CreateUserFormViewModel}) {
+export function CreateUserForm(props: { viewModel: CreateUserFormViewModel }) {
   const viewModel = props.viewModel;
-  
+
   return (
-    <div className={styles['container']}>
+    <div className="container">
       <h1>Register here</h1>
       <form onSubmit={viewModel.handleSubmit}>
         <label>

@@ -12,5 +12,5 @@
       }
     }
   },
-  "tags": ["platform:shared", "type:domain"]
+  "tags": ["platform:shared", "scope:shared", "type:domain"]
 }

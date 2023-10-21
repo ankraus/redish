@@ -1,3 +1,4 @@
+import { CreateUserDTO } from '@redish-shared/domain';
 import axios from 'axios';
 
 export class AuthenticationService {
@@ -9,7 +10,7 @@ export class AuthenticationService {
     password: string
   ): Promise<string | null> {
     const url = `${this.baseURL}/login`;
-    const data = { username, password, email };
+    const data: CreateUserDTO = { username, password, email };
     try {
       const uuid = await axios
         .post<string>(url, data)
