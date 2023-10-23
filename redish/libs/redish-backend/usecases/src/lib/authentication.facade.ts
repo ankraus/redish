@@ -4,6 +4,7 @@ import { Result } from '@redish-backend/domain';
 import {
   AuthenticateUserDTO,
   CreateUserDTO,
+  JwtDTO,
   UuidDTO,
 } from '@redish-shared/domain';
 
@@ -11,7 +12,7 @@ import {
 export class AuthenticationFacade {
   constructor(private _authentication: AuthenticationService) {}
 
-  public authenticateUser(user: AuthenticateUserDTO): Promise<Result<UuidDTO>> {
+  public authenticateUser(user: AuthenticateUserDTO): Promise<Result<JwtDTO>> {
     return this._authentication.authenticateUser(user);
   }
 

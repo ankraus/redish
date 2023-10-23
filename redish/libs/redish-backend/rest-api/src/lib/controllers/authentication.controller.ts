@@ -1,6 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthenticationFacade } from '@redish-backend/usecases';
-import { AuthenticateUserDTO, CreateUserDTO, UuidDTO } from '@redish-shared/domain';
+import {
+  AuthenticateUserDTO,
+  CreateUserDTO,
+  JwtDTO,
+  UuidDTO,
+} from '@redish-shared/domain';
 import { Result } from '@redish-backend/domain';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
@@ -13,10 +18,7 @@ export class AuthenticationController {
   @Post('login')
   public async authenticateUser(
     @Body() authenticateUserDto: AuthenticateUserDTO
-  ): Promise<Result<UuidDTO>> {
-    // this will be expaneded upon with JWT
-    // for now, only the uuid will be returned if login was successful
-
+  ): Promise<Result<JwtDTO>> {
     return this.authenticationFacade.authenticateUser(authenticateUserDto);
   }
 

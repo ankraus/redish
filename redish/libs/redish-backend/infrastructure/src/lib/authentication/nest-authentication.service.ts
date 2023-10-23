@@ -4,6 +4,7 @@ import {
   User as DomainUser,
   RedishError,
 } from '@redish-backend/domain';
+import { ConfigurationService } from '@redish-backend/shared';
 import {
   AuthenticationService,
   UserRepository,
@@ -12,15 +13,18 @@ import {
   CreateUserDTO,
   UuidDTO,
   AuthenticateUserDTO,
+  JwtDTO,
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'crypto';
+import { sign } from 'jsonwebtoken';
 
 @Injectable()
 export class NestAuthenticationService extends AuthenticationService {
   constructor(
     @Inject(UserRepository)
-    private userRepository: UserRepository
+    private userRepository: UserRepository,
+    private configService: ConfigurationService
   ) {
     super();
   }
@@ -79,7 +83,7 @@ export class NestAuthenticationService extends AuthenticationService {
 
   public async authenticateUser(
     user: AuthenticateUserDTO
-  ): Promise<Result<UuidDTO>> {
+  ): Promise<Result<JwtDTO>> {
     const email = user.email;
     const userResult = await this.userRepository.findOneByEmail(email);
 
@@ -98,7 +102,15 @@ export class NestAuthenticationService extends AuthenticationService {
     const success = await compare(pwPlain, pwHash);
 
     if (success) {
-      return Result.success(new UuidDTO(userResult.result!.id));
+      const jwtConfig = this.configService.getJwtConfig();
+
+      console.dir(jwtConfig);
+
+      const jwt = sign({ uuid: userResult.result!.id }, jwtConfig.jwt_secret, {
+        expiresIn: jwtConfig.jwt_expiry,
+      });
+
+      return Result.success(new JwtDTO(jwt));
     } else {
       return Result.error(RedishError.Domain.authenticationError());
     }

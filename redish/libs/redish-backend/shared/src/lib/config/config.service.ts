@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService, registerAs } from '@nestjs/config';
 import { IDatabaseConfiguration } from './database-configuration.interface';
+import { IJwtConfiguration } from './jwt-configuration.interface';
 
 const CONFIG_NAMESPACE = 'redish-backend';
 
@@ -19,6 +20,10 @@ export const redishBackendConfigurationService = registerAs(
         process.env['DATABASE_AUTO_LOAD_ENTITIES'] || ''
       ),
     },
+    jwt: {
+      jwt_secret: process.env['JWT_SECRET'],
+      jwt_expiry: process.env['JWT_EXPIRY'],
+    },
   })
 );
 
@@ -33,6 +38,18 @@ export class RedishBackendConfigurationService {
 
     if (!config) {
       throw new Error('missing db config');
+    }
+
+    return config;
+  }
+
+  getJwtConfig(): IJwtConfiguration {
+    const config = this.configService.get<IJwtConfiguration>(
+      CONFIG_NAMESPACE + '.jwt'
+    );
+
+    if (!config) {
+      throw new Error('missing jwt config');
     }
 
     return config;
