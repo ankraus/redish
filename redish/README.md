@@ -12,6 +12,8 @@ To start host and remotes in dev mode, run `nx serve redish-frontend --open --de
 
 todo: add documentation for database
 
+Copy `apps/redish-backend/example.env` to `apps/redish-backend/.env` and replace values to fit your configuration (at least `DATABASE_PASSWORD`).
+
 To start the development server run `nx serve redish-backend`.
 
 ## Architecture
