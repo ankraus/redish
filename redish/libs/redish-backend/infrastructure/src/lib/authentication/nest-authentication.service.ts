@@ -9,12 +9,12 @@ import {
   CreateUserDto,
   UuidDto,
   AuthenticateUserDto,
-  JwtDto,
+  TokenDto,
   RedishError,
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'crypto';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 @Injectable()
 export class NestAuthenticationService extends AuthenticationService {
@@ -79,7 +79,7 @@ export class NestAuthenticationService extends AuthenticationService {
 
   public async authenticateUser(
     user: AuthenticateUserDto
-  ): Promise<Result<JwtDto>> {
+  ): Promise<Result<TokenDto>> {
     const email = user.email;
     const userResult = await this.userRepository.findOneByEmail(email);
 
@@ -100,14 +100,23 @@ export class NestAuthenticationService extends AuthenticationService {
     if (success) {
       const jwtConfig = this.configService.getJwtConfig();
 
-      console.dir(jwtConfig);
-
-      const jwt = sign({ uuid: userResult.result!.id }, jwtConfig.secret, {
+      const token = sign({ uuid: userResult.result!.id }, jwtConfig.secret, {
         expiresIn: jwtConfig.expiry,
       });
 
-      return Result.success<JwtDto>({ jwt });
+      return Result.success<TokenDto>({token});
     } else {
+      return Result.error(RedishError.Domain.authenticationError());
+    }
+  }
+
+  override async verifyAuthenticated(token: string): Promise<Result<UuidDto>> {
+    const jwtConfig = this.configService.getJwtConfig();
+    try {
+      const decodedContent = await verify(token, jwtConfig.secret);
+      const userUuid = decodedContent as UuidDto;
+      return Result.success(userUuid);
+    } catch (error: any) {
       return Result.error(RedishError.Domain.authenticationError());
     }
   }
