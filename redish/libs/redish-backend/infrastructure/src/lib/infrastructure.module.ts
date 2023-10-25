@@ -12,7 +12,6 @@ import { NestAuthenticationService } from './authentication/nest-authentication.
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm-entities/user.entity';
 import { TypeOrmUserRepository } from './typeorm-repositories/user.repository';
-import { ConfigurationModule } from '@redish-backend/shared';
 
 const repositories = [
   MyGameRepository,
@@ -30,7 +29,6 @@ const services = [NestAuthenticationService];
 
 @Module({
   imports: [
-    ConfigurationModule,
     DomainModule,
     TypeOrmRootModule,
     CqrsModule,

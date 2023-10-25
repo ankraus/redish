@@ -22,7 +22,6 @@ import { sign } from 'jsonwebtoken';
 @Injectable()
 export class NestAuthenticationService extends AuthenticationService {
   constructor(
-    @Inject(UserRepository)
     private userRepository: UserRepository,
     private configService: ConfigurationService
   ) {
