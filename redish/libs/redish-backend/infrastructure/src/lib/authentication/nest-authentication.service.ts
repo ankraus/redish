@@ -10,6 +10,8 @@ import {
   UuidDto,
   AuthenticateUserDto,
   TokenDto,
+  TokenPayloadDto,
+  Role,
   RedishError,
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
@@ -110,12 +112,28 @@ export class NestAuthenticationService extends AuthenticationService {
     }
   }
 
+  // todo: the following two methods have a lot of shared code, rework this
   override async verifyAuthenticated(token: string): Promise<Result<UuidDto>> {
     const jwtConfig = this.configService.getJwtConfig();
     try {
       const decodedContent = await verify(token, jwtConfig.secret);
-      const userUuid = decodedContent as UuidDto;
-      return Result.success(userUuid);
+      const payload = decodedContent as TokenPayloadDto;
+      return Result.success<UuidDto>({uuid: payload.uuid});
+    } catch (error: any) {
+      return Result.error(RedishError.Domain.authenticationError());
+    }
+  }
+
+  override async verifyHasRole(token: string, role: Role): Promise<Result> {
+    const jwtConfig = this.configService.getJwtConfig();
+    try {
+      const decodedContent = await verify(token, jwtConfig.secret);
+      const payload = decodedContent as TokenPayloadDto;
+      if (payload.roles.includes(role)) {
+        return Result.success();
+      }
+      // todo create more meaningful error
+      return Result.error(RedishError.Domain.authenticationError());
     } catch (error: any) {
       return Result.error(RedishError.Domain.authenticationError());
     }

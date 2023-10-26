@@ -4,6 +4,7 @@ import { Result } from '@redish-backend/domain';
 import {
   AuthenticateUserDto,
   CreateUserDto,
+  Role,
   TokenDto,
   UuidDto,
 } from '@redish-shared/domain';
@@ -22,5 +23,13 @@ export class AuthenticationFacade {
 
   public verifyToken(token: string): Promise<Result<UuidDto>> {
     return this._authentication.verifyAuthenticated(token);
+  }
+
+  public verifyAuthenticated(token: string): Promise<Result<UuidDto>> {
+    return this._authentication.verifyAuthenticated(token);
+  }
+
+  public verifyHasRole(token: string, role: Role): Promise<Result> {
+    return this._authentication.verifyHasRole(token, role);
   }
 }
