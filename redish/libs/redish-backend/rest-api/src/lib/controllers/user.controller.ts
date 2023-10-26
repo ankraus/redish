@@ -27,18 +27,36 @@ import { Response } from 'express';
 import { RedishErrorDto } from '../dtos/redish-error.dto';
 import { RedishError } from '@redish-shared/domain';
 
-@ApiTags('auth')
-@Controller('auth')
+@ApiTags('user')
+@Controller('user')
 @Injectable()
-export class AuthenticationController {
+export class UserController {
   constructor(private authenticationFacade: AuthenticationFacade) {}
 
-  @ApiOkResponse()
+  @ApiOkResponse({ type: TokenDto })
+  @ApiBadRequestResponse({ type: RedishErrorDto })
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @Post('login')
   public async authenticateUser(
+    @Res() response: Response,
     @Body() authenticateUserDto: AuthenticateUserDto
-  ): Promise<Result<TokenDto>> {
-    return this.authenticationFacade.authenticateUser(authenticateUserDto);
+  ): Promise<TokenDto | RedishErrorDto> {
+    const authResult = await this.authenticationFacade.authenticateUser(
+      authenticateUserDto
+    );
+    if (authResult.error) {
+      if (
+        authResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+      } else {
+        response.status(HttpStatus.BAD_REQUEST).send();
+      }
+      return authResult.error;
+    } else {
+      return authResult.result!;
+    }
   }
 
   @ApiCreatedResponse({ type: UuidDto })
