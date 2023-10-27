@@ -1,12 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../typeorm-entities/user.entity';
-import {
-  User as DomainUser,
-  RedishError,
-  Result,
-} from '@redish-backend/domain';
+import { User as DomainUser, Result } from '@redish-backend/domain';
 import { Repository } from 'typeorm';
 import { UserRepository } from '@redish-backend/usecases';
+import { RedishError } from '@redish-shared/domain';
 
 export class TypeOrmUserRepository extends UserRepository {
   constructor(

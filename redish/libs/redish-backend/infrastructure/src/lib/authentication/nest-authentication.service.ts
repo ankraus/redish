@@ -1,8 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
-  Result,
-  User as DomainUser,
-  RedishError,
+  User as DomainUser, Result,
 } from '@redish-backend/domain';
 import { ConfigurationService } from '@redish-backend/shared';
 import {
@@ -14,6 +12,7 @@ import {
   UuidDTO,
   AuthenticateUserDTO,
   JwtDTO,
+  RedishError,
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'crypto';

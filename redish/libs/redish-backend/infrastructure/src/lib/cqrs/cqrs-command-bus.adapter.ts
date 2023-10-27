@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { RedishError, Result } from '@redish-backend/domain';
+import { Result } from '@redish-backend/domain';
 import { CommandBus as RedishCommandBus } from '@redish-backend/usecases';
+import { RedishError } from '@redish-shared/domain';
 import { Observable, catchError, from, map, of } from 'rxjs';
 
 @Injectable()

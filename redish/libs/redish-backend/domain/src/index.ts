@@ -1,5 +1,4 @@
 export { DomainModule } from './lib/domain.module';
-export { RedishError } from './lib/error/redish-error';
 export { Result } from './lib/result/result';
 
 // models
