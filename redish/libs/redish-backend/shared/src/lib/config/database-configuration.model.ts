@@ -1,4 +1,4 @@
-export interface IDatabaseConfiguration {
+export interface DatabaseConfiguration {
   type: 'postgres';
   host: string;
   port: number;
