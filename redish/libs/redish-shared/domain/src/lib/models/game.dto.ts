@@ -1,4 +1,4 @@
-export interface IGame {
+export interface GameDto {
   id: string;
   name: string;
   minNumberOfPlayers: number;

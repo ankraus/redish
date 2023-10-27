@@ -1,7 +1,6 @@
-export * from './lib/domain.module';
-export { IGame } from './lib/models/game.interface';
-export { CreateUserDTO } from './lib/models/create-user.dto';
-export { UuidDTO } from './lib/models/uuid.dto';
-export { AuthenticateUserDTO } from './lib/models/authenticate-user.dto';
-export { JwtDTO } from './lib/models/jwt.dto';
+export { CreateUserDto } from './lib/models/create-user.dto';
+export { UuidDto } from './lib/models/uuid.dto';
+export { AuthenticateUserDto } from './lib/models/authenticate-user.dto';
+export { JwtDto } from './lib/models/jwt.dto';
+export { GameDto } from './lib/models/game.dto';
 export { RedishError } from './lib/error/redish-error';

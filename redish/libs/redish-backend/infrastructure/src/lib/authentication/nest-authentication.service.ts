@@ -1,17 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import {
-  User as DomainUser, Result,
-} from '@redish-backend/domain';
+import { User as DomainUser, Result } from '@redish-backend/domain';
 import { ConfigurationService } from '@redish-backend/shared';
 import {
   AuthenticationService,
   UserRepository,
 } from '@redish-backend/usecases';
 import {
-  CreateUserDTO,
-  UuidDTO,
-  AuthenticateUserDTO,
-  JwtDTO,
+  CreateUserDto,
+  UuidDto,
+  AuthenticateUserDto,
+  JwtDto,
   RedishError,
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
@@ -27,7 +25,7 @@ export class NestAuthenticationService extends AuthenticationService {
     super();
   }
 
-  public async createUser(user: CreateUserDTO): Promise<Result<UuidDTO>> {
+  public async createUser(user: CreateUserDto): Promise<Result<UuidDto>> {
     if (user.password.length === 0) {
       return Result.error(RedishError.Domain.passwordTooShort());
     }
@@ -73,15 +71,15 @@ export class NestAuthenticationService extends AuthenticationService {
     );
     try {
       await this.userRepository.save(newUser);
-      return Result.success(new UuidDTO(newUser.id));
+      return Result.success<UuidDto>({ uuid: newUser.id });
     } catch (error) {
       return Result.error(RedishError.Domain.databaseError());
     }
   }
 
   public async authenticateUser(
-    user: AuthenticateUserDTO
-  ): Promise<Result<JwtDTO>> {
+    user: AuthenticateUserDto
+  ): Promise<Result<JwtDto>> {
     const email = user.email;
     const userResult = await this.userRepository.findOneByEmail(email);
 
@@ -104,11 +102,11 @@ export class NestAuthenticationService extends AuthenticationService {
 
       console.dir(jwtConfig);
 
-      const jwt = sign({ uuid: userResult.result!.id }, jwtConfig.jwt_secret, {
-        expiresIn: jwtConfig.jwt_expiry,
+      const jwt = sign({ uuid: userResult.result!.id }, jwtConfig.secret, {
+        expiresIn: jwtConfig.expiry,
       });
 
-      return Result.success(new JwtDTO(jwt));
+      return Result.success<JwtDto>({ jwt });
     } else {
       return Result.error(RedishError.Domain.authenticationError());
     }

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IGame } from '@redish-shared/domain';
+import { GameDto as IGameDto } from '@redish-shared/domain';
 
-export class GameReadDto implements IGame {
+export class GameDto implements IGameDto {
   @ApiProperty()
   id: string;
   @ApiProperty()

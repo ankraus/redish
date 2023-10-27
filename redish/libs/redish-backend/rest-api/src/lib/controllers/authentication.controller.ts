@@ -1,13 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthenticationFacade } from '@redish-backend/usecases';
-import {
-  AuthenticateUserDTO,
-  CreateUserDTO,
-  JwtDTO,
-  UuidDTO,
-} from '@redish-shared/domain';
 import { Result } from '@redish-backend/domain';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthenticateUserDto } from '../dtos/authenticate-user.dto';
+import { JwtDto } from '../dtos/jwt.dto';
+import { UuidDto } from '../dtos/uuid.dto';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -17,16 +15,16 @@ export class AuthenticationController {
   @ApiOkResponse()
   @Post('login')
   public async authenticateUser(
-    @Body() authenticateUserDto: AuthenticateUserDTO
-  ): Promise<Result<JwtDTO>> {
+    @Body() authenticateUserDto: AuthenticateUserDto
+  ): Promise<Result<JwtDto>> {
     return this.authenticationFacade.authenticateUser(authenticateUserDto);
   }
 
-  @ApiCreatedResponse({ type: Result<UuidDTO> })
+  @ApiCreatedResponse({ type: Result<UuidDto> })
   @Post('register')
   async createUser(
-    @Body() createUserDto: CreateUserDTO
-  ): Promise<Result<UuidDTO>> {
+    @Body() createUserDto: CreateUserDto
+  ): Promise<Result<UuidDto>> {
     return this.authenticationFacade.createUser(createUserDto);
   }
 }

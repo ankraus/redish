@@ -1,12 +1,12 @@
 import { Result } from '@redish-backend/domain';
 import {
-  AuthenticateUserDTO,
-  CreateUserDTO,
-  JwtDTO,
-  UuidDTO,
+  AuthenticateUserDto,
+  CreateUserDto,
+  JwtDto,
+  UuidDto,
 } from '@redish-shared/domain';
 
 export abstract class AuthenticationService {
-  abstract authenticateUser(user: AuthenticateUserDTO): Promise<Result<JwtDTO>>;
-  abstract createUser(user: CreateUserDTO): Promise<Result<UuidDTO>>;
+  abstract authenticateUser(user: AuthenticateUserDto): Promise<Result<JwtDto>>;
+  abstract createUser(user: CreateUserDto): Promise<Result<UuidDto>>;
 }

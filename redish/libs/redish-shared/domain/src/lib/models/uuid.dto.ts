@@ -1,10 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-
-export class UuidDTO {
-  @ApiProperty()
+export interface UuidDto {
   uuid: string;
-
-  constructor(uuid: string) {
-    this.uuid = uuid;
-  }
 }
