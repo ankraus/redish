@@ -6,6 +6,8 @@
 
 To start the development server run `nx serve redish-frontend --open`. This will open your browser and navigate to http://localhost:4200/.
 
+In case this error occurs: `Could not find ".modules.yaml" at "C:\TUD\source\web\redish-check\redish/node_modules/.modules.yaml"`, just create an empty file `.modules.yaml`. It is apparently a problem when using npm and pnpm in parallel.
+
 To start host and remotes in dev mode, run `nx serve redish-frontend --open --devRemotes="games-worm"`. This will allow you to develop on your host app and your remotes simultaneously, instead of serving static versions of remotes from cache (as explained [here](https://github.com/nrwl/react-module-federation) for a similar setup).
 
 ### Backend
