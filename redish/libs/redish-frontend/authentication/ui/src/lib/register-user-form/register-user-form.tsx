@@ -15,6 +15,8 @@ export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
           Enter username:
           <input
             type="text"
+            autoComplete="username"
+            required
             value={viewModel.registerUser.username}
             onChange={(e) => viewModel.handleUsernameChanged(e.target.value)}
           />
@@ -23,6 +25,8 @@ export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
           Enter email address:
           <input
             type="email"
+            autoComplete="email"
+            required
             value={viewModel.registerUser.email}
             onChange={(e) => viewModel.handleEmailChanged(e.target.value)}
           />
@@ -31,6 +35,8 @@ export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
           Choose password:
           <input
             type="password"
+            autoComplete="new-password"
+            required
             value={viewModel.registerUser.password}
             onChange={(e) => viewModel.handlePasswordChanged(e.target.value)}
           />

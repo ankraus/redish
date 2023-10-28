@@ -15,6 +15,8 @@ export function LoginUserForm(viewModel: LoginUserFormViewModel) {
           Enter email address:
           <input
             type="email"
+            autoComplete='email'
+            required
             value={viewModel.loginUser.email}
             onChange={(e) => viewModel.handleEmailChanged(e.target.value)}
           />
@@ -23,6 +25,8 @@ export function LoginUserForm(viewModel: LoginUserFormViewModel) {
           Enter password:
           <input
             type="password"
+            autoComplete="current-password"
+            required
             value={viewModel.loginUser.password}
             onChange={(e) => viewModel.handlePasswordChanged(e.target.value)}
           />
