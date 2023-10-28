@@ -1,12 +1,19 @@
 import {
-    AuthenticationFeature,
-    authenticationFeatureRoutes,
-    useAuth,
+  AuthenticationFeature,
+  authenticationFeatureRoutes,
+  useAuth,
 } from '@redish-frontend/authentication-feature';
-import { RedishHeader } from '@redish-frontend/shared-ui';
 import * as React from 'react';
-import { Link, Navigate, RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  Navigate,
+  RouteObject,
+  RouterProvider,
+  Outlet,
+  createBrowserRouter,
+} from 'react-router-dom';
 import { ProtectedRoute } from './protected-route';
+import ErrorPage from './error-page';
+import Frame from '../app/frame/frame';
 
 const Worm = React.lazy(() => import('games-worm/Module'));
 
@@ -15,27 +22,18 @@ const Worm = React.lazy(() => import('games-worm/Module'));
  * @returns routes
  */
 const Routes = () => {
-  const { token, setToken } = useAuth();
-  const logout = () => setToken(null);
+  const { token } = useAuth();
 
   // Define public routes accessible to all users
   const routesForPublic: Array<RouteObject> = [
     {
       path: '/',
       element: (
-        <>
-          <RedishHeader handleLogout={logout} />
-      <p>{token !== null ? 'logged in' : 'not logged in'}</p>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-          <Link to="/worm">Worm</Link>
-          <Link to={authenticationFeatureRoutes.login}>Login</Link>
-        </li>
-      </ul>
+        <Frame>
           <div>Homepage</div>
-        </>
+        </Frame>
       ),
+      errorElement: <ErrorPage />,
     },
     {
       path: '*',
@@ -44,10 +42,17 @@ const Routes = () => {
   ];
 
   // Define routes accessible only to authenticated users
-  const routesForAuthenticatedOnly = [
+  const routesForAuthenticatedOnly: Array<RouteObject> = [
     {
       path: '/',
-      element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+      element: (
+        <Frame>
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
+        </Frame>
+      ),
+      errorElement: <ErrorPage />,
       children: [
         {
           path: '/worm',
@@ -62,14 +67,21 @@ const Routes = () => {
   ];
 
   // Define routes accessible only to non-authenticated users
-  const routesForNotAuthenticatedOnly = [
+  const routesForNotAuthenticatedOnly: Array<RouteObject> = [
     {
       path: '/',
-      element: <div>Home Page</div>,
-    },
-    {
-      path: authenticationFeatureRoutes.home + '/*',
-      element: <AuthenticationFeature />,
+      element: (
+        <Frame>
+          <Outlet />
+        </Frame>
+      ),
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: authenticationFeatureRoutes.home + '/*',
+          element: <AuthenticationFeature />,
+        },
+      ],
     },
   ];
 
