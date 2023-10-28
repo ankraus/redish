@@ -14,6 +14,8 @@ export class RedishError {
     public cause: unknown = null
   ) {}
 
+  public static Unknown = () => new RedishError(-1, 'Unknown error');
+
   public static Domain = class {
     public static Codes = class {
       static USERNAME_TOO_SHORT = registrationError + 1;

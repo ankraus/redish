@@ -1,12 +1,16 @@
-import { CreateUserFormViewModel } from '@redish-frontend/authentication-models';
+import { RegisterUserFormViewModel } from '@redish-frontend/authentication-models';
+import { Link } from 'react-router-dom';
 
-export function CreateUserForm(props: { viewModel: CreateUserFormViewModel }) {
-  const viewModel = props.viewModel;
-
+export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
   return (
     <div className="container">
       <h1>Register here</h1>
-      <form onSubmit={viewModel.handleSubmit}>
+      <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+          await viewModel.handleSubmit();
+        }}
+      >
         <label>
           Enter username:
           <input
@@ -33,8 +37,11 @@ export function CreateUserForm(props: { viewModel: CreateUserFormViewModel }) {
         </label>
         <input type="submit" />
       </form>
+      <p>
+        already have a user? <Link to={viewModel.loginRoute}>Login here</Link>
+      </p>
     </div>
   );
 }
 
-export default CreateUserForm;
+export default RegisterUserForm;
