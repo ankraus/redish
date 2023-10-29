@@ -34,16 +34,18 @@ export function Frame({ children }: FrameProps) {
   return (
     <div className={styles.container}>
       <RedishHeader actions={headerActions} navigation={headerNavigation} />
-      <main>{children}</main>
-      <RedishFooter
-        navigation={[
-          {
-            label: 'GitHub',
-            to: 'https://github.com/ankraus/redish',
-            external: true,
-          },
-        ]}
-      ></RedishFooter>
+      <main>
+        {children}
+        <RedishFooter
+          navigation={[
+            {
+              label: 'GitHub',
+              to: 'https://github.com/ankraus/redish',
+              external: true,
+            },
+          ]}
+        ></RedishFooter>
+      </main>
     </div>
   );
 }

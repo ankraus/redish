@@ -7,6 +7,10 @@
   align-items: center;
   padding: 0 $space-2-small;
 
+  img {
+    margin-right: $space-small;
+  }
+
   h1 {
     @include font-large;
   }
@@ -25,15 +29,27 @@
   @media (min-width: $breakpoint-medium) {
     padding: 0 $space-2-medium;
     height: $content-2-medium;
+
+    img {
+      margin-right: $space-medium;
+    }
   }
 
   @media (min-width: $breakpoint-large) {
     padding: 0 $space-2-large;
     height: $content-2-large;
+
+    img {
+      margin-right: $space-large;
+    }
   }
 
   @media (min-width: $breakpoint-xlarge) {
     padding: 0 $space-2-xlarge;
     height: $content-2-xlarge;
+
+    img {
+      margin-right: $space-xlarge;
+    }
   }
 }

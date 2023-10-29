@@ -10,6 +10,7 @@ export interface RedishHeaderProps {
 export function RedishHeader({ actions, navigation }: RedishHeaderProps) {
   return (
     <div className={styles.container}>
+      <img src="assets/icons/redish-24-white.svg" alt="logo" />
       <h1>redish</h1>
       <div className={styles.actions}>
         {actions.map((action) => (
