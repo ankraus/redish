@@ -1,6 +1,6 @@
-import { AuthProvider } from '@redish-frontend/authentication-feature';
 import { Suspense } from 'react';
 import Routes from '../routes/routes';
+import { AuthProvider } from '@redish-frontend/authentication-api';
 
 export function App() {
   return (

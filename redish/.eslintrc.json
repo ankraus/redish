@@ -64,17 +64,30 @@
                   "type:entry",
                   "type:ui",
                   "scope:shared",
-                  "type:feature"
+                  "type:feature",
+                  "type:api"
                 ]
               },
               // frontend tbd
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:util",
+                  "type:domain",
+                  "type:config",
+                  "type:api",
+                  "type:ui"
+                ]
+              },
               {
                 "sourceTag": "type:data-access",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
                   "type:util",
                   "type:domain",
-                  "type:config"
+                  "type:config",
+                  "type:api"
                 ]
               },
               {
@@ -103,7 +116,8 @@
                 "sourceTag": "scope:authentication",
                 "onlyDependOnLibsWithTags": [
                   "scope:authentication",
-                  "scope:shared"
+                  "scope:shared",
+                  "type:api"
                 ]
               }
             ]

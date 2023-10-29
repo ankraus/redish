@@ -5,10 +5,13 @@ import {
 } from '@redish-frontend/authentication-ui';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import styles from './authentication-feature.module.scss';
-import { authenticationFeatureRoutes as routes } from './authentication-feature.routes';
+import { authenticationRoutes as routes } from './authentication-feature.routes';
+import { useAuth } from './authentication-provider/auth-provider';
 
 export function AuthenticationFeature() {
-  const { registerViewModel, loginViewModel } = useAuthenticationFacade();
+  const { setToken } = useAuth();
+  const { registerViewModel, loginViewModel } =
+    useAuthenticationFacade(setToken);
 
   return (
     <div className={styles['container']}>
@@ -47,7 +50,3 @@ export function AuthenticationFeature() {
     </div>
   );
 }
-
-export default AuthenticationFeature;
-export { routes as authenticationFeatureRoutes };
-

@@ -1,8 +1,8 @@
-import { Navigate } from 'react-router-dom';
 import {
+  authenticationRoutes,
   useAuth,
-  authenticationFeatureRoutes,
-} from '@redish-frontend/authentication-feature';
+} from '@redish-frontend/authentication-api';
+import { Navigate } from 'react-router-dom';
 
 type ProtectedRouteProps = { children: React.ReactNode };
 
@@ -16,7 +16,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // Check if the user is authenticated
   if (!token) {
     // If not authenticated, redirect to the login page
-    return <Navigate to={authenticationFeatureRoutes.login} />;
+    return <Navigate to={authenticationRoutes.login} />;
   }
 
   // If authenticated, render the child routes

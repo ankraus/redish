@@ -1,8 +1,3 @@
-import {
-  AuthenticationFeature,
-  authenticationFeatureRoutes,
-  useAuth,
-} from '@redish-frontend/authentication-feature';
 import * as React from 'react';
 import {
   Navigate,
@@ -14,6 +9,10 @@ import {
 import { ProtectedRoute } from './protected-route';
 import ErrorPage from './error-page';
 import Frame from '../app/frame/frame';
+import {
+  authenticationRoutes,
+  useAuth,
+} from '@redish-frontend/authentication-api';
 
 const Worm = React.lazy(() => import('games-worm/Module'));
 
@@ -78,8 +77,11 @@ const Routes = () => {
       errorElement: <ErrorPage />,
       children: [
         {
-          path: authenticationFeatureRoutes.home + '/*',
-          element: <AuthenticationFeature />,
+          path: authenticationRoutes.home + '/*',
+          lazy: () =>
+            import('@redish-frontend/authentication-feature').then(
+              (module) => ({ Component: module.AuthenticationFeature })
+            ),
         },
       ],
     },

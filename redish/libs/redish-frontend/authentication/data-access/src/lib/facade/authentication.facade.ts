@@ -1,16 +1,20 @@
-import { useAuth } from '@redish-frontend/authentication-feature';
 import {
   LoginUser,
   RegisterUser,
 } from '@redish-frontend/authentication-models';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import { authenticationApiService } from '../connector/authentication-api.service';
+import { authenticationPersistenceService } from '../connector/authentication-persistence.service';
 
 /**
  * facade hook as described in https://thomasburlesonia.medium.com/https-medium-com-thomasburlesonia-react-hooks-rxjs-facades-4e116330bbe1
  */
-export function useAuthenticationFacade(): {
+export function useAuthenticationFacade(
+  setToken: (token: string | null) => void
+): {
   registerViewModel: {
     registerUser: RegisterUser;
     handleUsernameChanged: (username: string) => void;
@@ -25,8 +29,6 @@ export function useAuthenticationFacade(): {
     handleSubmit: () => Promise<void>;
   };
 } {
-  const { setToken } = useAuth();
-
   /**
    * REGISTER
    */
@@ -98,7 +100,6 @@ export function useAuthenticationFacade(): {
     );
 
     if (typeof token !== 'string') {
-      console.error('error', token);
       return;
     }
 
@@ -122,3 +123,27 @@ export function useAuthenticationFacade(): {
     },
   };
 }
+
+export const useAuthenticationCore = () => {
+  // State to hold the authentication token
+  const [token, _setToken] = useState<string | null>(
+    authenticationPersistenceService.getToken()
+  );
+
+  const setToken = (token: string | null) => {
+    _setToken(token);
+  };
+
+  // write token to persistence and axios header when state was updated
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      authenticationPersistenceService.setToken(token);
+    } else {
+      delete axios.defaults.headers.common['Authorization'];
+      authenticationPersistenceService.removeToken();
+    }
+  }, [token]);
+
+  return { token, setToken };
+};

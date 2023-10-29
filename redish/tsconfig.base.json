@@ -23,22 +23,25 @@
       "@redish-backend/shared": ["libs/redish-backend/shared/src/index.ts"],
       "@redish-backend/shell": ["libs/redish-backend/shell/src/index.ts"],
       "@redish-backend/usecases": ["libs/redish-backend/usecases/src/index.ts"],
-      "@redish-frontend/authentication-models": [
-        "libs/redish-frontend/authentication/models/src/index.ts"
+      "@redish-frontend/authentication-api": [
+        "libs/redish-frontend/authentication/api/src/index.ts"
       ],
-      "@redish-shared/domain": ["libs/redish-shared/domain/src/index.ts"],
       "@redish-frontend/authentication-data-access": [
         "libs/redish-frontend/authentication/data-access/src/index.ts"
       ],
       "@redish-frontend/authentication-feature": [
         "libs/redish-frontend/authentication/feature/src/index.ts"
       ],
+      "@redish-frontend/authentication-models": [
+        "libs/redish-frontend/authentication/models/src/index.ts"
+      ],
       "@redish-frontend/authentication-ui": [
         "libs/redish-frontend/authentication/ui/src/index.ts"
       ],
       "@redish-frontend/shared-ui": [
         "libs/redish-frontend/shared/ui/src/index.ts"
-      ]
+      ],
+      "@redish-shared/domain": ["libs/redish-shared/domain/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
