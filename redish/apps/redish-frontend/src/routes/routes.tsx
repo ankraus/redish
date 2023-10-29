@@ -57,7 +57,7 @@ const Routes = () => {
       children: [
         {
           path: 'games/worm',
-          element: <Worm />,
+          element: <Worm test="heinrich" handleTest={(test: string) => console.log('redish', test)} />,
         },
         {
           path: 'profile/*',
