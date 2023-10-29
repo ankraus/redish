@@ -1,0 +1,47 @@
+@import 'global-styles';
+
+.footer {
+  background-color: $whitish;
+  display: flex;
+  padding: $space-2-small $space-2-small;
+  gap: $space-2-small;
+  flex-wrap: wrap;
+
+  > * {
+    flex-grow: 1;
+    flex-basis: 200px;
+
+    background-color: $white;
+
+    h1 {
+      @include font-large;
+    }
+
+    p {
+      @include font-small;
+    }
+
+    ul {
+      @include unstyled-list;
+    }
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    padding: $space-2-medium $space-2-medium;
+    gap: $space-2-medium;
+
+    > * {
+      max-width: 300px;
+    }
+  }
+
+  @media (min-width: $breakpoint-large) {
+    padding: $space-2-large $space-2-large;
+    gap: $space-2-large;
+  }
+
+  @media (min-width: $breakpoint-xlarge) {
+    padding: $space-2-xlarge $space-2-xlarge;
+    gap: $space-2-xlarge;
+  }
+}

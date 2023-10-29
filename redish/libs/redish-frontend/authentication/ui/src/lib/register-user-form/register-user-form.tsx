@@ -1,9 +1,10 @@
 import { RegisterUserFormViewModel } from '@redish-frontend/authentication-models';
-import { Link } from 'react-router-dom';
+import styles from './register-user-form.module.scss'
+import { RedishLink } from '@redish-frontend/shared-ui';
 
 export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
   return (
-    <div className="container">
+    <div className={styles.container}>
       <h1>Register here</h1>
       <form
         onSubmit={async (event) => {
@@ -44,7 +45,7 @@ export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
         <input type="submit" />
       </form>
       <p>
-        already registered? <Link to={viewModel.loginRoute}>Login here</Link>
+        already registered? <RedishLink to={viewModel.loginRoute}>Login here</RedishLink>
       </p>
     </div>
   );

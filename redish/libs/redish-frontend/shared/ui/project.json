@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/redish-frontend/shared/ui/src",
   "projectType": "library",
-  "tags": ["platform:web", "type:ui"],
+  "tags": ["platform:web", "scope:shared", "type:ui"],
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
