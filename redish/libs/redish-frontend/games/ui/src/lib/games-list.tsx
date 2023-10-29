@@ -8,7 +8,7 @@ export function GamesList({ games, handleGameClicked }: GamesListViewModel) {
     <div className={styles.container}>
       {games.map((game) => (
         <div
-          key={game.name}
+          key={game.id}
           className={cn(styles.game, styles[game.previewColor])}
           tabIndex={0}
           onClick={(event) => {

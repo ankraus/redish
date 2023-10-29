@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/redish-frontend/games/models/src",
   "projectType": "library",
-  "tags": ["platform:web", "scope:games", "type:models"],
+  "tags": ["platform:web", "scope:games", "type:domain"],
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",

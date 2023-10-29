@@ -6,16 +6,13 @@ import {
   Outlet,
   createBrowserRouter,
 } from 'react-router-dom';
-import { ProtectedRoute } from './protected-route';
 import ErrorPage from './error-page';
 import Frame from '../app/frame/frame';
 import {
+  ProtectedRoute,
   authenticationRoutes,
   useAuth,
 } from '@redish-frontend/authentication-api';
-import { GamesFeature } from '@redish-frontend/games-feature';
-
-const Worm = React.lazy(() => import('games-worm/Module'));
 
 /**
  * https://dev.to/sanjayttg/jwt-authentication-in-react-with-react-router-1d03
@@ -28,12 +25,25 @@ const Routes = () => {
   const routesForPublic: Array<RouteObject> = [
     {
       path: '/',
+      element: <Navigate to="/games" />,
+    },
+    {
+      path: '/',
       element: (
         <Frame>
-          <GamesFeature/>
+          <Outlet />
         </Frame>
       ),
       errorElement: <ErrorPage />,
+      children: [
+        {
+          path: '/games/*',
+          lazy: () =>
+            import('@redish-frontend/games-feature').then((module) => ({
+              Component: module.GamesFeature,
+            })),
+        },
+      ],
     },
     {
       path: '*',
@@ -55,10 +65,6 @@ const Routes = () => {
       ),
       errorElement: <ErrorPage />,
       children: [
-        {
-          path: 'games/worm',
-          element: <Worm test="heinrich" handleTest={(test: string) => console.log('redish', test)} />,
-        },
         {
           path: 'profile/*',
           lazy: () =>

@@ -5,6 +5,9 @@ import { GameViewModel } from '@redish-frontend/games-models';
  */
 export function useGamesFacade(): {
   games: Array<GameViewModel>;
+  worm: {
+    handleWormLog: (test: string) => void;
+  }
 } {
   /**
    * GAMES
@@ -34,7 +37,7 @@ export function useGamesFacade(): {
       previewColor: 'redish-light',
     },
     {
-      id: 'worm1',
+      id: 'worm2',
       name: 'Worm 2',
       previewImages: {
         small: 'assets/games/worm/worm-200x200.png',
@@ -45,7 +48,15 @@ export function useGamesFacade(): {
     },
   ];
 
+  // WORM
+  const handleWormLog = (test: string) => {
+    console.log('WORM LOG', test);
+  };
+
   return {
     games,
+    worm: {
+      handleWormLog,
+    },
   };
 }
