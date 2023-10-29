@@ -3,6 +3,7 @@ export class Game {
     public id: string,
     public name: string,
     public minNumberOfPlayers: number,
-    public maxNumberOfPlayers: number
+    public maxNumberOfPlayers: number,
+    public previewColor: 'green' | 'redish-light'
   ) {}
 }

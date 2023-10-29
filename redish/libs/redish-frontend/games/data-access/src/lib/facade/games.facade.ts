@@ -9,17 +9,22 @@ export function useGamesFacade(): {
   /**
    * GAMES
    */
+
+  const id = 'worm';
+
   const games: Array<GameViewModel> = [
     {
+      id,
       name: 'Worm',
       previewImages: {
-        small: 'assets/games/worm/worm-200x200.png',
-        large: 'assets/games/worm/worm-400x400.png',
+        small: `assets/games/${id}/${id}-200x200.png`,
+        large: `assets/games/${id}/${id}-400x400.png`,
       },
-      route: '/games/worm',
+      route: `/games/${id}`,
       previewColor: 'green',
     },
     {
+      id: 'worm1',
       name: 'Worm 1',
       previewImages: {
         small: 'assets/games/worm/worm-200x200.png',
@@ -29,6 +34,7 @@ export function useGamesFacade(): {
       previewColor: 'redish-light',
     },
     {
+      id: 'worm1',
       name: 'Worm 2',
       previewImages: {
         small: 'assets/games/worm/worm-200x200.png',

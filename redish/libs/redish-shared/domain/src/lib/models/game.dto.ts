@@ -3,6 +3,5 @@ export interface GameDto {
   name: string;
   minNumberOfPlayers: number;
   maxNumberOfPlayers: number;
-  previewImages: { small: string; large: string };
   previewColor: 'green' | 'redish-light';
 }

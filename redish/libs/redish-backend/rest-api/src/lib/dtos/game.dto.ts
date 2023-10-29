@@ -10,16 +10,20 @@ export class GameDto implements IGameDto {
   minNumberOfPlayers: number;
   @ApiProperty()
   maxNumberOfPlayers: number;
+  @ApiProperty()
+  previewColor: 'green' | 'redish-light';
 
   constructor(
     id: string,
     name: string,
     minNumberOfPlayers: number,
-    maxNumberOfPlayers: number
+    maxNumberOfPlayers: number,
+    previewColor: 'green' | 'redish-light',
   ) {
     this.id = id;
     this.name = name;
     this.minNumberOfPlayers = minNumberOfPlayers;
     this.maxNumberOfPlayers = maxNumberOfPlayers;
+    this.previewColor = previewColor;
   }
 }
