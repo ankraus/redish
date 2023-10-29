@@ -9,8 +9,8 @@ $black: #000000;
 
 $dark-red: #6b2737;
 $dark-blue: #182384;
-$dark-green: #003a30;
-$greenish: #017763;
+$dark-green: #025f50;
+$greenish: #01c0a0;
 
 // breakpoints
 $breakpoint-small: 280px;
@@ -71,6 +71,7 @@ $content-2-xlarge: 65px;
   );
 
   border-right: $radius transparent solid;
+  border-left: $radius transparent solid;
 }
 
 @mixin unstyled-list {
@@ -79,11 +80,19 @@ $content-2-xlarge: 65px;
   margin: 0;
 }
 
+@mixin unstyled-button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
 @mixin font-small {
   font-family: 'Roboto', sans-serif;
   font-size: 0.8rem;
   line-height: 1.2rem;
   font-weight: normal;
+  word-break: break-all;
 }
 
 @mixin font-medium {
@@ -91,6 +100,7 @@ $content-2-xlarge: 65px;
   font-size: 1rem;
   line-height: 1.2rem;
   font-weight: normal;
+  word-break: break-all;
 }
 
 @mixin font-large {
@@ -98,6 +108,7 @@ $content-2-xlarge: 65px;
   font-size: 1.2rem;
   line-height: 1.6rem;
   font-weight: normal;
+  word-break: break-all;
 }
 
 @mixin font-xlarge {
@@ -105,6 +116,7 @@ $content-2-xlarge: 65px;
   font-size: 2.8rem;
   line-height: 2.2rem;
   font-weight: normal;
+  word-break: break-all;
 }
 
 @mixin font-bold {

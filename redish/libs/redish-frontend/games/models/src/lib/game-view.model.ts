@@ -1,8 +1,6 @@
-export interface GameDto {
-  id: string;
+export interface GameViewModel {
   name: string;
-  minNumberOfPlayers: number;
-  maxNumberOfPlayers: number;
+  route: string;
   previewImages: { small: string; large: string };
   previewColor: 'green' | 'redish-light';
 }

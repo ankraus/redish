@@ -38,6 +38,17 @@
       "@redish-frontend/authentication-ui": [
         "libs/redish-frontend/authentication/ui/src/index.ts"
       ],
+      "@redish-frontend/games-data-access": [
+        "libs/redish-frontend/games/data-access/src/index.ts"
+      ],
+      "@redish-frontend/games-feature": [
+        "libs/redish-frontend/games/feature/src/index.ts"
+      ],
+      "@redish-frontend/games-models": [
+        "libs/redish-frontend/games/models/src/index.ts"
+      ],
+      "@redish-frontend/games-ui": [
+        "libs/redish-frontend/games/ui/src/index.ts"
       "@redish-frontend/profile-api": [
         "libs/redish-frontend/profile/api/src/index.ts"
       ],

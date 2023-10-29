@@ -5,13 +5,26 @@ import styles from './redish-header.module.scss';
 export interface RedishHeaderProps {
   actions: Array<{ label: string; onClick: () => void }>;
   navigation: Array<{ label: string; to: string }>;
+  handleLogoClicked: () => void;
 }
 
-export function RedishHeader({ actions, navigation }: RedishHeaderProps) {
+export function RedishHeader({
+  actions,
+  navigation,
+  handleLogoClicked,
+}: RedishHeaderProps) {
   return (
     <div className={styles.container}>
-      <img src="assets/icons/redish-24-white.svg" alt="logo" />
-      <h1>redish</h1>
+      <button
+      className={styles.logo}
+        onClick={(event) => {
+          event.preventDefault();
+          handleLogoClicked();
+        }}
+      >
+        <img src="assets/icons/redish-24-white.svg" alt="logo" />
+        <h1>redish</h1>
+      </button>
       <div className={styles.actions}>
         {actions.map((action) => (
           <RedishButton key={action.label} onClick={action.onClick}>

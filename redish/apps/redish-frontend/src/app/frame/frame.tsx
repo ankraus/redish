@@ -26,14 +26,13 @@ export function Frame({ children }: FrameProps) {
         },
       ];
 
-  const headerNavigation = [
-    { label: 'Home', to: '/' },
-    { label: 'Worm', to: '/worm' },
-  ];
-
   return (
     <div className={styles.container}>
-      <RedishHeader actions={headerActions} navigation={headerNavigation} />
+      <RedishHeader
+        actions={headerActions}
+        navigation={[]}
+        handleLogoClicked={() => navigate('/')}
+      />
       <main>
         {children}
         <RedishFooter

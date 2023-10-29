@@ -13,6 +13,7 @@ import {
   authenticationRoutes,
   useAuth,
 } from '@redish-frontend/authentication-api';
+import { GamesFeature } from '@redish-frontend/games-feature';
 
 const Worm = React.lazy(() => import('games-worm/Module'));
 
@@ -29,7 +30,7 @@ const Routes = () => {
       path: '/',
       element: (
         <Frame>
-          <div>Homepage</div>
+          <GamesFeature/>
         </Frame>
       ),
       errorElement: <ErrorPage />,
@@ -55,7 +56,7 @@ const Routes = () => {
       errorElement: <ErrorPage />,
       children: [
         {
-          path: '/worm',
+          path: 'games/worm',
           element: <Worm />,
         },
         {

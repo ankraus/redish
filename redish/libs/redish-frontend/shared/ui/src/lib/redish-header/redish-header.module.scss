@@ -7,12 +7,22 @@
   align-items: center;
   padding: 0 $space-2-small;
 
-  img {
-    margin-right: $space-small;
-  }
+  .logo {
+    @include unstyled-button;
+    display: flex;
+    align-items: center;
+    gap: $space-small;
+    height: 100%;
 
-  h1 {
-    @include font-large;
+    &:hover {
+      cursor: pointer;
+    }
+
+    h1 {
+      @include font-large;
+      color: $white;
+      margin: 0;
+    }
   }
 
   .actions {
@@ -22,16 +32,12 @@
     gap: $space-small;
   }
 
-  ul {
-    @include unstyled-list;
-  }
-
   @media (min-width: $breakpoint-medium) {
     padding: 0 $space-2-medium;
     height: $content-2-medium;
 
-    img {
-      margin-right: $space-medium;
+    .logo {
+      gap: $space-medium;
     }
   }
 
@@ -39,8 +45,8 @@
     padding: 0 $space-2-large;
     height: $content-2-large;
 
-    img {
-      margin-right: $space-large;
+    .logo {
+      gap: $space-large;
     }
   }
 
@@ -48,8 +54,8 @@
     padding: 0 $space-2-xlarge;
     height: $content-2-xlarge;
 
-    img {
-      margin-right: $space-xlarge;
+    .logo {
+      gap: $space-xlarge;
     }
   }
 }
