@@ -17,7 +17,7 @@ import {
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'crypto';
-import { sign, verify } from 'jsonwebtoken';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
 
 @Injectable()
 export class NestAuthenticationService extends AuthenticationService {
@@ -121,9 +121,8 @@ export class NestAuthenticationService extends AuthenticationService {
   override async verifyHasRole(token: string, role: Role): Promise<Result> {
     const jwtConfig = this.configService.getJwtConfig();
     try {
-      const decodedContent = await verify(token, jwtConfig.secret);
-      const payload = decodedContent as TokenPayloadDto;
-      if (payload.roles.includes(role)) {
+      const payload = (await verify(token, jwtConfig.secret)) as JwtPayload;
+      if (payload['roles'].includes(role)) {
         return Result.success();
       }
       return Result.error(RedishError.Domain.unauthorizedError());
