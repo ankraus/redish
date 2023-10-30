@@ -64,8 +64,8 @@ export class NestUserService extends UserService {
     try {
       await this.userRepository.save(newUser);
       return Result.success<UuidDto>({ uuid: newUser.id });
-    } catch (error) {
-      return Result.error(RedishError.Domain.databaseError());
+    } catch (error: unknown) {
+      return Result.error(RedishError.Domain.databaseError(error));
     }
   }
 
@@ -108,8 +108,8 @@ export class NestUserService extends UserService {
     try {
       const payload = verify(token, jwtConfig.secret) as JwtPayload;
       return Result.success<UuidDto>({ uuid: payload['uuid'] });
-    } catch (error: any) {
-      return Result.error(RedishError.Domain.authenticationError());
+    } catch (error: unknown) {
+      return Result.error(RedishError.Domain.authenticationError(error));
     }
   }
 
@@ -135,29 +135,28 @@ export class NestUserService extends UserService {
     if (currentUserResult.error) {
       // database error because all authenticated users are assumed to exist in the database
       return Result.error(currentUserResult.error);
-    } else {
-      const currentUser = currentUserResult.result!;
+    }
+    const currentUser = currentUserResult.result!;
 
-      let updatedPwHash = '';
-      if (user.password) {
-        // only create pw hash if new password has been sent
-        updatedPwHash = await hash(user.password, 10);
-      }
+    let updatedPwHash = '';
+    if (user.password) {
+      // only create pw hash if new password has been sent
+      updatedPwHash = await hash(user.password, 10);
+    }
 
-      const updatedUser = new DomainUser(
-        currentUser.id,
-        user.username ?? currentUser.username,
-        user.email ?? currentUser.email,
-        updatedPwHash ?? currentUser.pwHash,
-        currentUser.isActive,
-        currentUser.roles
-      );
-      try {
-        await this.userRepository.save(updatedUser);
-        return Result.success<UuidDto>({ uuid: updatedUser.id });
-      } catch (error) {
-        return Result.error(RedishError.Domain.databaseError(error));
-      }
+    const updatedUser = new DomainUser(
+      currentUser.id,
+      user.username ?? currentUser.username,
+      user.email ?? currentUser.email,
+      updatedPwHash ?? currentUser.pwHash,
+      currentUser.isActive,
+      currentUser.roles
+    );
+    try {
+      await this.userRepository.save(updatedUser);
+      return Result.success<UuidDto>({ uuid: updatedUser.id });
+    } catch (error: unknown) {
+      return Result.error(RedishError.Domain.databaseError(error));
     }
   }
 }
