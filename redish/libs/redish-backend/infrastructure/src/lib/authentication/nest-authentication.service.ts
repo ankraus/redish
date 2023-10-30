@@ -10,7 +10,6 @@ import {
   UuidDto,
   AuthenticateUserDto,
   TokenDto,
-  TokenPayloadDto,
   Role,
   RedishError,
   UpdateUserDto,
@@ -110,9 +109,8 @@ export class NestAuthenticationService extends AuthenticationService {
   override async verifyAuthenticated(token: string): Promise<Result<UuidDto>> {
     const jwtConfig = this.configService.getJwtConfig();
     try {
-      const decodedContent = verify(token, jwtConfig.secret);
-      const payload = decodedContent as TokenPayloadDto;
-      return Result.success<UuidDto>({ uuid: payload.uuid });
+      const payload = verify(token, jwtConfig.secret) as JwtPayload;
+      return Result.success<UuidDto>({ uuid: payload['uuid'] });
     } catch (error: any) {
       return Result.error(RedishError.Domain.authenticationError());
     }
@@ -121,7 +119,7 @@ export class NestAuthenticationService extends AuthenticationService {
   override async verifyHasRole(token: string, role: Role): Promise<Result> {
     const jwtConfig = this.configService.getJwtConfig();
     try {
-      const payload = (await verify(token, jwtConfig.secret)) as JwtPayload;
+      const payload = verify(token, jwtConfig.secret) as JwtPayload;
       if (payload['roles'].includes(role)) {
         return Result.success();
       }
