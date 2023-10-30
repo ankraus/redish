@@ -28,8 +28,9 @@ import {
 import { AuthGuard } from '../guards/auth.guard';
 import { Response } from 'express';
 import { RedishErrorDto } from '../dtos/redish-error.dto';
-import { RedishError, UpdateUserDto } from '@redish-shared/domain';
+import { RedishError } from '@redish-shared/domain';
 import { AuthenticatedRequest } from '../types/authenticated-request.type';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 
 @ApiTags('user')
 @Controller('user')
