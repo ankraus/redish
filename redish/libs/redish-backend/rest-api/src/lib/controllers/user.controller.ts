@@ -117,12 +117,4 @@ export class UserController {
       return updateUserResult.result!;
     }
   }
-
-  // TODO remove example route
-  @ApiBearerAuth()
-  @Get('protected')
-  @UseGuards(AuthGuard)
-  async protectedRoute(): Promise<Result<string>> {
-    return Result.success('Success');
-  }
 }
