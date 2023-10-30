@@ -34,8 +34,8 @@ export class TypeOrmUserRepository extends UserRepository {
     try {
       await this.usersRepository.remove(user as User);
       return Result.success();
-    } catch (error) {
-      return Result.error(RedishError.Infrastructure.databaseError());
+    } catch (error: unknown) {
+      return Result.error(RedishError.Infrastructure.databaseError(error));
     }
   }
 
@@ -43,8 +43,8 @@ export class TypeOrmUserRepository extends UserRepository {
     try {
       const savedUser = await this.usersRepository.save(user as User);
       return Result.success(savedUser as DomainUser);
-    } catch (error) {
-      return Result.error(RedishError.Infrastructure.databaseError());
+    } catch (error: unknown) {
+      return Result.error(RedishError.Infrastructure.databaseError(error));
     }
   }
 
