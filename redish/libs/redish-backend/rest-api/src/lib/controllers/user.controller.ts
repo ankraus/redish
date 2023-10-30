@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   HttpStatus,
   Injectable,
   Post,
@@ -11,14 +10,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserFacade } from '@redish-backend/usecases';
-import { Result } from '@redish-backend/domain';
 import { AuthenticateUserDto } from '../dtos/authenticate-user.dto';
 import { TokenDto } from '../dtos/token.dto';
 import { UuidDto } from '../dtos/uuid.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
@@ -59,9 +56,8 @@ export class UserController {
         response.status(HttpStatus.BAD_REQUEST);
       }
       return authResult.error;
-    } else {
-      return authResult.result!;
     }
+    return authResult.result!;
   }
 
   @ApiCreatedResponse({ type: UuidDto })
@@ -83,9 +79,8 @@ export class UserController {
         response.status(HttpStatus.BAD_REQUEST);
       }
       return createUserResult.error;
-    } else {
-      return createUserResult.result!;
     }
+    return createUserResult.result!;
   }
 
   @ApiOkResponse({ type: UuidDto })
@@ -113,8 +108,7 @@ export class UserController {
         response.status(HttpStatus.BAD_REQUEST);
       }
       return updateUserResult.error;
-    } else {
-      return updateUserResult.result!;
     }
+    return updateUserResult.result!;
   }
 }
