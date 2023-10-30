@@ -6,11 +6,11 @@ export { AddGameHandler } from './lib/commands/add-game.handler';
 
 // facades
 export { GameFacade } from './lib/game.facade';
-export { AuthenticationFacade } from './lib/authentication.facade';
+export { UserFacade } from './lib/authentication.facade';
 
 // interfaces
 export { CommandBus } from './lib/interfaces/command-bus';
-export { AuthenticationService } from './lib/interfaces/authentication.service';
+export { UserService } from './lib/interfaces/authentication.service';
 
 // repositories
 export { BaseRepository } from './lib/repositories/base.repository';

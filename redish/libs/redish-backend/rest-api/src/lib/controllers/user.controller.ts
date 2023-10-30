@@ -10,7 +10,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { AuthenticationFacade } from '@redish-backend/usecases';
+import { UserFacade } from '@redish-backend/usecases';
 import { Result } from '@redish-backend/domain';
 import { AuthenticateUserDto } from '../dtos/authenticate-user.dto';
 import { TokenDto } from '../dtos/token.dto';
@@ -36,7 +36,7 @@ import { UpdateUserDto } from '../dtos/update-user.dto';
 @Controller('user')
 @Injectable()
 export class UserController {
-  constructor(private authenticationFacade: AuthenticationFacade) {}
+  constructor(private userFacade: UserFacade) {}
 
   @ApiOkResponse({ type: TokenDto })
   @ApiBadRequestResponse({ type: RedishErrorDto })
@@ -46,7 +46,7 @@ export class UserController {
     @Res({ passthrough: true }) response: Response,
     @Body() authenticateUserDto: AuthenticateUserDto
   ): Promise<TokenDto | RedishErrorDto> {
-    const authResult = await this.authenticationFacade.authenticateUser(
+    const authResult = await this.userFacade.authenticateUser(
       authenticateUserDto
     );
     if (authResult.error) {
@@ -72,9 +72,7 @@ export class UserController {
     @Res({ passthrough: true }) response: Response,
     @Body() createUserDto: CreateUserDto
   ): Promise<UuidDto | RedishErrorDto> {
-    const createUserResult = await this.authenticationFacade.createUser(
-      createUserDto
-    );
+    const createUserResult = await this.userFacade.createUser(createUserDto);
     if (createUserResult.error) {
       if (
         createUserResult.error.code ===
@@ -101,7 +99,7 @@ export class UserController {
     @Req() request: AuthenticatedRequest,
     @Body() updateUserDto: UpdateUserDto
   ): Promise<UuidDto | RedishErrorDto> {
-    const updateUserResult = await this.authenticationFacade.updateUser(
+    const updateUserResult = await this.userFacade.updateUser(
       request.userId,
       updateUserDto
     );

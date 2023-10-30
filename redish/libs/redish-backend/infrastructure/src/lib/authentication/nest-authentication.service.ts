@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User as DomainUser, Result } from '@redish-backend/domain';
 import { ConfigurationService } from '@redish-backend/shared';
-import {
-  AuthenticationService,
-  UserRepository,
-} from '@redish-backend/usecases';
+import { UserService, UserRepository } from '@redish-backend/usecases';
 import {
   CreateUserDto,
   UuidDto,
@@ -19,7 +16,7 @@ import { randomUUID } from 'crypto';
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 
 @Injectable()
-export class NestAuthenticationService extends AuthenticationService {
+export class NestUserService extends UserService {
   constructor(
     private userRepository: UserRepository,
     private configService: ConfigurationService

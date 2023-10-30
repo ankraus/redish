@@ -8,7 +8,7 @@ import { CqrsCommandBusAdapter } from './cqrs/cqrs-command-bus.adapter';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CqrsStartGameSessionHandlerProxy } from './cqrs/cqrs-start-game-session-handler.proxy';
 import { CqrsAddGameHandlerProxy } from './cqrs/cqrs-add-game-handler.proxy';
-import { NestAuthenticationService } from './authentication/nest-authentication.service';
+import { NestUserService } from './authentication/nest-authentication.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm-entities/user.entity';
 import { TypeOrmUserRepository } from './typeorm-repositories/user.repository';
@@ -25,7 +25,7 @@ const cqrsHandlerProxies = [
   CqrsAddGameHandlerProxy,
 ];
 
-const services = [NestAuthenticationService];
+const services = [NestUserService];
 
 @Module({
   imports: [
