@@ -6,7 +6,7 @@ export class User {
     public username: string,
     public email: string,
     public pwHash: string,
-    public isActive: boolean,
-    public roles: Role[]
+    public isActive: boolean = true,
+    public roles: Role[] = [Role.USER]
   ) {}
 }

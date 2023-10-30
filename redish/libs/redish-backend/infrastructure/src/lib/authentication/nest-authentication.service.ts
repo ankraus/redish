@@ -64,18 +64,7 @@ export class NestAuthenticationService extends AuthenticationService {
     const pwHash: string = await hash(user.password, 10);
     const id: string = randomUUID();
 
-    // todo can we move these default values somewhere higher in the hierachy?
-    const isActive = true;
-    const roles = [Role.USER];
-
-    const newUser = new DomainUser(
-      id,
-      user.username,
-      user.email,
-      pwHash,
-      isActive,
-      roles
-    );
+    const newUser = new DomainUser(id, user.username, user.email, pwHash);
     try {
       await this.userRepository.save(newUser);
       return Result.success<UuidDto>({ uuid: newUser.id });
