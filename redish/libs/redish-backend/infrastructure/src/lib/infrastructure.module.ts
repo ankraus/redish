@@ -10,8 +10,8 @@ import { CqrsStartGameSessionHandlerProxy } from './cqrs/cqrs-start-game-session
 import { CqrsAddGameHandlerProxy } from './cqrs/cqrs-add-game-handler.proxy';
 import { NestUserService } from './authentication/nest-user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './typeorm-entities/user.entity';
-import { TypeOrmUserRepository } from './typeorm-repositories/user.repository';
+import { User } from './typeorm-entities/typeorm.user.entity';
+import { TypeOrmUserRepository } from './typeorm-repositories/typeorm.user.repository';
 
 const repositories = [
   MyGameRepository,
