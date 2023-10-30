@@ -65,9 +65,18 @@
       "@redish-frontend/profile-ui": [
         "libs/redish-frontend/profile/ui/src/index.ts"
       ],
+      "@redish-frontend/shared-models": [
+        "libs/redish-frontend/shared/models/src/index.ts"
+      ],
       "@redish-frontend/shared-ui": [
         "libs/redish-frontend/shared/ui/src/index.ts"
       ],
+      "@redish-games/worm-data-access": [
+        "libs/games/worm/data-access/src/index.ts"
+      ],
+      "@redish-games/worm-feature": ["libs/games/worm/feature/src/index.ts"],
+      "@redish-games/worm-models": ["libs/games/worm/models/src/index.ts"],
+      "@redish-games/worm-ui": ["libs/games/worm/ui/src/index.ts"],
       "@redish-shared/domain": ["libs/redish-shared/domain/src/index.ts"]
     }
   },

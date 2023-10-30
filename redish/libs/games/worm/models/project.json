@@ -1,0 +1,16 @@
+{
+  "name": "worm-models",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/games/worm/models/src",
+  "projectType": "library",
+  "tags": ["platform:web", "scope:worm", "type:domain"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/games/worm/models/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

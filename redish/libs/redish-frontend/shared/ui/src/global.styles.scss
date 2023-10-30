@@ -92,7 +92,7 @@ $content-2-xlarge: 65px;
   font-size: 0.8rem;
   line-height: 1.2rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-medium {
@@ -100,7 +100,7 @@ $content-2-xlarge: 65px;
   font-size: 1rem;
   line-height: 1.2rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-large {
@@ -108,7 +108,7 @@ $content-2-xlarge: 65px;
   font-size: 1.2rem;
   line-height: 1.6rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-xlarge {
@@ -116,7 +116,7 @@ $content-2-xlarge: 65px;
   font-size: 2.8rem;
   line-height: 2.2rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-bold {

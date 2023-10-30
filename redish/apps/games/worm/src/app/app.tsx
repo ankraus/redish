@@ -1,13 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RedishButton } from '@redish-frontend/shared-ui';
 import styles from './app.module.scss';
-
-import NxWelcome from './nx-welcome';
-
-interface AppProps {
-  test?: string;
-  handleTest?: (test: string) => void;
-}
+import { WormAppProps as AppProps } from '@redish-frontend/shared-models';
+import { WormFeature } from '@redish-games/worm-feature';
 
 export function App(appProps: AppProps) {
   const test = appProps.test ?? 'heinrich';
@@ -16,7 +10,7 @@ export function App(appProps: AppProps) {
 
   return (
     <div className={styles.container}>
-      <NxWelcome title={test} />
+      <WormFeature />
       <RedishButton onClick={() => handleTest('go')}>Go</RedishButton>
     </div>
   );
