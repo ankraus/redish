@@ -5,6 +5,8 @@ import {
   HttpStatus,
   Injectable,
   Post,
+  Put,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -21,11 +23,13 @@ import {
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthGuard } from '../guards/auth.guard';
 import { Response } from 'express';
 import { RedishErrorDto } from '../dtos/redish-error.dto';
-import { RedishError } from '@redish-shared/domain';
+import { RedishError, UpdateUserDto } from '@redish-shared/domain';
+import { AuthenticatedRequest } from '../types/authenticated-request.type';
 
 @ApiTags('user')
 @Controller('user')
@@ -38,7 +42,7 @@ export class UserController {
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @Post('login')
   public async authenticateUser(
-    @Res() response: Response,
+    @Res({ passthrough: true }) response: Response,
     @Body() authenticateUserDto: AuthenticateUserDto
   ): Promise<TokenDto | RedishErrorDto> {
     const authResult = await this.authenticationFacade.authenticateUser(
@@ -55,7 +59,11 @@ export class UserController {
       }
       return authResult.error;
     } else {
-      return authResult.result!;
+      if (authResult.result !== null) {
+        return authResult.result;
+      } else {
+        return RedishError.Infrastructure.databaseError();
+      }
     }
   }
 
@@ -64,7 +72,7 @@ export class UserController {
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @Post()
   async createUser(
-    @Res() response: Response,
+    @Res({ passthrough: true }) response: Response,
     @Body() createUserDto: CreateUserDto
   ): Promise<UuidDto | RedishErrorDto> {
     const createUserResult = await this.authenticationFacade.createUser(
@@ -82,6 +90,36 @@ export class UserController {
       return createUserResult.error;
     } else {
       return createUserResult.result!;
+    }
+  }
+
+  @ApiOkResponse({ type: UuidDto })
+  @ApiBadRequestResponse({ type: RedishErrorDto })
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @ApiUnauthorizedResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @Put()
+  async updateUser(
+    @Res({ passthrough: true }) response: Response,
+    @Req() request: AuthenticatedRequest,
+    @Body() updateUserDto: UpdateUserDto
+  ): Promise<UuidDto | RedishErrorDto> {
+    const updateUserResult = await this.authenticationFacade.updateUser(
+      request.userId,
+      updateUserDto
+    );
+    if (updateUserResult.error) {
+      if (
+        updateUserResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.BAD_REQUEST);
+      }
+      return updateUserResult.error;
+    } else {
+      return updateUserResult.result!;
     }
   }
 

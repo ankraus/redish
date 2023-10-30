@@ -4,6 +4,7 @@ import {
   CreateUserDto,
   Role,
   TokenDto,
+  UpdateUserDto,
   UuidDto,
 } from '@redish-shared/domain';
 
@@ -12,4 +13,5 @@ export abstract class AuthenticationService {
   abstract createUser(user: CreateUserDto): Promise<Result<UuidDto>>;
   abstract verifyAuthenticated(token: string): Promise<Result<UuidDto>>;
   abstract verifyHasRole(token: string, role: Role): Promise<Result>;
+  abstract updateUser(userId: string, user: UpdateUserDto): Promise<Result<UuidDto>>;
 }

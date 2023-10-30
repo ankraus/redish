@@ -6,6 +6,7 @@ import {
   CreateUserDto,
   Role,
   TokenDto,
+  UpdateUserDto,
   UuidDto,
 } from '@redish-shared/domain';
 
@@ -31,5 +32,9 @@ export class AuthenticationFacade {
 
   public verifyHasRole(token: string, role: Role): Promise<Result> {
     return this._authentication.verifyHasRole(token, role);
+  }
+
+  public updateUser(userId: string, user: UpdateUserDto): Promise<Result<UuidDto>> {
+    return this._authentication.updateUser(userId, user);
   }
 }

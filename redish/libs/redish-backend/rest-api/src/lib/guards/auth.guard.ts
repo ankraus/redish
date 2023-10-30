@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     const token = authorization.replace(/bearer/gim, '').trim();
     const result = await this.authenticationFacade.verifyAuthenticated(token);
     if (result.success) {
-      request.userId = result;
+      request.userId = result.result?.uuid;
       return true;
     }
     return false;

@@ -13,6 +13,7 @@ import {
   TokenPayloadDto,
   Role,
   RedishError,
+  UpdateUserDto,
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'crypto';
@@ -110,7 +111,7 @@ export class NestAuthenticationService extends AuthenticationService {
         expiresIn: jwtConfig.expiry,
       });
 
-      return Result.success<TokenDto>({token});
+      return Result.success<TokenDto>({ token });
     } else {
       return Result.error(RedishError.Domain.authenticationError());
     }
@@ -122,7 +123,7 @@ export class NestAuthenticationService extends AuthenticationService {
     try {
       const decodedContent = await verify(token, jwtConfig.secret);
       const payload = decodedContent as TokenPayloadDto;
-      return Result.success<UuidDto>({uuid: payload.uuid});
+      return Result.success<UuidDto>({ uuid: payload.uuid });
     } catch (error: any) {
       return Result.error(RedishError.Domain.authenticationError());
     }
@@ -140,6 +141,43 @@ export class NestAuthenticationService extends AuthenticationService {
       return Result.error(RedishError.Domain.authenticationError());
     } catch (error: any) {
       return Result.error(RedishError.Domain.authenticationError());
+    }
+  }
+
+  override async updateUser(
+    userId: string,
+    user: UpdateUserDto
+  ): Promise<Result<UuidDto>> {
+    const currentUserResult = await this.userRepository.findOneById(userId);
+
+    console.dir(userId);
+
+    if (currentUserResult.error) {
+      // database error because all authenticated users are assumed to exist in the database
+      return Result.error(RedishError.Infrastructure.databaseError());
+    } else {
+      const currentUser = currentUserResult.result!;
+
+      let updatedPwHash = '';
+      if (user.password) {
+        // only create pw hash if new password has been sent
+        updatedPwHash = await hash(user.password, 10);
+      }
+
+      const updatedUser = new DomainUser(
+        currentUser.id,
+        user.username || currentUser.username,
+        user.email || currentUser.email,
+        updatedPwHash || currentUser.pwHash,
+        currentUser.isActive,
+        currentUser.roles
+      );
+      try {
+        await this.userRepository.save(updatedUser);
+        return Result.success<UuidDto>({ uuid: updatedUser.id });
+      } catch (error) {
+        return Result.error(RedishError.Domain.databaseError());
+      }
     }
   }
 }
