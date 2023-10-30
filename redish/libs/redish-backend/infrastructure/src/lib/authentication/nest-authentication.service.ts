@@ -139,8 +139,6 @@ export class NestAuthenticationService extends AuthenticationService {
   ): Promise<Result<UuidDto>> {
     const currentUserResult = await this.userRepository.findOneById(userId);
 
-    console.dir(userId);
-
     if (currentUserResult.error) {
       // database error because all authenticated users are assumed to exist in the database
       return Result.error(RedishError.Infrastructure.databaseError());
