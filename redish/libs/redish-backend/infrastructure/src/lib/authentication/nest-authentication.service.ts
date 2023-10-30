@@ -140,7 +140,7 @@ export class NestAuthenticationService extends AuthenticationService {
 
     if (currentUserResult.error) {
       // database error because all authenticated users are assumed to exist in the database
-      return Result.error(RedishError.Infrastructure.databaseError());
+      return Result.error(currentUserResult.error);
     } else {
       const currentUser = currentUserResult.result!;
 
