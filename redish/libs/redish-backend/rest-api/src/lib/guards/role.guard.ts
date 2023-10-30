@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { AuthenticationFacade } from '@redish-backend/usecases';
 import { Roles } from '../decorators/roles.decorator';
 
-export class RoleGuard implements CanActivate {
+export class AnyRoleGuard implements CanActivate {
   constructor(
     private readonly authenticationFacade: AuthenticationFacade,
     private reflector: Reflector
