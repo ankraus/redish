@@ -55,7 +55,7 @@ export class UserController {
       ) {
         response.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
       } else {
-        response.status(HttpStatus.BAD_REQUEST).send();
+        response.status(HttpStatus.BAD_REQUEST);
       }
       return authResult.error;
     } else {
