@@ -126,10 +126,9 @@ export class NestAuthenticationService extends AuthenticationService {
       if (payload.roles.includes(role)) {
         return Result.success();
       }
-      // todo create more meaningful error
-      return Result.error(RedishError.Domain.authenticationError());
-    } catch (error: any) {
-      return Result.error(RedishError.Domain.authenticationError());
+      return Result.error(RedishError.Domain.unauthorizedError());
+    } catch (error: unknown) {
+      return Result.error(RedishError.Domain.authenticationError(error));
     }
   }
 

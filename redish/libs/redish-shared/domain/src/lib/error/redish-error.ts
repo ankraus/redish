@@ -23,6 +23,7 @@ export class RedishError {
       static GAME_MAX_NUMBER_PLAYERS = gameError + 1;
       static DATABASE_ERROR = databaseError + 1;
       static AUTHENTICATION_ERROR = authenticationError + 1;
+      static UNAUTHORIZED_ERROR = authenticationError + 2;
     };
 
     public static userNameTooShort(): RedishError {
@@ -67,10 +68,19 @@ export class RedishError {
       );
     }
 
-    public static authenticationError(): RedishError {
+    public static authenticationError(cause?: unknown): RedishError {
       return new RedishError(
         RedishError.Domain.Codes.AUTHENTICATION_ERROR,
-        'Email or password incorrect'
+        'Email or password incorrect',
+        cause
+      );
+    }
+
+    public static unauthorizedError(cause?: unknown): RedishError {
+      return new RedishError(
+        RedishError.Domain.Codes.UNAUTHORIZED_ERROR,
+        'Unauthorized',
+        cause
       );
     }
   };
