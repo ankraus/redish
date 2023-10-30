@@ -110,7 +110,7 @@ export class NestAuthenticationService extends AuthenticationService {
   override async verifyAuthenticated(token: string): Promise<Result<UuidDto>> {
     const jwtConfig = this.configService.getJwtConfig();
     try {
-      const decodedContent = await verify(token, jwtConfig.secret);
+      const decodedContent = verify(token, jwtConfig.secret);
       const payload = decodedContent as TokenPayloadDto;
       return Result.success<UuidDto>({ uuid: payload.uuid });
     } catch (error: any) {
