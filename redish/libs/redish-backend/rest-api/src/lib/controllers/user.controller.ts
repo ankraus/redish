@@ -53,7 +53,7 @@ export class UserController {
         authResult.error.code ===
         RedishError.Infrastructure.Codes.DATABASE_ERROR
       ) {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
       } else {
         response.status(HttpStatus.BAD_REQUEST);
       }
@@ -83,9 +83,9 @@ export class UserController {
         createUserResult.error.code ===
         RedishError.Infrastructure.Codes.DATABASE_ERROR
       ) {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
       } else {
-        response.status(HttpStatus.BAD_REQUEST).send();
+        response.status(HttpStatus.BAD_REQUEST);
       }
       return createUserResult.error;
     } else {
