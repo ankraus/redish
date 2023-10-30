@@ -5,11 +5,11 @@ import {
   MyGameRepository,
   MyGameSessionRepository,
   MyPlayerRepository,
-  NestAuthenticationService,
+  NestUserService,
   TypeOrmUserRepository,
 } from '@redish-backend/infrastructure';
 import {
-  AuthenticationService,
+  UserService,
   GameRepository,
   GameSessionRepository,
   PlayerRepository,
@@ -38,13 +38,13 @@ const providers: Provider[] = [
   },
 
   {
-    provide: AuthenticationService,
-    useExisting: NestAuthenticationService,
+    provide: UserService,
+    useExisting: NestUserService,
   },
   {
     provide: UserRepository,
     useExisting: TypeOrmUserRepository,
-  }
+  },
 ];
 
 @Global()
