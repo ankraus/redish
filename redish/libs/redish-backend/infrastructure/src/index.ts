@@ -10,4 +10,4 @@ export { TypeOrmUserRepository } from './lib/typeorm-repositories/user.repositor
 export { CqrsCommandBusAdapter } from './lib/cqrs/cqrs-command-bus.adapter';
 
 // services
-export { NestUserService } from './lib/authentication/nest-authentication.service';
+export { NestUserService } from './lib/authentication/nest-user.service';
