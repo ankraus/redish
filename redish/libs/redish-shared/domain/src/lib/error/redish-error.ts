@@ -61,10 +61,11 @@ export class RedishError {
       );
     }
 
-    public static databaseError(): RedishError {
+    public static databaseError(cause?: unknown): RedishError {
       return new RedishError(
         RedishError.Domain.Codes.DATABASE_ERROR,
-        'A database error has occurred'
+        'A database error has occurred',
+        cause
       );
     }
 

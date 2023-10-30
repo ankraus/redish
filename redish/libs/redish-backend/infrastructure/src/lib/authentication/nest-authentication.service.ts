@@ -162,7 +162,7 @@ export class NestAuthenticationService extends AuthenticationService {
         await this.userRepository.save(updatedUser);
         return Result.success<UuidDto>({ uuid: updatedUser.id });
       } catch (error) {
-        return Result.error(RedishError.Domain.databaseError());
+        return Result.error(RedishError.Domain.databaseError(error));
       }
     }
   }
