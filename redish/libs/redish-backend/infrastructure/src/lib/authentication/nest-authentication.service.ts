@@ -152,9 +152,9 @@ export class NestAuthenticationService extends AuthenticationService {
 
       const updatedUser = new DomainUser(
         currentUser.id,
-        user.username || currentUser.username,
-        user.email || currentUser.email,
-        updatedPwHash || currentUser.pwHash,
+        user.username ?? currentUser.username,
+        user.email ?? currentUser.email,
+        updatedPwHash ?? currentUser.pwHash,
         currentUser.isActive,
         currentUser.roles
       );
