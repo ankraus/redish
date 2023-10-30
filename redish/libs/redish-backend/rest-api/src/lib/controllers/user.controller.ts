@@ -62,7 +62,7 @@ export class UserController {
   @ApiCreatedResponse({ type: UuidDto })
   @ApiBadRequestResponse({ type: RedishErrorDto })
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
-  @Post('register')
+  @Post()
   async createUser(
     @Res() response: Response,
     @Body() createUserDto: CreateUserDto
@@ -85,6 +85,7 @@ export class UserController {
     }
   }
 
+  // TODO remove example route
   @ApiBearerAuth()
   @Get('protected')
   @UseGuards(AuthGuard)
