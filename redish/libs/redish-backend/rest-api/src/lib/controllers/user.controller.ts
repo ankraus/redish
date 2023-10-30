@@ -59,11 +59,7 @@ export class UserController {
       }
       return authResult.error;
     } else {
-      if (authResult.result !== null) {
-        return authResult.result;
-      } else {
-        return RedishError.Infrastructure.databaseError();
-      }
+      return authResult.result!;
     }
   }
 
