@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from './interfaces/authentication.service';
+import { UserService } from './interfaces/user.service';
 import { Result } from '@redish-backend/domain';
 import {
   AuthenticateUserDto,
