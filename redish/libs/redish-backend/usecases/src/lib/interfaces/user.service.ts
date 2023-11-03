@@ -19,4 +19,5 @@ export abstract class UserService {
     userId: string,
     user: UpdateUserDto
   ): Promise<Result<UuidDto>>;
+  abstract deleteUser(userId: string): Promise<Result<UuidDto>>;
 }

@@ -159,4 +159,20 @@ export class NestUserService extends UserService {
       return Result.error(RedishError.Domain.databaseError(error));
     }
   }
+
+  override async deleteUser(userId: string): Promise<Result<UuidDto>> {
+    const currentUserResult = await this.userRepository.findOneById(userId);
+
+    if (currentUserResult.error) {
+      // database error because all authenticated users are assumed to exist in the database
+      return Result.error(currentUserResult.error);
+    }
+    const currentUser = currentUserResult.result!;
+    try {
+      await this.userRepository.remove(currentUser);
+      return Result.success<UuidDto>({ uuid: userId });
+    } catch (error: unknown) {
+      return Result.error(RedishError.Domain.databaseError(error));
+    }
+  }
 }

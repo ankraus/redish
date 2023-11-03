@@ -42,4 +42,8 @@ export class UserFacade {
   ): Promise<Result<UuidDto>> {
     return this._userService.updateUser(userId, user);
   }
+
+  public deleteUser(userId: string): Promise<Result<UuidDto>> {
+    return this._userService.deleteUser(userId);
+  }
 }
