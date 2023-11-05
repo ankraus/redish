@@ -138,7 +138,7 @@ export class NestUserService extends UserService {
     }
     const currentUser = currentUserResult.result!;
 
-    let updatedPwHash = '';
+    let updatedPwHash: string | undefined;
     if (user.password) {
       // only create pw hash if new password has been sent
       updatedPwHash = await hash(user.password, 10);
