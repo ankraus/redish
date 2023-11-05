@@ -16,7 +16,7 @@ export class AuthenticationApiService {
     email: string,
     password: string
   ): Promise<string | null> {
-    const url = `${this.baseURL}/register`;
+    const url = `${this.baseURL}`;
     const data: CreateUserDto = { username, password, email };
     try {
       const response = await axios.post<UuidDto>(url, data);

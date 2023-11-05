@@ -44,7 +44,7 @@ export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
         <input type="submit" />
       </form>
       <p>
-        already have a user? <Link to={viewModel.loginRoute}>Login here</Link>
+        already registered? <Link to={viewModel.loginRoute}>Login here</Link>
       </p>
     </div>
   );

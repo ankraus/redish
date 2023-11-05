@@ -104,6 +104,7 @@ export function useAuthenticationFacade(
     }
 
     setToken(token);
+    // todo: navigate to previous page
     navigate('/');
   }
 
@@ -124,7 +125,10 @@ export function useAuthenticationFacade(
   };
 }
 
-export const useAuthenticationCore = () => {
+export function useAuthenticationCore(): {
+  token: string | null;
+  setToken: (token: string | null) => void;
+} {
   // State to hold the authentication token
   const [token, _setToken] = useState<string | null>(
     authenticationPersistenceService.getToken()

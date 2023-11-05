@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       token,
       setToken,
     }),
-    [token]
+    [token, setToken]
   );
 
   // Provide the authentication context to the children components

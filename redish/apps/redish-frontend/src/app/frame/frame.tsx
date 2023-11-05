@@ -6,7 +6,7 @@ import {
   useAuth,
 } from '@redish-frontend/authentication-api';
 
-type FrameProps = { children: React.ReactNode };
+type FrameProps = { readonly children: React.ReactNode };
 
 export function Frame({ children }: FrameProps) {
   const { token, setToken } = useAuth();
