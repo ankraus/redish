@@ -23,7 +23,12 @@ export class AuthenticationApiService {
       return response.data.uuid;
       // todo: redish error?
     } catch (error) {
-      console.error(error);
+      let castError = error;
+      if (axios.isAxiosError<RedishError>(error)) {
+        console.error('in api service', error.response?.data);
+        castError = error.response?.data ?? RedishError.Unknown();
+      }
+      console.error(castError);
       return null;
     }
   }
