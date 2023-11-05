@@ -26,6 +26,22 @@ export class UserApiService {
       return null;
     }
   }
+
+  public async delete(): Promise<string | null> {
+    const url = `${this.baseURL}`;
+    try {
+      const response = await axios.delete<UuidDto>(url);
+      return response.data.uuid;
+    } catch (error: unknown) {
+      let castError = error;
+      if (axios.isAxiosError<RedishError>(error)) {
+        console.error('in api service', error.response?.data);
+        castError = error.response?.data ?? RedishError.Unknown();
+      }
+      console.error(castError);
+      return null;
+    }
+  }
 }
 
 // todo use inversifyjs?

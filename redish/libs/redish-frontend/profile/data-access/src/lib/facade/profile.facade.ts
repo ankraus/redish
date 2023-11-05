@@ -1,11 +1,25 @@
 import { ModifyUser, ProfileViewModel } from '@redish-frontend/profile-models';
 import { useImmer } from 'use-immer';
 import { userApiService } from '../connector/user-api.service';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * facade hook as described in https://thomasburlesonia.medium.com/https-medium-com-thomasburlesonia-react-hooks-rxjs-facades-4e116330bbe1
  */
 export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
+  /**
+   * DELETE
+   */
+  const navigate = useNavigate();
+
+  async function handleDeleteUser(): Promise<void> {
+    const result = await userApiService.delete();
+
+    if (result !== null) {
+      navigate('/');
+    }
+  }
+
   /**
    * MODIFY
    */
@@ -78,8 +92,9 @@ export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
 
   return {
     profileViewModel: {
-      modifyUser,
+      handleDelete: handleDeleteUser,
       handleModifyToggled: handleModifyToggled,
+      modifyUser,
       handleUsernameChanged: handleModifyUserUsernameChanged,
       handleEmailChanged: handleModifyUserEmailChanged,
       handlePasswordChanged: handleModifyUserPasswordChanged,

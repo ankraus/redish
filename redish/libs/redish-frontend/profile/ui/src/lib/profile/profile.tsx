@@ -1,9 +1,19 @@
 import { ProfileViewModel } from '@redish-frontend/profile-models';
 
-export function Profile(viewModel: ProfileViewModel) {
+export function Profile(viewModel: Readonly<ProfileViewModel>) {
   return (
     <div className="container">
       <h1>Profile</h1>
+      {!viewModel.modifyUser && (
+        <button
+          onClick={async (event) => {
+            event.preventDefault();
+            await viewModel.handleDelete();
+          }}
+        >
+          delete user
+        </button>
+      )}
       <button onClick={viewModel.handleModifyToggled}>
         {viewModel.modifyUser ? 'Cancel modify' : 'Modify user data'}
       </button>
