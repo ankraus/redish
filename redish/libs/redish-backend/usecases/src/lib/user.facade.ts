@@ -7,6 +7,7 @@ import {
   Role,
   TokenDto,
   UpdateUserDto,
+  UserDto,
   UuidDto,
 } from '@redish-shared/domain';
 
@@ -41,5 +42,9 @@ export class UserFacade {
     user: UpdateUserDto
   ): Promise<Result<UuidDto>> {
     return this._userService.updateUser(userId, user);
+  }
+
+  public getUserById(userId: string): Promise<Result<UserDto>> {
+    return this._userService.getUserById(userId);
   }
 }

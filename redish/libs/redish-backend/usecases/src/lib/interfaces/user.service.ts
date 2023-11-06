@@ -5,6 +5,7 @@ import {
   Role,
   TokenDto,
   UpdateUserDto,
+  UserDto,
   UuidDto,
 } from '@redish-shared/domain';
 
@@ -19,4 +20,5 @@ export abstract class UserService {
     userId: string,
     user: UpdateUserDto
   ): Promise<Result<UuidDto>>;
+  abstract getUserById(userId: string): Promise<Result<UserDto>>;
 }
