@@ -1,1 +1,1 @@
-export * from './lib/facade/authentication-data.service';
+export * from './lib/facade/authentication.facade';

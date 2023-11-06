@@ -1,0 +1,18 @@
+{
+  "name": "authentication-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/redish-frontend/authentication/api/src",
+  "projectType": "library",
+  "tags": ["platform:web", "scope:authentication", "type:api"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/redish-frontend/authentication/api/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  }
+}
