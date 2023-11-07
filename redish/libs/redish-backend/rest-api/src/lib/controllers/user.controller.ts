@@ -117,6 +117,7 @@ export class UserController {
 
   @ApiOkResponse({ type: UuidDto })
   @ApiNotFoundResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getUserById(
     @Res({ passthrough: true }) response: Response,
@@ -124,7 +125,7 @@ export class UserController {
     @Param('id') id: string
   ): Promise<UserDto | RedishErrorDto> {
     const getUserByIdResult = await this.userFacade.getUserById(id);
-    if(getUserByIdResult.error){
+    if (getUserByIdResult.error) {
       if (
         getUserByIdResult.error.code ===
         RedishError.Infrastructure.Codes.DATABASE_ERROR
