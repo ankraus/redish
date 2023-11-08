@@ -47,4 +47,8 @@ export class UserFacade {
   public getUserById(userId: string): Promise<Result<UserDto>> {
     return this._userService.getUserById(userId);
   }
+  
+  public deleteUser(userId: string): Promise<Result<UuidDto>> {
+    return this._userService.deleteUser(userId);
+  }
 }

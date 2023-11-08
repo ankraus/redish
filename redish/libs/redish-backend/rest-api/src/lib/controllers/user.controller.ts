@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Delete,
   HttpStatus,
   Injectable,
   Param,
@@ -138,5 +139,26 @@ export class UserController {
       return getUserByIdResult.error;
     }
     return getUserByIdResult.result!;
+  }
+  
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @ApiUnauthorizedResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @Delete()
+  async deleteUser(
+    @Res({ passthrough: true }) response: Response,
+    @Req() request: AuthenticatedRequest
+  ): Promise<UuidDto | RedishErrorDto> {
+    const deleteUserResult = await this.userFacade.deleteUser(request.userId);
+    if (deleteUserResult.error) {
+      if (
+        deleteUserResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      return deleteUserResult.error;
+    }
+    return deleteUserResult.result!;
   }
 }
