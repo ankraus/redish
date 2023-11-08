@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   Delete,
   HttpStatus,
   Injectable,
+  Param,
   Post,
   Put,
   Req,
@@ -15,10 +17,12 @@ import { AuthenticateUserDto } from '../dtos/authenticate-user.dto';
 import { TokenDto } from '../dtos/token.dto';
 import { UuidDto } from '../dtos/uuid.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { UserDto } from '../dtos/user.dto';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -114,6 +118,29 @@ export class UserController {
   }
 
   @ApiOkResponse({ type: UuidDto })
+  @ApiNotFoundResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  async getUserById(
+    @Res({ passthrough: true }) response: Response,
+    @Req() request: AuthenticatedRequest,
+    @Param('id') id: string
+  ): Promise<UserDto | RedishErrorDto> {
+    const getUserByIdResult = await this.userFacade.getUserById(id);
+    if (getUserByIdResult.error) {
+      if (
+        getUserByIdResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.NOT_FOUND);
+      }
+      return getUserByIdResult.error;
+    }
+    return getUserByIdResult.result!;
+  }
+  
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @ApiUnauthorizedResponse({ type: RedishErrorDto })
   @UseGuards(AuthGuard)

@@ -6,3 +6,4 @@ export * from './lib/models/game.dto';
 export * from './lib/error/redish-error';
 export * from './lib/models/role.model';
 export * from './lib/models/update-user.dto';
+export * from './lib/models/user.dto';

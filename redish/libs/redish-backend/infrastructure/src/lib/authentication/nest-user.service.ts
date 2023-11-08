@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User as DomainUser, Result } from '@redish-backend/domain';
+import { User as DomainUser, Result, User } from '@redish-backend/domain';
 import { ConfigurationService } from '@redish-backend/shared';
 import { UserService, UserRepository } from '@redish-backend/usecases';
 import {
@@ -10,6 +10,7 @@ import {
   Role,
   RedishError,
   UpdateUserDto,
+  UserDto,
 } from '@redish-shared/domain';
 import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'crypto';
@@ -160,6 +161,16 @@ export class NestUserService extends UserService {
     }
   }
 
+  override async getUserById(userId: string): Promise<Result<UserDto>> {
+    const userResult = await this.userRepository.findOneById(userId);
+    if (userResult.error) {
+      return userResult;
+    }
+    const user = userResult.result!;
+    const userDto: UserDto = { username: user.username, email: user.email };
+    return Result.success(userDto);
+  }
+  
   override async deleteUser(userId: string): Promise<Result<UuidDto>> {
     const currentUserResult = await this.userRepository.findOneById(userId);
 
