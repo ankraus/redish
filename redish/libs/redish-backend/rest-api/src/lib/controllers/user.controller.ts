@@ -16,6 +16,7 @@ import { AuthenticateUserDto } from '../dtos/authenticate-user.dto';
 import { TokenDto } from '../dtos/token.dto';
 import { UuidDto } from '../dtos/uuid.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { UserDto } from '../dtos/user.dto';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -28,7 +29,7 @@ import {
 import { AuthGuard } from '../guards/auth.guard';
 import { Response } from 'express';
 import { RedishErrorDto } from '../dtos/redish-error.dto';
-import { RedishError, UserDto } from '@redish-shared/domain';
+import { RedishError } from '@redish-shared/domain';
 import { AuthenticatedRequest } from '../types/authenticated-request.type';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 
