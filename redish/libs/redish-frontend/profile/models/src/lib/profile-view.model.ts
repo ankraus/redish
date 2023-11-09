@@ -8,4 +8,5 @@ export interface ProfileViewModel {
   handleEmailChanged: (email: string) => void;
   handlePasswordChanged: (password: string) => void;
   handleModifySubmit: () => Promise<void>;
+  username?: string;
 }

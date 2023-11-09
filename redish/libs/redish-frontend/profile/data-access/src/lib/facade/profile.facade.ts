@@ -1,8 +1,4 @@
-import {
-  ModifyUser,
-  ProfileViewModel,
-  User,
-} from '@redish-frontend/profile-models';
+import { ModifyUser, ProfileViewModel } from '@redish-frontend/profile-models';
 import { useImmer } from 'use-immer';
 import { userApiService } from '../connector/user-api.service';
 import { useNavigate } from 'react-router-dom';
@@ -108,6 +104,7 @@ export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
       handleEmailChanged: handleModifyUserEmailChanged,
       handlePasswordChanged: handleModifyUserPasswordChanged,
       handleModifySubmit: handleModifyUserSubmit,
+      username: user?.username,
     },
   };
 }
