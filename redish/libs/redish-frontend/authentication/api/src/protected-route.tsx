@@ -1,7 +1,4 @@
-import {
-  authenticationRoutes,
-  useAuth,
-} from '@redish-frontend/authentication-api';
+import { authenticationRoutes, useAuth } from '@redish-frontend/authentication-feature';
 import { Navigate } from 'react-router-dom';
 
 type ProtectedRouteProps = { children: React.ReactNode };

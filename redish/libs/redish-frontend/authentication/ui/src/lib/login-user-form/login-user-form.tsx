@@ -1,5 +1,5 @@
 import { LoginUserFormViewModel } from '@redish-frontend/authentication-models';
-import { Link } from 'react-router-dom';
+import { RedishLink } from '@redish-frontend/shared-ui';
 
 export function LoginUserForm(viewModel: LoginUserFormViewModel) {
   return (
@@ -34,7 +34,7 @@ export function LoginUserForm(viewModel: LoginUserFormViewModel) {
         <input type="submit" />
       </form>
       <p>
-        no user yet? <Link to={viewModel.registrationRoute}>Register here</Link>
+        no user yet? <RedishLink to={viewModel.registrationRoute}>Register here</RedishLink>
       </p>
     </div>
   );

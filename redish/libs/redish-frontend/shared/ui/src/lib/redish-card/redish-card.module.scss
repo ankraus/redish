@@ -1,0 +1,16 @@
+@import 'global-styles';
+
+.container {
+  @include cut-corner($space-2-small);
+  padding: $space-2-small;
+
+  @media (min-width: $breakpoint-medium) {
+    @include cut-corner($space-2-medium);
+    padding: $space-2-medium;
+  }
+
+  @media (min-width: $breakpoint-large) {
+    @include cut-corner($space-2-large);
+    padding: $space-2-large;
+  }
+}

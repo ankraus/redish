@@ -1,7 +1,75 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+@import 'global-styles';
+
+.container {
+  background-color: $redish;
+  height: $content-2-small;
+  display: flex;
+  align-items: center;
+  padding: 0 $space-2-small;
+
+  .logo {
+    @include unstyled-button;
+    display: flex;
+    align-items: center;
+    gap: $space-small;
+    height: 100%;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    h1 {
+      @include font-large;
+      color: $white;
+      margin: 0;
+    }
+  }
+
+  .actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: $space-small;
+
+    .medium {
+      display: none;
+    }
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    padding: 0 $space-2-medium;
+    height: $content-2-medium;
+
+    .logo {
+      gap: $space-medium;
+    }
+
+    .actions {
+      .small {
+        display: none;
+      }
+
+      .medium {
+        display: block;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-large) {
+    padding: 0 $space-2-large;
+    height: $content-2-large;
+
+    .logo {
+      gap: $space-large;
+    }
+  }
+
+  @media (min-width: $breakpoint-xlarge) {
+    padding: 0 $space-2-xlarge;
+    height: $content-2-xlarge;
+
+    .logo {
+      gap: $space-xlarge;
+    }
+  }
+}

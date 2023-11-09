@@ -1,0 +1,124 @@
+$redish: #ff6e92;
+$redish-darker: #ff517c;
+$redish-lighter: #ff98ab;
+$redish-light: #fcb6c3;
+$white: #ffffff;
+$whitish: #feeeee;
+$blackish: #111111;
+$black: #000000;
+
+$dark-red: #6b2737;
+$dark-blue: #182384;
+$dark-green: #025f50;
+$greenish: #01c0a0;
+
+// breakpoints
+$breakpoint-small: 280px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 1024px;
+$breakpoint-xlarge: 1920px;
+
+// spaces
+$space-small: 8px;
+$space-medium: 10px;
+$space-large: 12px;
+$space-xlarge: 14px;
+
+$space-1-small: 10px;
+$space-1-medium: 12px;
+$space-1-large: 14px;
+$space-1-xlarge: 16px;
+
+$space-2-small: 20px;
+$space-2-medium: 25px;
+$space-2-large: 30px;
+$space-2-xlarge: 40px;
+
+$space-3-small: 30px;
+$space-3-medium: 35px;
+$space-3-large: 40px;
+$space-3-xlarge: 50px;
+
+$content-small: 25px;
+$content-medium: 35px;
+$content-large: 40px;
+$content-xlarge: 50px;
+
+$content-1-small: 35px;
+$content-1-medium: 40px;
+$content-1-large: 45px;
+$content-1-xlarge: 55px;
+
+$content-2-small: 40px;
+$content-2-medium: 45px;
+$content-2-large: 55px;
+$content-2-xlarge: 65px;
+
+@mixin cut-corner($radius) {
+  -webkit-clip-path: polygon(
+    0 0,
+    0 100%,
+    calc(100% - $radius) 100%,
+    100% calc(100% - $radius),
+    100% 0
+  );
+  clip-path: polygon(
+    0 0,
+    0 100%,
+    calc(100% - $radius) 100%,
+    100% calc(100% - $radius),
+    100% 0
+  );
+
+  border-right: $radius transparent solid;
+  border-left: $radius transparent solid;
+}
+
+@mixin unstyled-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+@mixin unstyled-button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
+@mixin font-small {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.2rem;
+  font-weight: normal;
+  word-break: break-all;
+}
+
+@mixin font-medium {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  font-weight: normal;
+  word-break: break-all;
+}
+
+@mixin font-large {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  font-weight: normal;
+  word-break: break-all;
+}
+
+@mixin font-xlarge {
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.8rem;
+  line-height: 2.2rem;
+  font-weight: normal;
+  word-break: break-all;
+}
+
+@mixin font-bold {
+  font-weight: bold;
+}

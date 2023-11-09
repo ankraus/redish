@@ -97,11 +97,11 @@ or at https://nx.dev/react-tutorial/1-code-generation.
 
 #### Create lib
 
-`nx g @nx/react:lib redish-ui --directory libs/redish/ui`
+`nx generate @nx/react:library --name=games-ui --directory=libs/redish-frontend/games/ui --importPath=@redish-frontend/games-ui --projectNameAndRootFormat=as-provided --tags='"platform:web", "scope:games", "type:ui"' --no-interactive --dry-run`
 
 #### Create component
 
-`nx g @nx/react:component redish-header --project redish-ui`
+`nx g @nx/react:component redish-header --project games-ui`
 
 ### Running tasks
 

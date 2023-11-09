@@ -1,0 +1,29 @@
+@import 'global-styles';
+
+.container {
+  color: $black;
+  @include font-small;
+
+  .hint {
+    width: 0px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    transition: width 0.3s ease-in-out;
+  }
+
+  &:hover {
+    background-color: $redish-light;
+
+    .hint {
+      width: 15px;
+    }
+  }
+
+  @media (pointer: coarse) {
+    .hint {
+      width: auto;
+      transition: none;
+    }
+  }
+}

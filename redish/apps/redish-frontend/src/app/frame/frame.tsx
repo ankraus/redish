@@ -1,33 +1,63 @@
-import { RedishHeader } from '@redish-frontend/shared-ui';
-import { Link } from 'react-router-dom';
-import './frame.scss';
 import {
   authenticationRoutes,
   useAuth,
 } from '@redish-frontend/authentication-api';
+import { RedishFooter, RedishHeader } from '@redish-frontend/shared-ui';
+import { useNavigate } from 'react-router-dom';
+import styles from './frame.module.scss';
 
 type FrameProps = { readonly children: React.ReactNode };
 
 export function Frame({ children }: FrameProps) {
-  const { token, setToken } = useAuth();
+  const { token, setToken, user } = useAuth();
   const logout = () => setToken(null);
+  const navigate = useNavigate();
+
+  const headerActions: Array<{
+    labelSmall?: string;
+    label: string;
+    onClick: () => void;
+  }> =
+    token && user
+      ? [
+          {
+            labelSmall: 'Profile',
+            label: `Hello, ${user.username}`,
+            onClick: () => navigate('/profile'),
+          },
+          { label: 'Logout', onClick: logout },
+        ]
+      : [
+          {
+            label: 'Login',
+            onClick: () => navigate(authenticationRoutes.login),
+          },
+          {
+            label: 'Register',
+            onClick: () => navigate(authenticationRoutes.register),
+          },
+        ];
 
   return (
-    <>
-      <div className="container-frame">
-        <RedishHeader handleLogout={logout} />
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-            <Link to="/worm">Worm</Link>
-            <Link to={authenticationRoutes.login}>Login</Link>
-          </li>
-        </ul>
-        <p>{token !== null ? 'logged in' : 'not logged in'}</p>
-      </div>
-      <main>{children}</main>
-      <footer className="container-frame">Footer</footer>
-    </>
+    <div className={styles.container}>
+      <RedishHeader
+        actions={headerActions}
+        navigation={[]}
+        handleLogoClicked={() => navigate('/')}
+      />
+      <main>
+        {children}
+        <RedishFooter
+          navigation={[
+            {
+              label: 'GitHub',
+              to: 'https://github.com/ankraus/redish',
+              external: true,
+            },
+          ]}
+        ></RedishFooter>
+      </main>
+    </div>
   );
 }
 

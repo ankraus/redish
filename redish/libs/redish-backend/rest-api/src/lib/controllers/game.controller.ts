@@ -17,7 +17,7 @@ export class GameController {
   @ApiOkResponse({ type: [GameDto] })
   @Get()
   public async addGame(): Promise<GameDto> {
-    const newGame = new Game('1', 'worm', 1, 8);
+    const newGame = new Game('worm', 'worm', 1, 8, 'green');
     const result = await firstValueFrom(
       this.gameFacade.addGame(new AddGameCommand(newGame)).pipe(take(1))
     );
@@ -27,7 +27,8 @@ export class GameController {
         newGame.id,
         newGame.name,
         newGame.minNumberOfPlayers,
-        newGame.maxNumberOfPlayers
+        newGame.maxNumberOfPlayers,
+        newGame.previewColor
       );
     }
 
@@ -38,7 +39,7 @@ export class GameController {
   @ApiOkResponse({ type: [GameDto] })
   @Get('session')
   public async startGameSession(): Promise<GameDto> {
-    const newGame = new Game('1', 'worm', 1, 8);
+    const newGame = new Game('worm', 'Worm', 1, 8, 'green');
     const result = await firstValueFrom(
       this.gameFacade
         .startGameSession(new StartGameSessionCommand('8', newGame))
@@ -50,7 +51,8 @@ export class GameController {
         newGame.id,
         newGame.name,
         newGame.minNumberOfPlayers,
-        newGame.maxNumberOfPlayers
+        newGame.maxNumberOfPlayers,
+        newGame.previewColor
       );
     }
 

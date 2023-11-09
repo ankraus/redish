@@ -130,6 +130,14 @@
                   "scope:shared",
                   "type:api"
                 ]
+              },
+              {
+                "sourceTag": "scope:games",
+                "onlyDependOnLibsWithTags": [
+                  "scope:games",
+                  "scope:shared",
+                  "type:api"
+                ]
               }
             ]
           }

@@ -1,0 +1,31 @@
+@import 'global-styles';
+
+.container {
+  color: $white;
+  background-color: $redish;
+  border: none;
+  height: $content-1-small;
+  padding: $space-small;
+  @include font-medium;
+  @include cut-corner($space-small);
+
+  &:hover {
+    cursor: pointer;
+    background-color: $redish-light;
+  }
+
+  &.secondary {
+    background-color: $redish-light;
+    color: $black;
+
+    &:hover {
+      background-color: $redish-lighter;
+    }
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    height: $content-1-medium;
+    padding: $space-medium;
+    @include cut-corner($space-medium);
+  }
+}
