@@ -58,8 +58,11 @@ const Routes = () => {
           element: <Worm />,
         },
         {
-          path: '/profile',
-          element: <div>User Profile</div>,
+          path: 'profile/*',
+          lazy: () =>
+            import('@redish-frontend/profile-feature').then((module) => ({
+              Component: module.ProfileFeature,
+            })),
         },
       ],
     },
@@ -78,6 +81,7 @@ const Routes = () => {
       children: [
         {
           path: authenticationRoutes.home + '/*',
+          // todo check lazy loading
           lazy: () =>
             import('@redish-frontend/authentication-feature').then(
               (module) => ({ Component: module.AuthenticationFeature })

@@ -15,7 +15,10 @@
               // divide server, web and shared
               {
                 "sourceTag": "platform:server",
-                "onlyDependOnLibsWithTags": ["platform:shared", "platform:server"]
+                "onlyDependOnLibsWithTags": [
+                  "platform:shared",
+                  "platform:server"
+                ]
               },
               {
                 "sourceTag": "platform:web",
@@ -116,6 +119,14 @@
                 "sourceTag": "scope:authentication",
                 "onlyDependOnLibsWithTags": [
                   "scope:authentication",
+                  "scope:shared",
+                  "type:api"
+                ]
+              },
+              {
+                "sourceTag": "scope:profile",
+                "onlyDependOnLibsWithTags": [
+                  "scope:profile",
                   "scope:shared",
                   "type:api"
                 ]
