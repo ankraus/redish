@@ -9,22 +9,34 @@ import styles from './frame.module.scss';
 type FrameProps = { readonly children: React.ReactNode };
 
 export function Frame({ children }: FrameProps) {
-  const { token, setToken } = useAuth();
+  const { token, setToken, user } = useAuth();
   const logout = () => setToken(null);
   const navigate = useNavigate();
 
-  const headerActions = token
-    ? [{ label: 'Logout', onClick: logout }]
-    : [
-        {
-          label: 'Login',
-          onClick: () => navigate(authenticationRoutes.login),
-        },
-        {
-          label: 'Register',
-          onClick: () => navigate(authenticationRoutes.register),
-        },
-      ];
+  const headerActions: Array<{
+    labelSmall?: string;
+    label: string;
+    onClick: () => void;
+  }> =
+    token && user
+      ? [
+          {
+            labelSmall: 'Profile',
+            label: `Hello, ${user.username}`,
+            onClick: () => navigate('/profile'),
+          },
+          { label: 'Logout', onClick: logout },
+        ]
+      : [
+          {
+            label: 'Login',
+            onClick: () => navigate(authenticationRoutes.login),
+          },
+          {
+            label: 'Register',
+            onClick: () => navigate(authenticationRoutes.register),
+          },
+        ];
 
   return (
     <div className={styles.container}>

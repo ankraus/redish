@@ -49,6 +49,7 @@
       ],
       "@redish-frontend/games-ui": [
         "libs/redish-frontend/games/ui/src/index.ts"
+      ],
       "@redish-frontend/profile-api": [
         "libs/redish-frontend/profile/api/src/index.ts"
       ],

@@ -3,7 +3,7 @@ import RedishLink from '../redish-link/redish-link';
 import styles from './redish-header.module.scss';
 
 export interface RedishHeaderProps {
-  actions: Array<{ label: string; onClick: () => void }>;
+  actions: Array<{ labelSmall?: string; label: string; onClick: () => void }>;
   navigation: Array<{ label: string; to: string }>;
   handleLogoClicked: () => void;
 }
@@ -16,7 +16,7 @@ export function RedishHeader({
   return (
     <div className={styles.container}>
       <button
-      className={styles.logo}
+        className={styles.logo}
         onClick={(event) => {
           event.preventDefault();
           handleLogoClicked();
@@ -27,9 +27,22 @@ export function RedishHeader({
       </button>
       <div className={styles.actions}>
         {actions.map((action) => (
-          <RedishButton key={action.label} onClick={action.onClick}>
-            {action.label}
-          </RedishButton>
+          <>
+            <RedishButton
+              className={styles.medium}
+              key={action.label}
+              onClick={action.onClick}
+            >
+              {action.label}
+            </RedishButton>
+            <RedishButton
+              className={styles.small}
+              key={action.labelSmall ?? action.label}
+              onClick={action.onClick}
+            >
+              {action.labelSmall ?? action.label}
+            </RedishButton>
+          </>
         ))}
       </div>
       {navigation.length > 0 && (

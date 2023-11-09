@@ -30,6 +30,10 @@
     display: flex;
     align-items: center;
     gap: $space-small;
+
+    .medium {
+      display: none;
+    }
   }
 
   @media (min-width: $breakpoint-medium) {
@@ -38,6 +42,16 @@
 
     .logo {
       gap: $space-medium;
+    }
+
+    .actions {
+      .small {
+        display: none;
+      }
+
+      .medium {
+        display: block;
+      }
     }
   }
 
