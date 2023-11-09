@@ -38,6 +38,9 @@
       "@redish-frontend/authentication-ui": [
         "libs/redish-frontend/authentication/ui/src/index.ts"
       ],
+      "@redish-frontend/profile-api": [
+        "libs/redish-frontend/profile/api/src/index.ts"
+      ],
       "@redish-frontend/profile-data-access": [
         "libs/redish-frontend/profile/data-access/src/index.ts"
       ],

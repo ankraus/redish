@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import { authenticationApiService } from '../connector/authentication-api.service';
 import { authenticationPersistenceService } from '../connector/authentication-persistence.service';
+import { userApiService } from '../connector/user-api.service';
+import { User } from '@redish-frontend/profile-api';
 
 /**
  * facade hook as described in https://thomasburlesonia.medium.com/https-medium-com-thomasburlesonia-react-hooks-rxjs-facades-4e116330bbe1
@@ -128,6 +130,8 @@ export function useAuthenticationFacade(
 export function useAuthenticationCore(): {
   token: string | null;
   setToken: (token: string | null) => void;
+  user: User | null;
+  reloadUser: () => Promise<void>;
 } {
   // State to hold the authentication token
   const [token, _setToken] = useState<string | null>(
@@ -138,16 +142,34 @@ export function useAuthenticationCore(): {
     _setToken(token);
   };
 
+  // State to hold the authenticated user
+  const [user, _setUser] = useState<User | null>(null);
+
+  async function getSelf() {
+    const nextUser = await userApiService.getSelf();
+    _setUser(nextUser);
+  }
+
   // write token to persistence and axios header when state was updated
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       authenticationPersistenceService.setToken(token);
+      getSelf();
     } else {
       delete axios.defaults.headers.common['Authorization'];
       authenticationPersistenceService.removeToken();
+      _setUser(null);
     }
   }, [token]);
 
-  return { token, setToken };
-};
+  async function reloadUser() {
+    if (token) {
+      await getSelf();
+    } else {
+      _setUser(null);
+    }
+  }
+
+  return { token, setToken, user, reloadUser };
+}
