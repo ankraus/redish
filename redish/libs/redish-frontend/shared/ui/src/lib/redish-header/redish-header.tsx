@@ -37,7 +37,7 @@ export function RedishHeader({
             </RedishButton>
             <RedishButton
               className={styles.small}
-              key={action.labelSmall ?? action.label}
+              key={`small-${action.labelSmall ?? action.label}`}
               onClick={action.onClick}
             >
               {action.labelSmall ?? action.label}
