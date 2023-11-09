@@ -1,4 +1,4 @@
-import { ProtectedRoute } from '@redish-frontend/authentication-api';
+import { ProtectedRoute, useAuth } from '@redish-frontend/authentication-api';
 import { useGamesFacade } from '@redish-frontend/games-data-access';
 import { GamesList } from '@redish-frontend/games-ui';
 import * as React from 'react';
@@ -12,36 +12,41 @@ export interface GamesFeatureProps {}
 
 export function GamesFeature(props: GamesFeatureProps) {
   const { games, worm } = useGamesFacade();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
     <div className={styles['container']}>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <GamesList
-              games={games}
-              handleGameClicked={(route) => navigate(route)}
-            />
-          }
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <Outlet />
-            </ProtectedRoute>
-          }
-          children={[
-            <Route
-              key="worm"
-              path="worm"
-              element={<Worm test="heinrich" handleTest={worm.handleWormLog} />}
-            />,
-          ]}
-        />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      {user && (
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <GamesList
+                games={games}
+                handleGameClicked={(route) => navigate(route)}
+              />
+            }
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <Outlet />
+              </ProtectedRoute>
+            }
+            children={[
+              <Route
+                key="worm"
+                path="worm"
+                element={
+                  <Worm test={user.username} handleTest={worm.handleWormLog} />
+                }
+              />,
+            ]}
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      )}
     </div>
   );
 }
