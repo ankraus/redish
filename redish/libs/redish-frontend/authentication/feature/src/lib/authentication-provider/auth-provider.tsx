@@ -1,4 +1,5 @@
 import { useAuthenticationCore } from '@redish-frontend/authentication-data-access';
+import { User } from '@redish-frontend/profile-api';
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 
 /**
@@ -8,20 +9,24 @@ import { ReactNode, createContext, useContext, useMemo } from 'react';
 export const AuthContext = createContext<{
   token: string | null;
   setToken: (newToken: string | null) => void;
+  user: User | null;
+  reloadUser: () => Promise<void>;
 } | null>(null);
 
 type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { token, setToken } = useAuthenticationCore();
+  const { token, setToken, user, reloadUser } = useAuthenticationCore();
 
   // Memoized value of the authentication context
   const contextValue = useMemo(
     () => ({
       token,
       setToken,
+      user,
+      reloadUser,
     }),
-    [token, setToken]
+    [token, setToken, user, reloadUser]
   );
 
   // Provide the authentication context to the children components

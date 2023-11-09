@@ -1,7 +1,12 @@
-import { ModifyUser, ProfileViewModel } from '@redish-frontend/profile-models';
+import {
+  ModifyUser,
+  ProfileViewModel,
+  User,
+} from '@redish-frontend/profile-models';
 import { useImmer } from 'use-immer';
 import { userApiService } from '../connector/user-api.service';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@redish-frontend/authentication-api';
 
 /**
  * facade hook as described in https://thomasburlesonia.medium.com/https-medium-com-thomasburlesonia-react-hooks-rxjs-facades-4e116330bbe1
@@ -24,6 +29,8 @@ export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
    * MODIFY
    */
 
+  const { user, reloadUser } = useAuth();
+
   const initialModifyUserState: { modifyUser?: ModifyUser } = {
     modifyUser: undefined,
   };
@@ -33,14 +40,13 @@ export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
   }>(initialModifyUserState);
 
   const handleModifyToggled = () => {
-    console.log('toggle');
     updateModifyUser((draft) => {
-      if (!draft.modifyUser) {
+      if (!draft.modifyUser && user) {
         // todo use current values
         draft.modifyUser = {
-          username: 'current',
-          email: 'current',
-          password: 'current',
+          username: user.username,
+          email: user.email,
+          password: undefined,
         };
       } else {
         draft.modifyUser = undefined;
@@ -85,8 +91,11 @@ export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
 
     if (result !== null) {
       updateModifyUser((draft) => {
-        draft = initialModifyUserState;
+        draft.modifyUser = initialModifyUserState.modifyUser;
       });
+
+      // todo re-authenticate and get new token
+      await reloadUser();
     }
   }
 

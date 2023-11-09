@@ -120,6 +120,17 @@ export class UserController {
   @ApiOkResponse({ type: UuidDto })
   @ApiNotFoundResponse({ type: RedishErrorDto })
   @UseGuards(AuthGuard)
+  @Get()
+  async getSelf(
+    @Res({ passthrough: true }) response: Response,
+    @Req() request: AuthenticatedRequest
+  ): Promise<UserDto | RedishErrorDto> {
+    return this.getUserById(response, request, request.userId);
+  }
+
+  @ApiOkResponse({ type: UuidDto })
+  @ApiNotFoundResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getUserById(
     @Res({ passthrough: true }) response: Response,
@@ -140,7 +151,7 @@ export class UserController {
     }
     return getUserByIdResult.result!;
   }
-  
+
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @ApiUnauthorizedResponse({ type: RedishErrorDto })
   @UseGuards(AuthGuard)

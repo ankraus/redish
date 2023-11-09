@@ -21,7 +21,7 @@ const Worm = React.lazy(() => import('games-worm/Module'));
  * @returns routes
  */
 const Routes = () => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   // Define public routes accessible to all users
   const routesForPublic: Array<RouteObject> = [
@@ -46,6 +46,7 @@ const Routes = () => {
       path: '/',
       element: (
         <Frame>
+          {user && <div>Logged in as {user.username}</div>}
           <ProtectedRoute>
             <Outlet />
           </ProtectedRoute>
