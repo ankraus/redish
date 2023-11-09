@@ -8,11 +8,16 @@ import { CqrsCommandBusAdapter } from './cqrs/cqrs-command-bus.adapter';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CqrsStartGameSessionHandlerProxy } from './cqrs/cqrs-start-game-session-handler.proxy';
 import { CqrsAddGameHandlerProxy } from './cqrs/cqrs-add-game-handler.proxy';
+import { NestUserService } from './authentication/nest-user.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './typeorm-entities/typeorm.user.entity';
+import { TypeOrmUserRepository } from './typeorm-repositories/typeorm.user.repository';
 
 const repositories = [
   MyGameRepository,
   MyGameSessionRepository,
   MyPlayerRepository,
+  TypeOrmUserRepository,
 ];
 
 const cqrsHandlerProxies = [
@@ -20,14 +25,27 @@ const cqrsHandlerProxies = [
   CqrsAddGameHandlerProxy,
 ];
 
+const services = [NestUserService];
+
 @Module({
-  imports: [DomainModule, TypeOrmRootModule, CqrsModule],
+  imports: [
+    DomainModule,
+    TypeOrmRootModule,
+    CqrsModule,
+    TypeOrmModule.forFeature([User]),
+  ],
   providers: [
     ...repositories,
+    ...services,
     CqrsCommandBusAdapter,
     TypeOrmRootModule,
     ...cqrsHandlerProxies,
   ],
-  exports: [...repositories, CqrsCommandBusAdapter, TypeOrmRootModule],
+  exports: [
+    ...repositories,
+    ...services,
+    CqrsCommandBusAdapter,
+    TypeOrmRootModule,
+  ],
 })
 export class InfrastructureModule {}

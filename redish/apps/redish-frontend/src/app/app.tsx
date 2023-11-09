@@ -1,27 +1,14 @@
-import * as React from 'react';
-
-import NxWelcome from './nx-welcome';
-
-import { Link, Route, Routes } from 'react-router-dom';
-import { RedishHeader } from '@redish-frontend/ui';
-
-const Worm = React.lazy(() => import('games-worm/Module'));
+import { Suspense } from 'react';
+import Routes from '../routes/routes';
+import { AuthProvider } from '@redish-frontend/authentication-api';
 
 export function App() {
   return (
-    <React.Suspense fallback={null}>
-      <RedishHeader />
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-          <Link to="/worm">Worm</Link>
-        </li>
-      </ul>
-      <Routes>
-        <Route path="/" element={<NxWelcome title="redish" />} />
-        <Route path="/worm" element={<Worm />} />
-      </Routes>
-    </React.Suspense>
+    <Suspense fallback={null}>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </Suspense>
   );
 }
 

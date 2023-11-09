@@ -15,24 +15,36 @@
               // divide server, web and shared
               {
                 "sourceTag": "platform:server",
-                "onlyDependOnLibsWithTags": ["platform:any", "platform:server"]
+                "onlyDependOnLibsWithTags": [
+                  "platform:shared",
+                  "platform:server"
+                ]
               },
               {
                 "sourceTag": "platform:web",
-                "onlyDependOnLibsWithTags": ["platform:any", "platform:web"]
+                "onlyDependOnLibsWithTags": ["platform:shared", "platform:web"]
               },
               // shell / entry -> infrastructure -> usecases -> domain -> shared
               {
                 "sourceTag": "type:domain",
-                "onlyDependOnLibsWithTags": ["type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": ["type:domain", "scope:shared"]
               },
               {
                 "sourceTag": "type:usecases",
-                "onlyDependOnLibsWithTags": ["type:usecases", "type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "type:usecases",
+                  "type:domain",
+                  "scope:shared"
+                ]
               },
               {
                 "sourceTag": "type:infrastructure",
-                "onlyDependOnLibsWithTags": ["type:infrastructure", "type:usecases", "type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "type:infrastructure",
+                  "type:usecases",
+                  "type:domain",
+                  "scope:shared"
+                ]
               },
               {
                 "sourceTag": "type:shell",
@@ -40,33 +52,84 @@
               },
               {
                 "sourceTag": "type:entry",
-                "onlyDependOnLibsWithTags": ["type:shell", "type:infrastructure", "type:usecases", "type:domain", "type:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "type:shell",
+                  "type:infrastructure",
+                  "type:usecases",
+                  "type:domain",
+                  "scope:shared"
+                ]
               },
               {
                 "sourceTag": "type:application",
-                "onlyDependOnLibsWithTags": ["type:application", "type:entry", "type:shared", "type:ui"]
+                "onlyDependOnLibsWithTags": [
+                  "type:application",
+                  "type:entry",
+                  "type:ui",
+                  "scope:shared",
+                  "type:feature",
+                  "type:api"
+                ]
               },
               // frontend tbd
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:util",
+                  "type:domain",
+                  "type:config",
+                  "type:api",
+                  "type:ui"
+                ]
+              },
               {
                 "sourceTag": "type:data-access",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
                   "type:util",
                   "type:domain",
-                  "type:config"
+                  "type:config",
+                  "type:api"
                 ]
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:ui", "type:config", "type:util", "type:domain"]
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:config",
+                  "type:util",
+                  "type:domain"
+                ]
               },
               {
                 "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": ["type:util", "type:config", "type:domain"]
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:config",
+                  "type:domain"
+                ]
               },
               {
                 "sourceTag": "type:styles",
                 "onlyDependOnLibsWithTags": ["type:styles"]
+              },
+              // domains
+              {
+                "sourceTag": "scope:authentication",
+                "onlyDependOnLibsWithTags": [
+                  "scope:authentication",
+                  "scope:shared",
+                  "type:api"
+                ]
+              },
+              {
+                "sourceTag": "scope:profile",
+                "onlyDependOnLibsWithTags": [
+                  "scope:profile",
+                  "scope:shared",
+                  "type:api"
+                ]
               }
             ]
           }

@@ -15,7 +15,10 @@
         "baseHref": "/",
         "main": "apps/redish-frontend/src/main.ts",
         "tsConfig": "apps/redish-frontend/tsconfig.app.json",
-        "assets": ["apps/redish-frontend/src/favicon.ico", "apps/redish-frontend/src/assets"],
+        "assets": [
+          "apps/redish-frontend/src/favicon.ico",
+          "apps/redish-frontend/src/assets"
+        ],
         "styles": ["apps/redish-frontend/src/styles.scss"],
         "scripts": [],
         "isolatedConfig": true,

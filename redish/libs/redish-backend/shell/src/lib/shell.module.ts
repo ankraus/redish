@@ -5,13 +5,17 @@ import {
   MyGameRepository,
   MyGameSessionRepository,
   MyPlayerRepository,
+  NestUserService,
+  TypeOrmUserRepository,
 } from '@redish-backend/infrastructure';
 import {
+  UserService,
   GameRepository,
   GameSessionRepository,
   PlayerRepository,
   CommandBus as RedishCommandBus,
   UsecasesModule,
+  UserRepository,
 } from '@redish-backend/usecases';
 
 const providers: Provider[] = [
@@ -31,6 +35,15 @@ const providers: Provider[] = [
   {
     provide: RedishCommandBus,
     useExisting: CqrsCommandBusAdapter,
+  },
+
+  {
+    provide: UserService,
+    useExisting: NestUserService,
+  },
+  {
+    provide: UserRepository,
+    useExisting: TypeOrmUserRepository,
   },
 ];
 

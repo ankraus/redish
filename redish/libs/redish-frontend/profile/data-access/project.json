@@ -1,0 +1,18 @@
+{
+  "name": "profile-data-access",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/redish-frontend/profile/data-access/src",
+  "projectType": "library",
+  "tags": ["platform:web", "scope:profile", "type:data-access"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/redish-frontend/profile/data-access/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  }
+}

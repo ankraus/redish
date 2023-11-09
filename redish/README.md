@@ -6,11 +6,15 @@
 
 To start the development server run `nx serve redish-frontend --open`. This will open your browser and navigate to http://localhost:4200/.
 
+In case this error occurs: `Could not find ".modules.yaml" at "C:\TUD\source\web\redish-check\redish/node_modules/.modules.yaml"`, just create an empty file `.modules.yaml`. It is apparently a problem when using npm and pnpm in parallel.
+
 To start host and remotes in dev mode, run `nx serve redish-frontend --open --devRemotes="games-worm"`. This will allow you to develop on your host app and your remotes simultaneously, instead of serving static versions of remotes from cache (as explained [here](https://github.com/nrwl/react-module-federation) for a similar setup).
 
 ### Backend
 
 todo: add documentation for database
+
+Copy `apps/redish-backend/example.env` to `apps/redish-backend/.env` and replace values to fit your configuration (at least `DATABASE_PASSWORD`).
 
 To start the development server run `nx serve redish-backend`.
 
@@ -37,6 +41,7 @@ We are making use of [Nx | Module Federation Support](https://nx.dev/concepts/mo
 ## Nx
 
 Initially built via the nx workspace generator, `npx create-nx-workspace@latest npx create-nx-workspace@latest frontend --preset=react-monorepo`:
+
 - app name redish
 - bundler webpack
 - no e2e test runners
@@ -58,15 +63,15 @@ We use nx feature `@nx/enforce-module-boundaries` to enforce module boundaries. 
 ```json
 {
   "sourceTag": "type:usecases",
-  "onlyDependOnLibsWithTags": ["type:usecases", "type:domain", "type:shared"]
+  "onlyDependOnLibsWithTags": ["type:usecases", "type:domain"]
 },
 {
   "sourceTag": "platform:server",
-  "onlyDependOnLibsWithTags": ["platform:any", "platform:server"]
+  "onlyDependOnLibsWithTags": ["platform:shared", "platform:server"]
 },
 ```
 
-A library tagged with `type:usecases` can only rely on other libraries tagged with `type:usecases`, `type:domain` or `type:shared`. Simultaneously a library tagged with `platform:server` can only import libraries tagged with `platform:any` (shared between frontend and backend) or `platform:server`. Thereby preventing imports from frontend libraries.
+A library tagged with `type:usecases` can only rely on other libraries tagged with `type:usecases` or `type:domain`. Simultaneously a library tagged with `platform:server` can only import libraries tagged with `platform:shared` (shared between frontend and backend) or `platform:server`. Thereby preventing imports from frontend libraries.
 
 ### Generate code
 

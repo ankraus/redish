@@ -5,26 +5,25 @@ import {
   GameFacade,
   StartGameSessionCommand,
 } from '@redish-backend/usecases';
-import { GameReadDto } from '../dtos/game-read.dto';
-import { IGame } from '@redish-shared/domain';
 import { Game } from '@redish-backend/domain';
 import { firstValueFrom, take } from 'rxjs';
+import { GameDto } from '../dtos/game.dto';
 
 @ApiTags('game')
 @Controller('game')
 export class GameController {
   constructor(private gameFacade: GameFacade) {}
 
-  @ApiOkResponse({ type: [GameReadDto] })
+  @ApiOkResponse({ type: [GameDto] })
   @Get()
-  public async addGame(): Promise<IGame> {
+  public async addGame(): Promise<GameDto> {
     const newGame = new Game('1', 'worm', 1, 8);
     const result = await firstValueFrom(
       this.gameFacade.addGame(new AddGameCommand(newGame)).pipe(take(1))
     );
 
     if (result.success) {
-      return new GameReadDto(
+      return new GameDto(
         newGame.id,
         newGame.name,
         newGame.minNumberOfPlayers,
@@ -36,9 +35,9 @@ export class GameController {
   }
 
   // todo own controller
-  @ApiOkResponse({ type: [GameReadDto] })
+  @ApiOkResponse({ type: [GameDto] })
   @Get('session')
-  public async startGameSession(): Promise<IGame> {
+  public async startGameSession(): Promise<GameDto> {
     const newGame = new Game('1', 'worm', 1, 8);
     const result = await firstValueFrom(
       this.gameFacade
@@ -47,7 +46,7 @@ export class GameController {
     );
 
     if (result.success) {
-      return new GameReadDto(
+      return new GameDto(
         newGame.id,
         newGame.name,
         newGame.minNumberOfPlayers,
