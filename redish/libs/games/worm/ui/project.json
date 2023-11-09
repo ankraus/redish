@@ -1,0 +1,16 @@
+{
+  "name": "worm-ui",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/games/worm/ui/src",
+  "projectType": "library",
+  "tags": ["platform:web", "scope:worm", "type:ui"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/games/worm/ui/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

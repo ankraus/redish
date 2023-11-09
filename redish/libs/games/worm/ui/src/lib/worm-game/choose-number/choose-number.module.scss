@@ -1,0 +1,78 @@
+@import 'global-styles';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2-small;
+
+  label {
+    @include font-medium;
+  }
+
+  .userInput {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $space-1-small;
+
+    > * {
+      flex-basis: 200px;
+      flex-shrink: 1;
+      height: $content-3-small;
+    }
+
+    input {
+      @include unstyled-input;
+      font-size: $content-3-small;
+      border-bottom: 3px solid $redish;
+    }
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    gap: $space-2-medium;
+
+    .userInput {
+      gap: $space-1-medium;
+
+      > * {
+        height: $content-3-medium;
+      }
+
+      input {
+        font-size: $content-3-medium;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-large) {
+    gap: $space-2-large;
+
+    .userInput {
+      gap: $space-1-large;
+
+      > * {
+        height: $content-3-large;
+      }
+
+      input {
+        font-size: $content-3-large;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-xlarge) {
+    gap: $space-2-xlarge;
+
+    .userInput {
+      gap: $space-1-xlarge;
+
+      > * {
+        height: $content-3-xlarge;
+      }
+
+      input {
+        font-size: $content-3-xlarge;
+      }
+    }
+  }
+}

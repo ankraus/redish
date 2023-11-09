@@ -6,6 +6,7 @@ $white: #ffffff;
 $whitish: #feeeee;
 $blackish: #111111;
 $black: #000000;
+$grey: #d1d0d0;
 
 $dark-red: #6b2737;
 $dark-blue: #182384;
@@ -54,6 +55,11 @@ $content-2-medium: 45px;
 $content-2-large: 55px;
 $content-2-xlarge: 65px;
 
+$content-3-small: 50px;
+$content-3-medium: 55px;
+$content-3-large: 65px;
+$content-3-xlarge: 75px;
+
 @mixin cut-corner($radius) {
   -webkit-clip-path: polygon(
     0 0,
@@ -87,12 +93,24 @@ $content-2-xlarge: 65px;
   background: none;
 }
 
-@mixin font-small {
+@mixin unstyled-input {
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+}
+
+@mixin font {
+  font-family: 'Roboto', sans-serif;
+  font-weight: normal;
+  word-break: break-word;
+}
+
+  @mixin font-small {
   font-family: 'Roboto', sans-serif;
   font-size: 0.8rem;
   line-height: 1.2rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-medium {
@@ -100,7 +118,7 @@ $content-2-xlarge: 65px;
   font-size: 1rem;
   line-height: 1.2rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-large {
@@ -108,7 +126,7 @@ $content-2-xlarge: 65px;
   font-size: 1.2rem;
   line-height: 1.6rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-xlarge {
@@ -116,7 +134,7 @@ $content-2-xlarge: 65px;
   font-size: 2.8rem;
   line-height: 2.2rem;
   font-weight: normal;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @mixin font-bold {

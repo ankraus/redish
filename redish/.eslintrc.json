@@ -68,7 +68,8 @@
                   "type:ui",
                   "scope:shared",
                   "type:feature",
-                  "type:api"
+                  "type:api",
+                  "type:domain"
                 ]
               },
               // frontend tbd
@@ -137,6 +138,13 @@
                   "scope:games",
                   "scope:shared",
                   "type:api"
+                ]
+              },
+              {
+                "sourceTag": "scope:worm",
+                "onlyDependOnLibsWithTags": [
+                  "scope:worm",
+                  "scope:shared"
                 ]
               }
             ]

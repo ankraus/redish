@@ -1,0 +1,16 @@
+{
+  "name": "worm-feature",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/games/worm/feature/src",
+  "projectType": "library",
+  "tags": ["platform:web", "scope:worm", "type:feature"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/games/worm/feature/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

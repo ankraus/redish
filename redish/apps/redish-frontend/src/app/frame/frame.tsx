@@ -6,9 +6,9 @@ import { RedishFooter, RedishHeader } from '@redish-frontend/shared-ui';
 import { useNavigate } from 'react-router-dom';
 import styles from './frame.module.scss';
 
-type FrameProps = { readonly children: React.ReactNode };
+type FrameProps = { children: React.ReactNode };
 
-export function Frame({ children }: FrameProps) {
+export function Frame({ children }: Readonly<FrameProps>) {
   const { token, setToken, user } = useAuth();
   const logout = () => setToken(null);
   const navigate = useNavigate();

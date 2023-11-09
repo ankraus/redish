@@ -1,6 +1,7 @@
 import { ProtectedRoute, useAuth } from '@redish-frontend/authentication-api';
 import { useGamesFacade } from '@redish-frontend/games-data-access';
 import { GamesList } from '@redish-frontend/games-ui';
+import { WormAppProps } from '@redish-frontend/shared-models';
 import * as React from 'react';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import styles from './games-feature.module.scss';
@@ -15,38 +16,39 @@ export function GamesFeature(props: GamesFeatureProps) {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  const wormAppProps: WormAppProps = {
+    username: user?.username ?? 'heinrich',
+    handleTest: worm.handleWormLog,
+  };
+
   return (
     <div className={styles.container}>
-      {user && (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <GamesList
-                games={games}
-                handleGameClicked={(route) => navigate(route)}
-              />
-            }
-          />
-          <Route
-            element={
-              <ProtectedRoute>
-                <Outlet />
-              </ProtectedRoute>
-            }
-            children={[
-              <Route
-                key="worm"
-                path="worm"
-                element={
-                  <Worm test={user.username} handleTest={worm.handleWormLog} />
-                }
-              />,
-            ]}
-          />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      )}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <GamesList
+              games={games}
+              handleGameClicked={(route) => navigate(route)}
+            />
+          }
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <Outlet />
+            </ProtectedRoute>
+          }
+          children={[
+            <Route
+              key="worm"
+              path="worm"
+              element={<Worm {...wormAppProps} />}
+            />,
+          ]}
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </div>
   );
 }
