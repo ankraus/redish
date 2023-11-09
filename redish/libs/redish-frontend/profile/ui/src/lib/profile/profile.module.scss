@@ -1,2 +1,40 @@
+@import 'global-styles';
+
 .container {
+  h1 {
+    @include font-large;
+    @include font-bold;
+  }
+
+  .information {
+    @include font-small;
+  }
+
+  .modification {
+    max-width: $breakpoint-small;
+    display: flex;
+    flex-direction: column;
+    gap: $space-medium;
+    margin: $space-3-small auto;
+
+    h2 {
+      @include font-medium;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    @include font-small;
+    display: block;
+  }
+
+  input {
+    display: block;
+    padding: $space-small;
+    margin-bottom: $space-small;
+  }
 }

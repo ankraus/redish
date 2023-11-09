@@ -16,7 +16,7 @@ export function GamesFeature(props: GamesFeatureProps) {
   const navigate = useNavigate();
 
   return (
-    <div className={styles['container']}>
+    <div className={styles.container}>
       {user && (
         <Routes>
           <Route
