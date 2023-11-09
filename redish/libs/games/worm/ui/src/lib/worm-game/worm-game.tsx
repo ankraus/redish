@@ -12,7 +12,8 @@ export function WormGame({
   handleCharacterEntered,
   handleCharacterRemoved,
   handleSubmitWord,
-}: WormGameViewModel) {
+  username,
+}: Readonly<WormGameViewModel>) {
   const showChooseNumber = state.word.length === 0;
   const showGame = state.word.length > 0;
   const won = state.currentWordIndex === state.word.length;
@@ -51,6 +52,7 @@ export function WormGame({
 
   return (
     <div className={styles.container}>
+      <h1>Worm</h1>
       {showChooseNumber && (
         <ChooseNumber
           min={5}
@@ -64,23 +66,23 @@ export function WormGame({
           <div className={styles.word}>
             {state.word.map((character, index) => (
               <div key={index} className={styles.character}>
-                {index < state.currentWordIndex ? (
-                  <span>{character}</span>
-                ) : (
-                  <input
-                    type="text"
-                    maxLength={1}
-                    value={character}
-                    onKeyUp={(event) => handleKeyUp(event)}
-                    readOnly
-                    ref={(node) => (wordRef.current[index] = node)}
-                  />
-                )}
+                <input
+                  className={
+                    index < state.currentWordIndex ? styles.disabled : ''
+                  }
+                  type="text"
+                  maxLength={1}
+                  value={character}
+                  onKeyUp={(event) => handleKeyUp(event)}
+                  readOnly
+                  disabled={index < state.currentWordIndex}
+                  ref={(node) => (wordRef.current[index] = node)}
+                />
               </div>
             ))}
           </div>
           {won ? (
-            <p>Ye won, Ron!</p>
+            <p>You won, {username}!</p>
           ) : (
             <RedishButton onClick={handleSubmitWord}>Submit Word</RedishButton>
           )}

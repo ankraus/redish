@@ -1,1 +1,47 @@
-.container{}
+@import 'global-styles';
+
+.container {
+  h1, p {
+    @include font-xlarge;
+  }
+
+  .word {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $space-1-small;
+    margin-bottom: $space-2-small;
+
+    .character {
+      width: $content-3-small;
+      height: $content-3-small;
+
+      > * {
+        font-size: $content-3-small;
+      }
+
+      span {
+        @include font;
+        color: $black;
+        border-bottom: 3px solid transparent;
+        display: block;
+      }
+
+      input {
+        width: 100%;
+        height: 100%;
+        @include unstyled-input;
+        border-bottom: 3px solid $grey;
+
+        &:focus {
+          border-bottom: 3px solid $redish;
+        }
+
+        &.disabled {
+          color: $black;
+          border-color: transparent;
+        }
+      }
+    }
+  }
+}

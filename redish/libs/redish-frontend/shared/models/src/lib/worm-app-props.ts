@@ -1,4 +1,4 @@
 export interface WormAppProps {
-  test?: string;
+  username?: string;
   handleTest?: (test: string) => void;
 }

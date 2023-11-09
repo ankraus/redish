@@ -17,7 +17,7 @@ export function GamesFeature(props: GamesFeatureProps) {
   const navigate = useNavigate();
 
   const wormAppProps: WormAppProps = {
-    test: user?.username ?? 'heinrich',
+    username: user?.username ?? 'heinrich',
     handleTest: worm.handleWormLog,
   };
 

@@ -9,4 +9,6 @@ export interface WormGameViewModel {
   handleCharacterRemoved: () => void;
 
   handleSubmitWord: () => void;
+
+  username: string;
 }

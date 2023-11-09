@@ -22,8 +22,20 @@ export function ChooseNumber({ min, max, handleChosen }: ChooseNumberProps) {
 
   return (
     <div className={styles.container}>
-      <input ref={numberRef} type="number" min={min} max={max} />
-      <RedishButton onClick={() => handleNumberChosen()}>Set</RedishButton>
+      <label htmlFor="length">
+        Choose the length of the worm - choose wisely!
+      </label>
+      <div className={styles.userInput}>
+        <input
+          ref={numberRef}
+          type="number"
+          id="length"
+          min={min}
+          max={max}
+          placeholder={`${min}-${max}`}
+        />
+        <RedishButton onClick={() => handleNumberChosen()}>Set</RedishButton>
+      </div>
     </div>
   );
 }
