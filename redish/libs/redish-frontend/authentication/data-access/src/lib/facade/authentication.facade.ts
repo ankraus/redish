@@ -68,7 +68,13 @@ export function useAuthenticationFacade(
       registerUser.password
     );
 
-    setToken(result);
+    if (result) {
+      const token = await authenticationApiService.login(
+        registerUser.email,
+        registerUser.password
+      );
+      setToken(token);
+    }
   }
 
   /**

@@ -33,7 +33,7 @@ export class AuthenticationApiService {
     }
   }
 
-  public async login(email: string, password: string): Promise<string | RedishError> {
+  public async login(email: string, password: string): Promise<string | null> {
     const url = `${this.baseURL}/login`;
     const data: AuthenticateUserDto = { password, email };
     try {
@@ -43,9 +43,8 @@ export class AuthenticationApiService {
     } catch (error: unknown) {
       if (axios.isAxiosError<RedishError>(error)) {
         console.error('in api service', error.response?.data);
-        return error.response?.data ?? RedishError.Unknown();
       }
-      return RedishError.Unknown();
+      return null;
     }
   }
 }
