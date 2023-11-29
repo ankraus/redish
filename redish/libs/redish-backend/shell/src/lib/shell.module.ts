@@ -1,6 +1,5 @@
 import { Global, Module, Provider } from '@nestjs/common';
 import {
-  CqrsCommandBusAdapter,
   InfrastructureModule,
   NestAuthenticationService,
   NestUserService,
@@ -10,17 +9,12 @@ import {
 import {
   AuthenticationService,
   GameRepository,
-  CommandBus as RedishCommandBus,
   UsecasesModule,
   UserRepository,
   UserService,
 } from '@redish-backend/usecases';
 
 const providers: Provider[] = [
-  {
-    provide: RedishCommandBus,
-    useExisting: CqrsCommandBusAdapter,
-  },
   {
     provide: UserService,
     useExisting: NestUserService,

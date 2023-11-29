@@ -8,7 +8,7 @@ export class CreateGameDto implements ICreateGameDto {
   minNumberOfPlayers: number;
   @ApiProperty()
   maxNumberOfPlayers: number;
-  @ApiProperty()
+  @ApiProperty({ enum: ['green', 'redish-light'] })
   previewColor: 'green' | 'redish-light';
 
   constructor(

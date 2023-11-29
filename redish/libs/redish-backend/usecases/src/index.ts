@@ -1,15 +1,10 @@
 export * from './lib/usecases.module';
-export { AddGameCommand } from './lib/commands/add-game.command';
-export { StartGameSessionCommand } from './lib/commands/start-game-session.command';
-export { StartGameSessionHandler } from './lib/commands/start-game-session.handler';
-export { AddGameHandler } from './lib/commands/add-game.handler';
 
 // facades
 export { GameFacade } from './lib/game.facade';
 export { UserFacade } from './lib/user.facade';
 
 // interfaces
-export { CommandBus } from './lib/interfaces/command-bus';
 export { UserService } from './lib/interfaces/user.service';
 export { AuthenticationService } from './lib/interfaces/authentication.service';
 
