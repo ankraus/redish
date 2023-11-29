@@ -1,5 +1,5 @@
 import { Result } from '@redish-backend/domain';
-import { FilterDto, RedishError } from '@redish-shared/domain';
+import { RedishError } from '@redish-shared/domain';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { BaseTypeOrmRepository } from './base-typeorm.repository';
 import { BaseTypeOrmUuidEntity } from '../typeorm-entities/base-typeorm.uuid.entity';
@@ -17,14 +17,14 @@ export class BaseFilterTypeOrmRepository<
   }
 
   async findAll(
-    filterDto: FilterDto
+    skip: number, take: number, filter?: string
   ): Promise<Result<[entities: Array<T>, count: number]>> {
     try {
       const [entities, count] = await this.repository.findAndCount({
-        take: filterDto.take,
-        skip: filterDto.skip,
-        where: filterDto.filter
-          ? this.findOptionGenerator(filterDto.filter)
+        skip,
+        take,
+        where: filter
+          ? this.findOptionGenerator(filter)
           : {},
       });
 

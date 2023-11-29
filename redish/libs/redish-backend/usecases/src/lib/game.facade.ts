@@ -40,7 +40,11 @@ export class GameFacade {
   }
 
   public async getGames(filter: FilterDto): Promise<Result<ResultsDto<Game>>> {
-    const result = await this.gameRepository.findAll(filter);
+    const result = await this.gameRepository.findAll(
+      filter.skip,
+      filter.take,
+      filter.filter
+    );
 
     if (result.success) {
       const [games, total] = result.result!;
