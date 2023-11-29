@@ -1,6 +1,7 @@
 import { Role } from '@redish-shared/domain';
+import { Uuid } from './uuid.model';
 
-export class User {
+export class User implements Uuid {
   constructor(
     public uuid: string,
     public username: string,

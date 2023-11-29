@@ -3,18 +3,17 @@ import { User } from '../typeorm-entities/typeorm.user.entity';
 import { User as DomainUser, Result } from '@redish-backend/domain';
 import { Repository } from 'typeorm';
 import { UserRepository } from '@redish-backend/usecases';
-import { RedishError } from '@redish-shared/domain';
+import { BaseTypeOrmRepository } from './base-typeorm.repository';
 
-export class TypeOrmUserRepository extends UserRepository {
+export class TypeOrmUserRepository
+  extends BaseTypeOrmRepository<DomainUser>
+  implements UserRepository
+{
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>
+    usersRepository: Repository<User>
   ) {
-    super();
-  }
-
-  async findOneById(id: string): Promise<Result<DomainUser>> {
-    return this.findOneBy({ id: id });
+    super(usersRepository);
   }
 
   async findOneByUsername(username: string): Promise<Result<DomainUser>> {
@@ -23,39 +22,5 @@ export class TypeOrmUserRepository extends UserRepository {
 
   async findOneByEmail(email: string): Promise<Result<DomainUser>> {
     return this.findOneBy({ email: email });
-  }
-
-  async remove(id: string): Promise<Result> {
-    try {
-      const userResult = await this.findOneById(id);
-      if (userResult.error) {
-        return Result.error(userResult.error);
-      }
-      await this.usersRepository.remove(userResult.result! as User);
-      return Result.success();
-    } catch (error: unknown) {
-      return Result.error(RedishError.Infrastructure.databaseError(error));
-    }
-  }
-
-  async save(user: DomainUser): Promise<Result<string>> {
-    try {
-      const savedUser = await this.usersRepository.save(user as User);
-      return Result.success(savedUser.uuid);
-    } catch (error: unknown) {
-      return Result.error(RedishError.Infrastructure.databaseError(error));
-    }
-  }
-
-  private async findOneBy(where: object): Promise<Result<DomainUser>> {
-    try {
-      const dbUser = await this.usersRepository.findOneBy(where);
-      if (dbUser) {
-        return Result.success(dbUser as DomainUser);
-      }
-      return Result.error(RedishError.Infrastructure.notFound());
-    } catch (error: unknown) {
-      return Result.error(RedishError.Infrastructure.databaseError(error));
-    }
   }
 }

@@ -1,10 +1,11 @@
 import { Result } from '@redish-backend/domain';
 import { BaseRepository } from '@redish-backend/usecases';
 import { RedishError } from '@redish-shared/domain';
-import { ObjectLiteral, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+import { BaseTypeOrmUuidEntity } from '../typeorm-entities/base-typeorm.uuid.entity';
 
 export class BaseTypeOrmRepository<
-  T extends ObjectLiteral
+  T extends BaseTypeOrmUuidEntity
 > extends BaseRepository<T> {
   constructor(private repository: Repository<T>) {
     super();
@@ -30,13 +31,13 @@ export class BaseTypeOrmRepository<
   async save(entity: T): Promise<Result<string>> {
     try {
       const savedEntity = await this.repository.save(entity);
-      return Result.success(savedEntity['uuid']);
+      return Result.success(savedEntity.uuid);
     } catch (error: unknown) {
       return Result.error(RedishError.Infrastructure.databaseError(error));
     }
   }
 
-  private async findOneBy(where: object): Promise<Result<T>> {
+  protected async findOneBy(where: object): Promise<Result<T>> {
     try {
       const entity = await this.repository.findOneBy(where);
       if (entity) {

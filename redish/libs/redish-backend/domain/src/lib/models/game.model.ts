@@ -1,4 +1,6 @@
-export class Game {
+import { Uuid } from "./uuid.model";
+
+export class Game implements Uuid {
   constructor(
     public uuid: string,
     public name: string,
