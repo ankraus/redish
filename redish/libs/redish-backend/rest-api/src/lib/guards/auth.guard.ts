@@ -3,11 +3,11 @@
 // https://docs.nestjs.com/guards
 
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { UserFacade } from '@redish-backend/usecases';
+import { AuthenticationService } from '@redish-backend/usecases';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly userFacade: UserFacade) {}
+  constructor(private readonly authenticationService: AuthenticationService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
       return false;
     }
     const token = authorization.replace(/bearer/gim, '').trim();
-    const result = await this.userFacade.verifyAuthenticated(token);
+    const result = await this.authenticationService.verifyAuthenticated(token);
     if (result.success) {
       request.userId = result.result?.uuid;
       return true;

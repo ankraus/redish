@@ -26,6 +26,7 @@ export class RedishError {
       static DATABASE_ERROR = databaseError + 1;
       static AUTHENTICATION_ERROR = authenticationError + 1;
       static UNAUTHORIZED_ERROR = authenticationError + 2;
+      static TECHNICAL_AUTHENTICATION_ERROR = authenticationError + 3;
     };
 
     public static userNameTooShort(): RedishError {
@@ -75,6 +76,14 @@ export class RedishError {
       return new RedishError(
         RedishError.Domain.Codes.AUTHENTICATION_ERROR,
         'Email or password incorrect',
+        cause
+      );
+    }
+
+    public static technicalAuthenticationError(cause?: unknown): RedishError {
+      return new RedishError(
+        RedishError.Domain.Codes.TECHNICAL_AUTHENTICATION_ERROR,
+        'An internal error has occurred during authentication',
         cause
       );
     }

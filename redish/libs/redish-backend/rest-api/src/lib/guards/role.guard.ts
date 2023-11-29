@@ -1,11 +1,11 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserFacade } from '@redish-backend/usecases';
+import { AuthenticationService } from '@redish-backend/usecases';
 import { Roles } from '../decorators/roles.decorator';
 
 export class AnyRoleGuard implements CanActivate {
   constructor(
-    private readonly authenticationFacade: UserFacade,
+    private readonly authenticationService: AuthenticationService,
     private reflector: Reflector
   ) {}
 
@@ -23,7 +23,7 @@ export class AnyRoleGuard implements CanActivate {
 
     // check if the user has any of the specified roles
     for (const role of roles) {
-      const result = await this.authenticationFacade.verifyHasRole(token, role);
+      const result = await this.authenticationService.verifyHasRole(token, role);
       if (result.success) {
         return true;
       }

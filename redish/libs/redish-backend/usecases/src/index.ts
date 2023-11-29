@@ -4,9 +4,8 @@ export * from './lib/usecases.module';
 export { GameFacade } from './lib/game.facade';
 export { UserFacade } from './lib/user.facade';
 
-// interfaces
+// services
 export { AuthenticationService } from './lib/interfaces/authentication.service';
-export { UserService } from './lib/interfaces/user.service';
 
 // repositories
 export { BaseFilterRepository } from './lib/repositories/base-filter.repository';
