@@ -2,7 +2,7 @@ import { Role } from '@redish-shared/domain';
 
 export class User {
   constructor(
-    public id: string,
+    public uuid: string,
     public username: string,
     public email: string,
     public pwHash: string,

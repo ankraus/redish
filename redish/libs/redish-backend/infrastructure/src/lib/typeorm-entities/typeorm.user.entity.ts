@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 @Entity()
 export class User {
   @PrimaryColumn()
-  id: string;
+  uuid: string;
 
   @Column({ unique: true })
   username: string;
@@ -22,14 +22,14 @@ export class User {
   roles: Role[];
 
   constructor(
-    id: string,
+    uuid: string,
     username: string,
     pwHash: string,
     isActive: boolean,
     email: string,
     roles: Role[]
   ) {
-    this.id = id;
+    this.uuid = uuid;
     this.username = username;
     this.pwHash = pwHash;
     this.isActive = isActive;

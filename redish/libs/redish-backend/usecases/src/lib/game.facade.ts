@@ -1,25 +1,56 @@
 import { Injectable } from '@nestjs/common';
-import { AddGameCommand } from './commands/add-game.command';
-import { Result } from '@redish-backend/domain';
-import { StartGameSessionCommand } from './commands/start-game-session.command';
-import { Observable, from, map } from 'rxjs';
-import { CommandBus } from './interfaces/command-bus';
+import { Game, Result } from '@redish-backend/domain';
+import {
+  CreateGameDto,
+  FilterDto,
+  ResultsDto,
+  UpdateGameDto,
+} from '@redish-shared/domain';
+import { GameRepository } from './repositories/game.repository';
+import { AuthenticationService } from './interfaces/authentication.service';
 
 @Injectable()
 export class GameFacade {
-  constructor(private commandBus: CommandBus) {}
+  constructor(
+    private gameRepository: GameRepository,
+    private authenticationService: AuthenticationService
+  ) {}
 
-  public addGame(command: AddGameCommand): Observable<Result> {
-    return from(this.commandBus.execute(command)).pipe(
-      map(() => Result.success())
-    );
+  public async createGame(
+    createGameDto: CreateGameDto
+  ): Promise<Result<string>> {
+    const uuidResult = await this.authenticationService.generateUuid();
+    if (uuidResult.error) {
+      return Result.error(uuidResult.error);
+    }
+    return this.gameRepository.save({
+      uuid: uuidResult.result!,
+      ...createGameDto,
+    });
   }
 
-  public startGameSession(
-    command: StartGameSessionCommand
-  ): Observable<Result> {
-    return from(this.commandBus.execute(command)).pipe(
-      map(() => Result.success())
-    );
+  public updateGame(updateGameDto: UpdateGameDto): Promise<Result<string>> {
+    return this.gameRepository.save(updateGameDto);
+  }
+
+  public async getGameById(id: string): Promise<Result<Game>> {
+    const t = await this.gameRepository.findOneById(id);
+    console.log(t);
+    return t;
+  }
+
+  public async getGames(filter: FilterDto): Promise<Result<ResultsDto<Game>>> {
+    const result = await this.gameRepository.findAll(filter);
+
+    if (result.success) {
+      const [games, total] = result.result!;
+      return Result.success({ results: games, total: total });
+    }
+
+    return Result.error(result.error!);
+  }
+
+  public deleteGame(id: string): Promise<Result> {
+    return this.gameRepository.remove(id);
   }
 }

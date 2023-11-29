@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User as DomainUser, Result, User } from '@redish-backend/domain';
+import { User as DomainUser, Result } from '@redish-backend/domain';
 import { ConfigurationService } from '@redish-backend/shared';
 import { UserService, UserRepository } from '@redish-backend/usecases';
 import {
@@ -16,6 +16,7 @@ import { hash, compare } from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 
+// todo split user and authentication
 @Injectable()
 export class NestUserService extends UserService {
   constructor(
@@ -64,7 +65,7 @@ export class NestUserService extends UserService {
     const newUser = new DomainUser(id, user.username, user.email, pwHash);
     try {
       await this.userRepository.save(newUser);
-      return Result.success<UuidDto>({ uuid: newUser.id });
+      return Result.success<UuidDto>({ uuid: newUser.uuid });
     } catch (error: unknown) {
       return Result.error(RedishError.Domain.databaseError(error));
     }
@@ -93,7 +94,7 @@ export class NestUserService extends UserService {
     if (success) {
       const jwtConfig = this.configService.getJwtConfig();
 
-      const token = sign({ uuid: userResult.result!.id }, jwtConfig.secret, {
+      const token = sign({ uuid: userResult.result!.uuid }, jwtConfig.secret, {
         expiresIn: jwtConfig.expiry,
       });
 
@@ -146,7 +147,7 @@ export class NestUserService extends UserService {
     }
 
     const updatedUser = new DomainUser(
-      currentUser.id,
+      currentUser.uuid,
       user.username ?? currentUser.username,
       user.email ?? currentUser.email,
       updatedPwHash ?? currentUser.pwHash,
@@ -155,7 +156,7 @@ export class NestUserService extends UserService {
     );
     try {
       await this.userRepository.save(updatedUser);
-      return Result.success<UuidDto>({ uuid: updatedUser.id });
+      return Result.success<UuidDto>({ uuid: updatedUser.uuid });
     } catch (error: unknown) {
       return Result.error(RedishError.Domain.databaseError(error));
     }
@@ -170,17 +171,10 @@ export class NestUserService extends UserService {
     const userDto: UserDto = { username: user.username, email: user.email };
     return Result.success(userDto);
   }
-  
-  override async deleteUser(userId: string): Promise<Result<UuidDto>> {
-    const currentUserResult = await this.userRepository.findOneById(userId);
 
-    if (currentUserResult.error) {
-      // database error because all authenticated users are assumed to exist in the database
-      return Result.error(currentUserResult.error);
-    }
-    const currentUser = currentUserResult.result!;
+  override async deleteUser(userId: string): Promise<Result<UuidDto>> {
     try {
-      await this.userRepository.remove(currentUser);
+      await this.userRepository.remove(userId);
       return Result.success<UuidDto>({ uuid: userId });
     } catch (error: unknown) {
       return Result.error(RedishError.Domain.databaseError(error));

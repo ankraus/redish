@@ -1,4 +1,4 @@
 import { Game } from '@redish-backend/domain';
-import { BaseRepository } from './base.repository';
+import { BaseFilterRepository } from './base-filter.repository';
 
-export abstract class GameRepository extends BaseRepository<Game> {}
+export abstract class GameRepository extends BaseFilterRepository<Game> {}

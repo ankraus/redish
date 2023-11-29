@@ -1,38 +1,35 @@
 import { Module } from '@nestjs/common';
-import { DomainModule } from '@redish-backend/domain';
-import { MyGameSessionRepository } from './my-repositories/my-game-session.repository';
-import { MyPlayerRepository } from './my-repositories/my-player.repository';
-import { MyGameRepository } from './my-repositories/my-game.repository';
-import { TypeOrmRootModule } from './database/type-orm.module';
-import { CqrsCommandBusAdapter } from './cqrs/cqrs-command-bus.adapter';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CqrsStartGameSessionHandlerProxy } from './cqrs/cqrs-start-game-session-handler.proxy';
-import { CqrsAddGameHandlerProxy } from './cqrs/cqrs-add-game-handler.proxy';
-import { NestUserService } from './authentication/nest-user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DomainModule } from '@redish-backend/domain';
+import { NestAuthenticationService } from './authentication/nest-authentication.service';
+import { NestUserService } from './authentication/nest-user.service';
+import { CqrsAddGameHandlerProxy } from './cqrs/cqrs-add-game-handler.proxy';
+import { CqrsCommandBusAdapter } from './cqrs/cqrs-command-bus.adapter';
+import { CqrsStartGameSessionHandlerProxy } from './cqrs/cqrs-start-game-session-handler.proxy';
+import { TypeOrmRootModule } from './database/type-orm.module';
 import { User } from './typeorm-entities/typeorm.user.entity';
+import { TypeOrmGameRepository } from './typeorm-repositories/typeorm.game.repository';
 import { TypeOrmUserRepository } from './typeorm-repositories/typeorm.user.repository';
+import { Game } from './typeorm-entities/typeorm.game.entity';
 
-const repositories = [
-  MyGameRepository,
-  MyGameSessionRepository,
-  MyPlayerRepository,
-  TypeOrmUserRepository,
-];
+const repositories = [TypeOrmUserRepository, TypeOrmGameRepository];
+
+const entities = [User, Game];
 
 const cqrsHandlerProxies = [
   CqrsStartGameSessionHandlerProxy,
   CqrsAddGameHandlerProxy,
 ];
 
-const services = [NestUserService];
+const services = [NestUserService, NestAuthenticationService];
 
 @Module({
   imports: [
     DomainModule,
     TypeOrmRootModule,
     CqrsModule,
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature(entities),
   ],
   providers: [
     ...repositories,

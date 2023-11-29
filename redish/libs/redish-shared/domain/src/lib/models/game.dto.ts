@@ -1,7 +1,4 @@
-export interface GameDto {
-  id: string;
-  name: string;
-  minNumberOfPlayers: number;
-  maxNumberOfPlayers: number;
-  previewColor: 'green' | 'redish-light';
-}
+import { CreateGameDto } from './create-game.dto';
+import { UuidDto } from './uuid.dto';
+
+export interface GameDto extends CreateGameDto, UuidDto {}

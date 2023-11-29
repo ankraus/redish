@@ -11,6 +11,7 @@ export { UserFacade } from './lib/user.facade';
 // interfaces
 export { CommandBus } from './lib/interfaces/command-bus';
 export { UserService } from './lib/interfaces/user.service';
+export { AuthenticationService } from './lib/interfaces/authentication.service';
 
 // repositories
 export { BaseRepository } from './lib/repositories/base.repository';

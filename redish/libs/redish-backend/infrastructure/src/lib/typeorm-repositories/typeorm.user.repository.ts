@@ -13,11 +13,6 @@ export class TypeOrmUserRepository extends UserRepository {
     super();
   }
 
-  async findAll(): Promise<DomainUser[]> {
-    const dbUsers = await this.usersRepository.find();
-    return dbUsers as DomainUser[];
-  }
-
   async findOneById(id: string): Promise<Result<DomainUser>> {
     return this.findOneBy({ id: id });
   }
@@ -30,19 +25,23 @@ export class TypeOrmUserRepository extends UserRepository {
     return this.findOneBy({ email: email });
   }
 
-  async remove(user: DomainUser): Promise<Result> {
+  async remove(id: string): Promise<Result> {
     try {
-      await this.usersRepository.remove(user as User);
+      const userResult = await this.findOneById(id);
+      if (userResult.error) {
+        return Result.error(userResult.error);
+      }
+      await this.usersRepository.remove(userResult.result! as User);
       return Result.success();
     } catch (error: unknown) {
       return Result.error(RedishError.Infrastructure.databaseError(error));
     }
   }
 
-  async save(user: DomainUser): Promise<Result<DomainUser>> {
+  async save(user: DomainUser): Promise<Result<string>> {
     try {
       const savedUser = await this.usersRepository.save(user as User);
-      return Result.success(savedUser as DomainUser);
+      return Result.success(savedUser.uuid);
     } catch (error: unknown) {
       return Result.error(RedishError.Infrastructure.databaseError(error));
     }
