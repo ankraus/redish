@@ -1,35 +1,18 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Game as DomainGame, Result } from '@redish-backend/domain';
-import { FilterDto, RedishError } from '@redish-shared/domain';
+import { Game as DomainGame } from '@redish-backend/domain';
+import { GameRepository } from '@redish-backend/usecases';
 import { Like, Repository } from 'typeorm';
 import { Game } from '../typeorm-entities/typeorm.game.entity';
-import { BaseTypeOrmRepository } from './base-typeorm.repository';
-import { GameRepository } from '@redish-backend/usecases';
+import { BaseFilterTypeOrmRepository } from './base-filter-typeorm.repository';
 
 export class TypeOrmGameRepository
-  extends BaseTypeOrmRepository<DomainGame>
+  extends BaseFilterTypeOrmRepository<DomainGame>
   implements GameRepository
 {
   constructor(
     @InjectRepository(Game)
-    private gameRepository: Repository<Game>
+    gameRepository: Repository<Game>
   ) {
-    super(gameRepository);
-  }
-
-  async findAll(
-    filterDto: FilterDto
-  ): Promise<Result<[entities: Array<DomainGame>, count: number]>> {
-    try {
-      const [entities, count] = await this.gameRepository.findAndCount({
-        take: filterDto.take,
-        skip: filterDto.skip,
-        where: filterDto.filter ? { name: Like(`%${filterDto.filter}%`) } : {},
-      });
-
-      return Result.success([entities, count]);
-    } catch (error: unknown) {
-      return Result.error(RedishError.Infrastructure.databaseError(error));
-    }
+    super(gameRepository, (filter: string) => ({ name: Like(`%${filter}%`) }));
   }
 }

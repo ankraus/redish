@@ -7,7 +7,7 @@ import { BaseTypeOrmUuidEntity } from '../typeorm-entities/base-typeorm.uuid.ent
 export class BaseTypeOrmRepository<
   T extends BaseTypeOrmUuidEntity
 > extends BaseRepository<T> {
-  constructor(private repository: Repository<T>) {
+  constructor(protected repository: Repository<T>) {
     super();
   }
 
