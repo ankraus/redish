@@ -1,35 +1,37 @@
 import { Role } from '@redish-shared/domain';
 import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { User as DomainUser } from '@redish-backend/domain';
 
 @Entity()
-export class User {
+export class User extends DomainUser {
   @PrimaryColumn()
-  id: string;
+  override uuid: string;
 
   @Column({ unique: true })
-  username: string;
+  override username: string;
 
   @Column({ unique: true })
-  email: string;
+  override email: string;
 
   @Column()
-  pwHash: string;
+  override pwHash: string;
 
   @Column()
-  isActive: boolean;
+  override isActive: boolean;
 
   @Column({ type: 'enum', enum: Role, array: true, default: [Role.USER] })
-  roles: Role[];
+  override roles: Role[];
 
   constructor(
-    id: string,
+    uuid: string,
     username: string,
     pwHash: string,
     isActive: boolean,
     email: string,
     roles: Role[]
   ) {
-    this.id = id;
+    super(uuid, username, email, pwHash, isActive, roles);
+    this.uuid = uuid;
     this.username = username;
     this.pwHash = pwHash;
     this.isActive = isActive;

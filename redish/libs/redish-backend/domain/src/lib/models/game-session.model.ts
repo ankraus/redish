@@ -1,19 +1,19 @@
 import { RedishError } from '@redish-shared/domain';
 import { Game } from './game.model';
-import { Player } from './player.model';
 import { Result } from '../result/result';
+import { User } from './user.model';
 
 export class GameSession {
   constructor(public game: Game) {}
 
-  private players: Array<Player> = [];
+  private players: Array<User> = [];
 
-  public addPlayer(player: Player): Result {
+  public addPlayer(user: User): Result {
     if (this.game.maxNumberOfPlayers === this.players.length) {
       return Result.error(RedishError.Domain.maxNumberOfPlayersReached());
     }
 
-    this.players.push(player);
+    this.players.push(user);
     return Result.success();
   }
 }

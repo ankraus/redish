@@ -1,61 +1,161 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
-  AddGameCommand,
-  GameFacade,
-  StartGameSessionCommand,
-} from '@redish-backend/usecases';
-import { Game } from '@redish-backend/domain';
-import { firstValueFrom, take } from 'rxjs';
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+import { GameFacade } from '@redish-backend/usecases';
+import { RedishError, ResultsDto } from '@redish-shared/domain';
+import { Response } from 'express';
+import { CreateGameDto } from '../dtos/create-game.dto';
 import { GameDto } from '../dtos/game.dto';
+import { RedishErrorDto } from '../dtos/redish-error.dto';
+import { UpdateGameDto } from '../dtos/update-game.dto';
+import { UuidDto } from '../dtos/uuid.dto';
+import { AuthGuard } from '../guards/auth.guard';
 
 @ApiTags('game')
 @Controller('game')
 export class GameController {
   constructor(private gameFacade: GameFacade) {}
 
-  @ApiOkResponse({ type: [GameDto] })
-  @Get()
-  public async addGame(): Promise<GameDto> {
-    const newGame = new Game('worm', 'worm', 1, 8, 'green');
-    const result = await firstValueFrom(
-      this.gameFacade.addGame(new AddGameCommand(newGame)).pipe(take(1))
-    );
-
-    if (result.success) {
-      return new GameDto(
-        newGame.id,
-        newGame.name,
-        newGame.minNumberOfPlayers,
-        newGame.maxNumberOfPlayers,
-        newGame.previewColor
-      );
+  @ApiCreatedResponse({ type: UuidDto })
+  @ApiBadRequestResponse({ type: RedishErrorDto })
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @Post()
+  async createGame(
+    @Res({ passthrough: true }) response: Response,
+    @Body() createGameDto: CreateGameDto
+  ): Promise<UuidDto | RedishErrorDto> {
+    const createGameResult = await this.gameFacade.createGame(createGameDto);
+    if (createGameResult.error) {
+      if (
+        createGameResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.BAD_REQUEST);
+      }
+      return createGameResult.error;
     }
-
-    throw result.error;
+    return new UuidDto(createGameResult.result!);
   }
 
-  // todo own controller
-  @ApiOkResponse({ type: [GameDto] })
-  @Get('session')
-  public async startGameSession(): Promise<GameDto> {
-    const newGame = new Game('worm', 'Worm', 1, 8, 'green');
-    const result = await firstValueFrom(
-      this.gameFacade
-        .startGameSession(new StartGameSessionCommand('8', newGame))
-        .pipe(take(1))
-    );
-
-    if (result.success) {
-      return new GameDto(
-        newGame.id,
-        newGame.name,
-        newGame.minNumberOfPlayers,
-        newGame.maxNumberOfPlayers,
-        newGame.previewColor
-      );
+  @ApiOkResponse({ type: UuidDto })
+  @ApiBadRequestResponse({ type: RedishErrorDto })
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @ApiUnauthorizedResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @Put()
+  async updateGame(
+    @Res({ passthrough: true }) response: Response,
+    @Body() updateGameDto: UpdateGameDto
+  ): Promise<UuidDto | RedishErrorDto> {
+    const updateGameResult = await this.gameFacade.updateGame(updateGameDto);
+    if (updateGameResult.error) {
+      if (
+        updateGameResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.BAD_REQUEST);
+      }
+      return updateGameResult.error;
     }
+    return new UuidDto(updateGameResult.result!);
+  }
 
-    throw result.error;
+  @ApiOkResponse({ type: UuidDto })
+  @ApiNotFoundResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  async getGameById(
+    @Res({ passthrough: true }) response: Response,
+    @Param('id') id: string
+  ): Promise<GameDto | RedishErrorDto> {
+    const getGameByIdResult = await this.gameFacade.getGameById(id);
+    if (getGameByIdResult.error) {
+      if (
+        getGameByIdResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.NOT_FOUND);
+      }
+      return getGameByIdResult.error;
+    }
+    return getGameByIdResult.result!;
+  }
+
+  @ApiOkResponse({ type: UuidDto })
+  @ApiNotFoundResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @ApiQuery({ name: 'filter', required: false })
+  @Get()
+  async getGames(
+    @Res({ passthrough: true }) response: Response,
+    @Query('skip') skip: number,
+    @Query('take') take: number,
+    @Query('filter') filter?: string
+  ): Promise<ResultsDto<GameDto> | RedishErrorDto> {
+    const getGamesResult = await this.gameFacade.getGames({
+      filter,
+      skip,
+      take,
+    });
+    if (getGamesResult.error) {
+      if (
+        getGamesResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.NOT_FOUND);
+      }
+      return getGamesResult.error;
+    }
+    return getGamesResult.result!;
+  }
+
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @ApiUnauthorizedResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
+  @Delete()
+  async deleteGame(
+    @Res({ passthrough: true }) response: Response,
+    @Query('id') id: string
+  ): Promise<UuidDto | RedishErrorDto> {
+    const deleteGameResult = await this.gameFacade.deleteGame(id);
+    if (deleteGameResult.error) {
+      if (
+        deleteGameResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      return deleteGameResult.error;
+    }
+    return deleteGameResult.result!;
   }
 }
