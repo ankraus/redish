@@ -12,5 +12,4 @@ export { BaseFilterRepository } from './lib/repositories/base-filter.repository'
 export { BaseRepository } from './lib/repositories/base.repository';
 export { GameSessionRepository } from './lib/repositories/game-session.repository';
 export { GameRepository } from './lib/repositories/game.repository';
-export { PlayerRepository } from './lib/repositories/player.repository';
 export { UserRepository } from './lib/repositories/user.repository';
