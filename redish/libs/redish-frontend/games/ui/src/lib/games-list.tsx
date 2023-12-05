@@ -3,7 +3,7 @@ import { RedishCard, breakpoints } from '@redish-frontend/shared-ui';
 import cn from 'classnames';
 import styles from './games-list.module.scss';
 
-export function GamesList({ games, handleGameClicked }: GamesListViewModel) {
+export function GamesList({ games, total, handleGameClicked, handleFilterSet, handleSkipSet, handleTakeSet }: GamesListViewModel) {
   return (
     <div className={styles.container}>
       {games.map((game) => (

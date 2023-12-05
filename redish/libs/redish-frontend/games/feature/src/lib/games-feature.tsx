@@ -1,25 +1,23 @@
-import { ProtectedRoute, useAuth } from '@redish-frontend/authentication-api';
+import { ProtectedRoute } from '@redish-frontend/authentication-api';
 import { useGamesFacade } from '@redish-frontend/games-data-access';
 import { GamesList } from '@redish-frontend/games-ui';
-import { WormAppProps } from '@redish-frontend/shared-models';
-import * as React from 'react';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import styles from './games-feature.module.scss';
-
-const Worm = React.lazy(() => import('games-worm/Module'));
 
 /* eslint-disable-next-line */
 export interface GamesFeatureProps {}
 
 export function GamesFeature(props: GamesFeatureProps) {
-  const { games, worm } = useGamesFacade();
-  const { user } = useAuth();
+  const { gamesState, gameModules, handleFilterSet, handleSkipSet, handleTakeSet } = useGamesFacade();
   const navigate = useNavigate();
 
-  const wormAppProps: WormAppProps = {
-    username: user?.username ?? 'heinrich',
-    handleTest: worm.handleWormLog,
-  };
+  if (gamesState.loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (gamesState.error) {
+    return <div>{gamesState.error.message}</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -28,8 +26,12 @@ export function GamesFeature(props: GamesFeatureProps) {
           path="/"
           element={
             <GamesList
-              games={games}
+              games={gamesState.games}
+              total={gamesState.totalGamesCount}
               handleGameClicked={(route) => navigate(route)}
+              handleFilterSet={handleFilterSet}
+              handleSkipSet={handleSkipSet}
+              handleTakeSet={handleTakeSet}
             />
           }
         />
@@ -39,13 +41,7 @@ export function GamesFeature(props: GamesFeatureProps) {
               <Outlet />
             </ProtectedRoute>
           }
-          children={[
-            <Route
-              key="worm"
-              path="worm"
-              element={<Worm {...wormAppProps} />}
-            />,
-          ]}
+          children={gameModules}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
