@@ -3,7 +3,7 @@ import { useGamesFacade } from '@redish-frontend/games-data-access';
 import { GamesList } from '@redish-frontend/games-ui';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import styles from './games-feature.module.scss';
-import { RedishFilter, RedishPagination } from '@redish-frontend/shared-ui';
+import { RedishFilter, RedishLoading, RedishPagination } from '@redish-frontend/shared-ui';
 
 /* eslint-disable-next-line */
 export interface GamesFeatureProps {}
@@ -19,7 +19,7 @@ export function GamesFeature(props: GamesFeatureProps) {
   const navigate = useNavigate();
 
   if (gamesState.loading && !gamesState.initialized) {
-    return <div>Loading...</div>;
+    return <RedishLoading />;
   }
 
   if (gamesState.error) {
