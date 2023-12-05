@@ -3,15 +3,33 @@
 .container {
   padding: $space-2-small;
 
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2-small;
+  }
+
   @media (min-width: $breakpoint-medium) {
     padding: $space-2-medium;
+
+    .main {
+      gap: $space-2-medium;
+    }
   }
 
   @media (min-width: $breakpoint-large) {
     padding: $space-2-large;
+
+    .main {
+      gap: $space-2-large;
+    }
   }
 
   @media (min-width: $breakpoint-xlarge) {
     padding: $space-2-xlarge;
+
+    .main {
+      gap: $space-2-xlarge;
+    }
   }
 }

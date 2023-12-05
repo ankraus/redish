@@ -11,9 +11,10 @@ import { useEffect } from 'react';
 import React from 'react';
 
 const initialState: GamesState = {
+  initialized: false,
+  loading: false,
   games: [],
   totalGamesCount: 0,
-  loading: false,
   filter: {
     filter: '',
     skip: 0,
@@ -55,7 +56,7 @@ export function useGamesFacade(): {
     });
   };
 
-  const handleSkipSet =  (skip: number) => {
+  const handleSkipSet = (skip: number) => {
     setGamesState((state) => {
       state.filter.skip = skip;
     });
@@ -93,6 +94,8 @@ async function loadGames(setGamesState: Updater<GamesState>, filter: Filter) {
 
   setGamesState((state) => {
     state.loading = false;
+    state.initialized = true;
+
     if (listResult instanceof RedishError) {
       state.error = listResult;
     } else {
@@ -113,14 +116,17 @@ async function loadGames(setGamesState: Updater<GamesState>, filter: Filter) {
 
 // https://stackoverflow.com/questions/65921524/running-into-error-error-cannot-find-module-when-using-dynamic-imports-react
 // https://github.com/webpack/webpack/issues/6680
-async function loadGameModules(games: Array<GameViewModel>, setGameModules: Updater<Array<React.ReactNode>>): Promise<void> {
-  setGameModules(await Promise.all(
-    games.map(async (game) => {
-      // const E = React.lazy(() => import(game.module));
-      const E = React.lazy(() => import('games-worm/Module'));
-    return (
-      <Route key={game.id} path={game.id} element={<E/>} />
-    );
-  })));
+async function loadGameModules(
+  games: Array<GameViewModel>,
+  setGameModules: Updater<Array<React.ReactNode>>
+): Promise<void> {
+  setGameModules(
+    await Promise.all(
+      games.map(async (game) => {
+        // const E = React.lazy(() => import(game.module));
+        const E = React.lazy(() => import('games-worm/Module'));
+        return <Route key={game.id} path={game.id} element={<E />} />;
+      })
+    )
+  );
 }
-

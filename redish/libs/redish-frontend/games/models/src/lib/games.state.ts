@@ -3,9 +3,10 @@ import { Filter } from "./filter.model";
 import { GameViewModel } from "./game-view.model";
 
 export interface GamesState {
-  games: GameViewModel[];
-  totalGamesCount: number;
+  initialized: boolean;
   loading: boolean;
   error?: RedishError;
+  games: GameViewModel[];
+  totalGamesCount: number;
   filter: Filter;
 }

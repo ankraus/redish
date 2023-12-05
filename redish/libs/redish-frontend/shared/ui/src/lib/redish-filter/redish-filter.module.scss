@@ -1,0 +1,105 @@
+@import 'global-styles';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  @include cut-corner($space-small);
+  border: none;
+
+  &.show {
+    background-color: $whitish;
+  }
+
+  .filterButton {
+    flex-grow: 0;
+    height: $content-2-small;
+
+    .funnel {
+      height: $content-small;
+      width: $content-small;
+      margin-left: auto;
+    }
+  }
+
+  .filter {
+    display: none;
+    flex-direction: column;
+    gap: $space-2-small;
+    padding: $space-3-small $space-1-small $space-1-small;
+
+    &.show {
+      display: flex;
+    }
+
+    .filterItem {
+      display: flex;
+      align-items: center;
+      gap: $space-1-small;
+
+      input {
+        flex-grow: 1;
+        @include unstyled-input;
+        border-bottom: 1px solid $redish;
+        height: $content-1-small;
+      }
+
+      .search {
+        height: $content-small;
+        width: $content-small;
+        object-fit: contain;
+      }
+
+      .take {
+        width: 50px;
+        flex-grow: 0;
+      }
+
+      label {
+        @include font-small;
+        color: $black;
+        flex-grow: 0;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-small) {
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    background-color: $whitish;
+    @include cut-corner($space-medium);
+
+    .filterButton {
+      display: none;
+    }
+
+    .filter {
+      display: flex;
+      flex-direction: row;
+      gap: $space-2-medium;
+      padding: $space-1-medium;
+
+      .filterItem.search {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-large) {
+    @include cut-corner($space-large);
+
+    .filter {
+      gap: $space-2-large;
+      padding: $space-1-large;
+    }
+  }
+
+  @media (min-width: $breakpoint-xlarge) {
+    @include cut-corner($space-xlarge);
+
+    .filter {
+      gap: $space-2-xlarge;
+      padding: $space-1-xlarge;
+    }
+  }
+}

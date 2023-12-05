@@ -114,7 +114,6 @@ export class GameController {
 
   @ApiOkResponse({ type: UuidDto })
   @ApiNotFoundResponse({ type: RedishErrorDto })
-  @UseGuards(AuthGuard)
   @ApiQuery({ name: 'filter', required: false })
   @Get()
   async getGames(
