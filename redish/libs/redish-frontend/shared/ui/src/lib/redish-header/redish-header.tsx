@@ -45,14 +45,20 @@ export function RedishHeader({
               <RedishButton
                 className={styles.medium}
                 key={action.label}
-                onClick={action.onClick}
+                onClick={() => {
+                  action.onClick();
+                  setShowMenu(false);
+                }}
               >
                 {action.label}
               </RedishButton>
               <RedishButton
                 className={styles.small}
                 key={`small-${action.labelSmall ?? action.label}`}
-                onClick={action.onClick}
+                onClick={() => {
+                  action.onClick();
+                  setShowMenu(false);
+                }}
               >
                 {action.labelSmall ?? action.label}
               </RedishButton>
