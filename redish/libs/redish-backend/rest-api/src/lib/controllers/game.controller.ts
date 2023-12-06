@@ -22,7 +22,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { GameFacade } from '@redish-backend/usecases';
-import { RedishError, ResultsDto } from '@redish-shared/domain';
+import { RedishError, Role } from '@redish-shared/domain';
 import { Response } from 'express';
 import { CreateGameDto } from '../dtos/create-game.dto';
 import { GameDto } from '../dtos/game.dto';
@@ -30,6 +30,9 @@ import { RedishErrorDto } from '../dtos/redish-error.dto';
 import { UpdateGameDto } from '../dtos/update-game.dto';
 import { UuidDto } from '../dtos/uuid.dto';
 import { AuthGuard } from '../guards/auth.guard';
+import { AnyRoleGuard } from '../guards/role.guard';
+import { Roles } from '../decorators/roles.decorator';
+import { ResultsDto } from '../dtos/results.dto';
 
 @ApiTags('game')
 @Controller('game')
@@ -39,7 +42,8 @@ export class GameController {
   @ApiCreatedResponse({ type: UuidDto })
   @ApiBadRequestResponse({ type: RedishErrorDto })
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AnyRoleGuard)
+  @Roles([Role.ADMIN])
   @Post()
   async createGame(
     @Res({ passthrough: true }) response: Response,
@@ -64,7 +68,8 @@ export class GameController {
   @ApiBadRequestResponse({ type: RedishErrorDto })
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @ApiUnauthorizedResponse({ type: RedishErrorDto })
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AnyRoleGuard)
+  @Roles([Role.ADMIN])
   @Put()
   async updateGame(
     @Res({ passthrough: true }) response: Response,
@@ -85,7 +90,7 @@ export class GameController {
     return new UuidDto(updateGameResult.result!);
   }
 
-  @ApiOkResponse({ type: UuidDto })
+  @ApiOkResponse({ type: GameDto })
   @ApiNotFoundResponse({ type: RedishErrorDto })
   @UseGuards(AuthGuard)
   @Get(':id')
@@ -108,9 +113,8 @@ export class GameController {
     return getGameByIdResult.result!;
   }
 
-  @ApiOkResponse({ type: UuidDto })
+  @ApiOkResponse({ type: ResultsDto<GameDto> })
   @ApiNotFoundResponse({ type: RedishErrorDto })
-  @UseGuards(AuthGuard)
   @ApiQuery({ name: 'filter', required: false })
   @Get()
   async getGames(
@@ -140,7 +144,8 @@ export class GameController {
 
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @ApiUnauthorizedResponse({ type: RedishErrorDto })
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AnyRoleGuard)
+  @Roles([Role.ADMIN])
   @Delete()
   async deleteGame(
     @Res({ passthrough: true }) response: Response,

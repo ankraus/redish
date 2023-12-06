@@ -16,7 +16,7 @@ export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
   async function handleDeleteUser(): Promise<void> {
     const result = await userApiService.delete();
 
-    if (result !== null) {
+    if (result.success) {
       navigate('/');
     }
   }
@@ -85,7 +85,7 @@ export function useProfileFacade(): { profileViewModel: ProfileViewModel } {
       modifyUser.password
     );
 
-    if (result !== null) {
+    if (result.success) {
       updateModifyUser((draft) => {
         draft.modifyUser = initialModifyUserState.modifyUser;
       });

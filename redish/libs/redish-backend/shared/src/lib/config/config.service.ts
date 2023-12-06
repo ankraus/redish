@@ -27,7 +27,7 @@ export const redishBackendConfigurationService = registerAs(
       expiry: process.env['JWT_EXPIRY'] || '',
     },
     dictionary: {
-      url: 'https://api.dictionaryapi.dev/api/v2/entries/en/',
+      url: process.env['DICTIONARY_API'] || '',
     },
   })
 );
@@ -61,7 +61,6 @@ export class RedishBackendConfigurationService {
   }
 
   getDictionaryConfig(): DictionaryConfiguration {
-    console.log('get dict config');
     const config = this.configService.get<DictionaryConfiguration>(
       CONFIG_NAMESPACE + '.dictionary'
     );

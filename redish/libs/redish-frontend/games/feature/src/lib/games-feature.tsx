@@ -1,25 +1,35 @@
-import { ProtectedRoute, useAuth } from '@redish-frontend/authentication-api';
+import { ProtectedRoute } from '@redish-frontend/authentication-api';
 import { useGamesFacade } from '@redish-frontend/games-data-access';
 import { GamesList } from '@redish-frontend/games-ui';
-import { WormAppProps } from '@redish-frontend/shared-models';
-import * as React from 'react';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import styles from './games-feature.module.scss';
-
-const Worm = React.lazy(() => import('games-worm/Module'));
+import {
+  RedishError,
+  RedishFilter,
+  RedishLoading,
+  RedishPagination,
+} from '@redish-frontend/shared-ui';
 
 /* eslint-disable-next-line */
 export interface GamesFeatureProps {}
 
 export function GamesFeature(props: GamesFeatureProps) {
-  const { games, worm } = useGamesFacade();
-  const { user } = useAuth();
+  const {
+    gamesState,
+    gameModules,
+    handleFilterSet,
+    handleSkipSet,
+    handleTakeSet,
+  } = useGamesFacade();
   const navigate = useNavigate();
 
-  const wormAppProps: WormAppProps = {
-    username: user?.username ?? 'heinrich',
-    handleTest: worm.handleWormLog,
-  };
+  if (gamesState.loading && !gamesState.initialized) {
+    return <RedishLoading />;
+  }
+
+  if (gamesState.error) {
+    return <RedishError error={gamesState.error} />;
+  }
 
   return (
     <div className={styles.container}>
@@ -27,10 +37,29 @@ export function GamesFeature(props: GamesFeatureProps) {
         <Route
           path="/"
           element={
-            <GamesList
-              games={games}
-              handleGameClicked={(route) => navigate(route)}
-            />
+            <div className={styles.main}>
+              <RedishFilter
+                filterDescription='Search by name'
+                total={gamesState.totalGamesCount}
+                filter={gamesState.filter.filter}
+                skip={gamesState.filter.skip}
+                take={gamesState.filter.take}
+                handleFilterSet={handleFilterSet}
+                handleTakeSet={handleTakeSet}
+              />
+              <GamesList
+                games={gamesState.games}
+                handleGameClicked={(route) => navigate(route)}
+              />
+              <RedishPagination
+                total={gamesState.totalGamesCount}
+                skip={gamesState.filter.skip}
+                take={gamesState.filter.take}
+                handleSkipSet={handleSkipSet}
+                handleTakeSet={handleTakeSet}
+              />
+              {gamesState.loading && <RedishLoading absolute />}
+            </div>
           }
         />
         <Route
@@ -39,13 +68,7 @@ export function GamesFeature(props: GamesFeatureProps) {
               <Outlet />
             </ProtectedRoute>
           }
-          children={[
-            <Route
-              key="worm"
-              path="worm"
-              element={<Worm {...wormAppProps} />}
-            />,
-          ]}
+          children={gameModules}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

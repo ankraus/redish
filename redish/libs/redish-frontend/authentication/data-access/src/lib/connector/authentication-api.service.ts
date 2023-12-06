@@ -1,7 +1,8 @@
+import { handleAxiosError } from '@redish-frontend/shared-util';
 import {
   AuthenticateUserDto,
   CreateUserDto,
-  RedishError,
+  Result,
   TokenDto,
   UuidDto,
 } from '@redish-shared/domain';
@@ -15,36 +16,25 @@ export class AuthenticationApiService {
     username: string,
     email: string,
     password: string
-  ): Promise<string | null> {
+  ): Promise<Result<string>> {
     const url = `${this.baseURL}`;
     const data: CreateUserDto = { username, password, email };
     try {
       const response = await axios.post<UuidDto>(url, data);
-      return response.data.uuid;
-      // todo: redish error?
+      return Result.success(response.data.uuid);
     } catch (error) {
-      let castError = error;
-      if (axios.isAxiosError<RedishError>(error)) {
-        console.error('in api service', error.response?.data);
-        castError = error.response?.data ?? RedishError.Unknown();
-      }
-      console.error(castError);
-      return null;
+      return handleAxiosError(error);
     }
   }
 
-  public async login(email: string, password: string): Promise<string | null> {
+  public async login(email: string, password: string): Promise<Result<string>> {
     const url = `${this.baseURL}/login`;
     const data: AuthenticateUserDto = { password, email };
     try {
       const response = await axios.post<TokenDto>(url, data);
-      return response.data.token;
-      // todo: redish error?
+      return Result.success(response.data.token);
     } catch (error: unknown) {
-      if (axios.isAxiosError<RedishError>(error)) {
-        console.error('in api service', error.response?.data);
-      }
-      return null;
+      return handleAxiosError(error);
     }
   }
 }

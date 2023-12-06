@@ -2,9 +2,16 @@ import {
   authenticationRoutes,
   useAuth,
 } from '@redish-frontend/authentication-api';
-import { RedishFooter, RedishHeader } from '@redish-frontend/shared-ui';
+import {
+  RedishFooter,
+  RedishHeader,
+  RedishLoading,
+} from '@redish-frontend/shared-ui';
 import { useNavigate } from 'react-router-dom';
 import styles from './frame.module.scss';
+import { Suspense } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type FrameProps = { children: React.ReactNode };
 
@@ -46,7 +53,7 @@ export function Frame({ children }: Readonly<FrameProps>) {
         handleLogoClicked={() => navigate('/')}
       />
       <main>
-        {children}
+        <Suspense fallback={<RedishLoading />}>{children}</Suspense>
         <RedishFooter
           navigation={[
             {
@@ -57,6 +64,18 @@ export function Frame({ children }: Readonly<FrameProps>) {
           ]}
         ></RedishFooter>
       </main>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

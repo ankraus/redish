@@ -1,8 +1,10 @@
 @import 'global-styles';
 
+$header-height: $content-2-small;
+
 .container {
   background-color: $redish;
-  height: $content-2-small;
+  height: $header-height;
   display: flex;
   align-items: center;
   padding: 0 $space-2-small;
@@ -25,15 +27,47 @@
     }
   }
 
-  .actions {
+  .burgerMenu {
+    @include unstyled-button;
     margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: $space-small;
+    height: 100%;
+    cursor: pointer;
 
-    .medium {
-      display: none;
+    img {
+      height: 20px;
     }
+  }
+
+  .content {
+    &.showMenu {
+      display: flex;
+    }
+
+    display: none;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: $header-height;
+    flex-direction: column;
+    padding: $space-1-small 0;
+    gap: $space-1-small;
+    width: 100vw;
+    background-color: $white;
+    box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+
+
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      padding: 0 $space-1-small;
+      gap: $space-small;
+
+      .medium {
+        display: none;
+      }
+    }
+
   }
 
   @media (min-width: $breakpoint-medium) {
@@ -44,13 +78,24 @@
       gap: $space-medium;
     }
 
-    .actions {
-      .small {
-        display: none;
-      }
+    .burgerMenu {
+      display: none;
+    }
 
-      .medium {
-        display: block;
+    .content {
+      display: flex;
+      position: unset;
+      margin-left: auto;
+      flex-direction: row;
+      align-items: center;
+      padding: 0;
+      background-color: transparent;
+      box-shadow: none;
+      width: auto;
+
+      .actions {
+        flex-direction: row;
+        padding: 0;
       }
     }
   }
@@ -61,6 +106,16 @@
 
     .logo {
       gap: $space-large;
+    }
+
+    .content .actions {
+      .small {
+        display: none;
+      }
+
+      .medium {
+        display: block;
+      }
     }
   }
 

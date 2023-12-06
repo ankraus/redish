@@ -1,7 +1,22 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+@import 'global-styles';
+
+.container {
+  padding: $space-2-small;
+
+  > * {
+    max-width: 350px;
+    margin: auto;
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    padding: $space-2-medium;
+  }
+
+  @media (min-width: $breakpoint-large) {
+    padding: $space-2-large;
+  }
+
+  @media (min-width: $breakpoint-xlarge) {
+    padding: $space-2-xlarge;
+  }
+}
