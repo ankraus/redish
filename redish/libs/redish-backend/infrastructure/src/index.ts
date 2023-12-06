@@ -5,4 +5,5 @@ export { TypeOrmUserRepository } from './lib/typeorm-repositories/typeorm.user.r
 export { TypeOrmGameRepository } from './lib/typeorm-repositories/typeorm.game.repository';
 
 // services
-export { NestAuthenticationService } from './lib/authentication/nest-authentication.service';
+export { NestAuthenticationService } from './lib/service/nest-authentication.service';
+export { ExternalDictionaryService } from './lib/service/external-dictionary.service';

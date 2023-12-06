@@ -1,5 +1,6 @@
 import { Global, Module, Provider } from '@nestjs/common';
 import {
+  ExternalDictionaryService,
   InfrastructureModule,
   NestAuthenticationService,
   TypeOrmGameRepository,
@@ -7,6 +8,7 @@ import {
 } from '@redish-backend/infrastructure';
 import {
   AuthenticationService,
+  DictionaryService,
   GameRepository,
   UsecasesModule,
   UserRepository,
@@ -24,6 +26,10 @@ const providers: Provider[] = [
   {
     provide: GameRepository,
     useExisting: TypeOrmGameRepository,
+  },
+  {
+    provide: DictionaryService,
+    useExisting: ExternalDictionaryService,
   },
 ];
 

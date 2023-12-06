@@ -2,6 +2,8 @@ const registrationError = 100;
 const gameError = 200;
 const databaseError = 300;
 const authenticationError = 400;
+const utilityError = 500;
+const userError = 600;
 
 const environmentError = 2100;
 const repositoryError = 2200;
@@ -27,6 +29,8 @@ export class RedishError {
       static AUTHENTICATION_ERROR = authenticationError + 1;
       static UNAUTHORIZED_ERROR = authenticationError + 2;
       static TECHNICAL_AUTHENTICATION_ERROR = authenticationError + 3;
+      static EXTERNAL_API_ERROR = utilityError + 1;
+      static BAD_REQUEST_ERROR = userError + 1;
     };
 
     public static userNameTooShort(): RedishError {
@@ -93,6 +97,21 @@ export class RedishError {
         RedishError.Domain.Codes.UNAUTHORIZED_ERROR,
         'Unauthorized',
         cause
+      );
+    }
+
+    public static externalApiError(cause?: unknown): RedishError {
+      return new RedishError(
+        RedishError.Domain.Codes.EXTERNAL_API_ERROR,
+        'External API Error',
+        cause
+      );
+    }
+
+    public static badRequestError(): RedishError {
+      return new RedishError(
+        RedishError.Domain.Codes.BAD_REQUEST_ERROR,
+        'Bad request'
       );
     }
   };
