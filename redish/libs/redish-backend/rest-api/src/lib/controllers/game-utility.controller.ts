@@ -5,6 +5,7 @@ import {
   Injectable,
   Param,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,6 +16,7 @@ import {
 import { Response } from 'express';
 import { RedishErrorDto } from '../dtos/redish-error.dto';
 import { DictionaryFacade } from '@redish-backend/usecases';
+import { AuthGuard } from '../guards/auth.guard';
 
 @ApiTags('game-utility')
 @Controller('game-utility')
@@ -25,6 +27,7 @@ export class GameUtilityController {
   @ApiOkResponse()
   @ApiBadRequestResponse({ type: RedishErrorDto })
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @UseGuards(AuthGuard)
   @Get('dictionary/:word')
   public async validate(
     @Res({ passthrough: true }) response: Response,
