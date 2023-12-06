@@ -1,43 +1,32 @@
 import { Filter, Game } from '@redish-frontend/games-models';
-import { GameDto, RedishError, ResultsDto } from '@redish-shared/domain';
+import { GameDto, Result, ResultsDto } from '@redish-shared/domain';
 import axios from 'axios';
+import { handleAxiosError } from '@redish-frontend/shared-util';
 
 export class GameApiService {
   // todo: move to config
   private baseURL = 'http://localhost:3000/game';
 
-  public async getById(uuid: string): Promise<Game | null> {
+  public async getById(uuid: string): Promise<Result<Game>> {
     const url = `${this.baseURL}/${uuid}`;
     try {
       const response = await axios.get<GameDto>(url);
-      return response.data;
-      // todo: redish error?
-    } catch (error) {
-      let castError = error;
-      if (axios.isAxiosError<RedishError>(error)) {
-        console.error('in api service', error.response?.data);
-        castError = error.response?.data ?? RedishError.Unknown();
-      }
-      console.error(castError);
-      return null;
+      return Result.success(response.data);
+    } catch (error: unknown) {
+      return handleAxiosError(error);
     }
   }
 
-  public async getFiltered(filter: Filter): Promise<ResultsDto<Game> | RedishError> {
+  public async getFiltered(filter: Filter): Promise<Result<ResultsDto<Game>>> {
     const url = `${this.baseURL}`;
+
     try {
-      const response = await axios.get<ResultsDto<GameDto>>(url, { params: filter });
-      return response.data;
-      // todo: redish error?
-    } catch (error) {
-      let castError =  RedishError.Unknown();
-      if (axios.isAxiosError<RedishError>(error)) {
-        console.error('in api service', error.response?.data);
-        castError = error.response?.data ?? castError;
-      }
-      
-      console.error(castError);
-      return castError;
+      const response = await axios.get<ResultsDto<GameDto>>(url, {
+        params: filter,
+      });
+      return Result.success(response.data);
+    } catch (error: unknown) {
+      return handleAxiosError(error);
     }
   }
 }

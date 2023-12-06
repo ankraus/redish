@@ -5,7 +5,7 @@ export interface RedishLoadingProps {
   absolute?: boolean;
 }
 
-export function RedishLoading({absolute = false}: RedishLoadingProps) {
+export function RedishLoading({absolute = false}: Readonly<RedishLoadingProps>) {
   return (
     <div className={cn(styles.container, absolute && styles.absolute)}>
       <h1>Loading...</h1>

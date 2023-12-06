@@ -1,5 +1,7 @@
+import { Result } from '@redish-shared/domain';
+
 export { DomainModule } from './lib/domain.module';
-export { Result } from './lib/result/result';
+export { Result };
 
 // models
 export { Game } from './lib/models/game.model';

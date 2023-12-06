@@ -96,21 +96,22 @@ async function loadGames(setGamesState: Updater<GamesState>, filter: Filter) {
     state.loading = false;
     state.initialized = true;
 
-    if (listResult instanceof RedishError) {
-      state.error = listResult;
-    } else {
-      state.games = listResult.results.map((game) => ({
-        ...game,
-        id: game.readableId,
-        module: `games-${game.readableId}/Module`,
-        route: `/games/${game.readableId}`,
-        previewImages: {
-          small: `assets/games/${game.readableId}/${game.readableId}-200x200.png`,
-          large: `assets/games/${game.readableId}/${game.readableId}-400x400.png`,
-        },
-      }));
-      state.totalGamesCount = listResult.total;
+    if (listResult.success === false) {
+      state.error = listResult.error!;
+      return;
     }
+
+    state.games = listResult.result!.results.map((game) => ({
+      ...game,
+      id: game.readableId,
+      module: `games-${game.readableId}/Module`,
+      route: `/games/${game.readableId}`,
+      previewImages: {
+        small: `assets/games/${game.readableId}/${game.readableId}-200x200.png`,
+        large: `assets/games/${game.readableId}/${game.readableId}-400x400.png`,
+      },
+    }));
+    state.totalGamesCount = listResult.result!.total;
   });
 }
 

@@ -68,12 +68,12 @@ export function useAuthenticationFacade(
       registerUser.password
     );
 
-    if (result) {
-      const token = await authenticationApiService.login(
+    if (result.success) {
+      const tokenResult = await authenticationApiService.login(
         registerUser.email,
         registerUser.password
       );
-      setToken(token);
+      setToken(tokenResult.success ? tokenResult.result : null);
     }
   }
 
@@ -102,16 +102,16 @@ export function useAuthenticationFacade(
   const navigate = useNavigate();
 
   async function handleLoginUserSubmit(): Promise<void> {
-    const token = await authenticationApiService.login(
+    const tokenResult = await authenticationApiService.login(
       loginUser.email,
       loginUser.password
     );
 
-    if (typeof token !== 'string') {
+    if (!tokenResult.success) {
       return;
     }
 
-    setToken(token);
+    setToken(tokenResult.result);
     // todo: navigate to previous page
     navigate('/');
   }
@@ -152,8 +152,8 @@ export function useAuthenticationCore(): {
   const [user, _setUser] = useState<User | null>(null);
 
   async function getSelf() {
-    const nextUser = await userApiService.getSelf();
-    _setUser(nextUser);
+    const nextUserResult = await userApiService.getSelf();
+    _setUser(nextUserResult.success ? nextUserResult.result : null);
   }
 
   // write token to persistence and axios header when state was updated

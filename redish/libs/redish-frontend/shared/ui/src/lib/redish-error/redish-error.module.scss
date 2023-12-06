@@ -1,0 +1,10 @@
+@import 'global-styles';
+
+.error {
+  padding: $space-3-small;
+  @include font-large;
+
+  p {
+    @include font-medium;
+  }
+}

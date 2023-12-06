@@ -4,6 +4,7 @@ import { GamesList } from '@redish-frontend/games-ui';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import styles from './games-feature.module.scss';
 import {
+  RedishError,
   RedishFilter,
   RedishLoading,
   RedishPagination,
@@ -27,7 +28,7 @@ export function GamesFeature(props: GamesFeatureProps) {
   }
 
   if (gamesState.error) {
-    return <div>{gamesState.error.message}</div>;
+    return <RedishError error={gamesState.error} />;
   }
 
   return (

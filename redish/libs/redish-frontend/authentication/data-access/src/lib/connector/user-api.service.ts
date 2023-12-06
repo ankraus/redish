@@ -1,25 +1,19 @@
 import { User } from '@redish-frontend/profile-api';
-import { RedishError, UserDto } from '@redish-shared/domain';
+import { handleAxiosError } from '@redish-frontend/shared-util';
+import { Result, UserDto } from '@redish-shared/domain';
 import axios from 'axios';
 
 export class UserApiService {
   // todo: move to config
   private baseURL = 'http://localhost:3000/user';
 
-  public async getSelf(): Promise<User | null> {
+  public async getSelf(): Promise<Result<User>> {
     const url = `${this.baseURL}`;
     try {
       const response = await axios.get<UserDto>(url);
-      return response.data;
-      // todo: redish error?
-    } catch (error) {
-      let castError = error;
-      if (axios.isAxiosError<RedishError>(error)) {
-        console.error('in api service', error.response?.data);
-        castError = error.response?.data ?? RedishError.Unknown();
-      }
-      console.error(castError);
-      return null;
+      return Result.success(response.data);
+    } catch (error: unknown) {
+      return handleAxiosError(error);
     }
   }
 }

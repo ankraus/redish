@@ -71,6 +71,9 @@
       "@redish-frontend/shared-ui": [
         "libs/redish-frontend/shared/ui/src/index.ts"
       ],
+      "@redish-frontend/shared-util": [
+        "libs/redish-frontend/shared/util/src/index.ts"
+      ],
       "@redish-games/worm-data-access": [
         "libs/games/worm/data-access/src/index.ts"
       ],
