@@ -2,8 +2,9 @@ import { Result } from '@redish-backend/domain';
 import { RedishError } from '@redish-shared/domain';
 import type { RedisClientType } from 'redis';
 import { createClient } from 'redis';
+import {CacheService} from './cache.service';
 
-export class RedisCacheService {
+export class RedisCacheService extends CacheService {
   private client?: RedisClientType;
   private connected = false;
 
