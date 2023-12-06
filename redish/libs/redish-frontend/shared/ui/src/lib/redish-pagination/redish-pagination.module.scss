@@ -1,0 +1,70 @@
+@import 'global-styles';
+
+.container {
+  background-color: $redish;
+  height: $content-2-small;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $space-small;
+  @include cut-corner($space-small);
+  color: $white;
+
+  .flip {
+    @include unstyled-button;
+    display: flex;
+    align-items: center;
+    padding: $space-small;
+    height: 100%;
+
+    span {
+      @include font-medium;
+      color: $white;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      span {
+        color: $redish-light;
+      }
+    }
+  }
+
+  .page {
+    @include font-medium;
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    padding: 0 $space-medium;
+    height: $content-2-medium;
+    @include cut-corner($space-medium);
+
+    .flip {
+      padding: $space-medium;
+    }
+  }
+
+  @media (min-width: $breakpoint-large) {
+    padding: 0 $space-large;
+    height: $content-2-large;
+    @include cut-corner($space-large);
+
+    .flip {
+      padding: $space-large;
+    }
+  }
+
+  @media (min-width: $breakpoint-xlarge) {
+    padding: 0 $space-xlarge;
+    height: $content-2-xlarge;
+    @include cut-corner($space-xlarge);
+
+    .flip {
+      padding: $space-xlarge;
+    }
+  }
+}

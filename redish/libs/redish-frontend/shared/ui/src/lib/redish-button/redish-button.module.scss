@@ -4,7 +4,7 @@
   color: $white;
   background-color: $redish;
   border: none;
-  height: $content-1-small;
+  min-height: $content-1-small;
   padding: $space-small;
   @include font-medium;
   @include cut-corner($space-small);

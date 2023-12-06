@@ -2,8 +2,20 @@ import { GamesListViewModel } from '@redish-frontend/games-models';
 import { RedishCard, breakpoints } from '@redish-frontend/shared-ui';
 import cn from 'classnames';
 import styles from './games-list.module.scss';
+import { SyntheticEvent } from 'react';
 
 export function GamesList({ games, handleGameClicked }: GamesListViewModel) {
+  const handleImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+    e.stopPropagation();
+    const img = e.target as HTMLImageElement;
+    img.onerror = null;
+    img.src = 'assets/games/dice/dice-400x400.png';
+    const l = img.parentElement?.lastChild;
+    if (l) {
+      img.parentElement?.replaceChildren(l);
+    }
+  };
+
   return (
     <div className={styles.container}>
       {games.map((game) => (
@@ -23,7 +35,12 @@ export function GamesList({ games, handleGameClicked }: GamesListViewModel) {
                 srcSet={game.previewImages.large}
                 media={`(min-width: ${breakpoints.small})`}
               />
-              <img src={game.previewImages.small} alt={game.name} />
+              <source srcSet={game.previewImages.small} />
+              <img
+                src={game.previewImages.large}
+                alt={game.name}
+                onError={handleImageError}
+              />
             </picture>
           </RedishCard>
         </div>

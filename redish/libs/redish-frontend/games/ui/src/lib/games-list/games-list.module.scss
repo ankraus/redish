@@ -49,16 +49,29 @@
   }
 
   @media (min-width: $breakpoint-medium) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
     gap: $space-2-medium;
+
+    .game {
+      max-width: 300px;
+    }
   }
 
   @media (min-width: $breakpoint-large) {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 450px));
     gap: $space-2-large;
+
+    .game {
+      max-width: 450px;
+    }
   }
 
   @media (min-width: $breakpoint-xlarge) {
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     gap: $space-2-xlarge;
+
+    .game {
+      max-width: 500px;
+    }
   }
 }

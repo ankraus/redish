@@ -1,6 +1,6 @@
 import { RegisterUserFormViewModel } from '@redish-frontend/authentication-models';
-import styles from './register-user-form.module.scss'
-import { RedishLink } from '@redish-frontend/shared-ui';
+import styles from './register-user-form.module.scss';
+import { RedishButton, RedishLink } from '@redish-frontend/shared-ui';
 
 export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
   return (
@@ -12,40 +12,45 @@ export function RegisterUserForm(viewModel: RegisterUserFormViewModel) {
           await viewModel.handleSubmit();
         }}
       >
-        <label>
-          Enter username:
-          <input
-            type="text"
-            autoComplete="username"
-            required
-            value={viewModel.registerUser.username}
-            onChange={(e) => viewModel.handleUsernameChanged(e.target.value)}
-          />
-        </label>
-        <label>
-          Enter email address:
-          <input
-            type="email"
-            autoComplete="email"
-            required
-            value={viewModel.registerUser.email}
-            onChange={(e) => viewModel.handleEmailChanged(e.target.value)}
-          />
-        </label>
-        <label>
-          Choose password:
-          <input
-            type="password"
-            autoComplete="new-password"
-            required
-            value={viewModel.registerUser.password}
-            onChange={(e) => viewModel.handlePasswordChanged(e.target.value)}
-          />
-        </label>
-        <input type="submit" />
+        <label htmlFor="username">Enter username:</label>
+        <input
+          id="username"
+          type="text"
+          autoComplete="username"
+          required
+          value={viewModel.registerUser.username}
+          onChange={(e) => viewModel.handleUsernameChanged(e.target.value)}
+        />
+        <label htmlFor="email">Enter email address:</label>
+        <input
+          id="email"
+          type="email"
+          autoComplete="email"
+          required
+          value={viewModel.registerUser.email}
+          onChange={(e) => viewModel.handleEmailChanged(e.target.value)}
+        />
+        <label htmlFor="password">Choose password:</label>
+
+        <input
+          id="password"
+          type="password"
+          autoComplete="new-password"
+          required
+          value={viewModel.registerUser.password}
+          onChange={(e) => viewModel.handlePasswordChanged(e.target.value)}
+        />
+        <RedishButton
+          onClick={() => {
+            viewModel.handleSubmit();
+          }}
+        >
+          Submit
+        </RedishButton>
       </form>
       <p>
-        already registered? <RedishLink to={viewModel.loginRoute}>Login here</RedishLink>
+        already registered?{' '}
+        <RedishLink to={viewModel.loginRoute}>Login here</RedishLink>
       </p>
     </div>
   );

@@ -1,10 +1,14 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { Game as DomainGame } from '@redish-backend/domain';
+import { PreviewColor, previewColorValues } from '@redish-shared/domain';
 
 @Entity()
 export class Game extends DomainGame {
   @PrimaryColumn()
   override uuid: string;
+
+  @Column({ unique: true })
+  override readableId: string;
 
   @Column({ unique: true })
   override name: string;
@@ -15,18 +19,20 @@ export class Game extends DomainGame {
   @Column()
   override maxNumberOfPlayers: number;
 
-  @Column()
-  override previewColor: 'green' | 'redish-light';
+  @Column({ type: 'enum', enum: previewColorValues, default: previewColorValues[0] })
+  override previewColor: PreviewColor;
 
   constructor(
     uuid: string,
+    readableId: string,
     name: string,
     minNumberOfPlayers: number,
     maxNumberOfPlayers: number,
-    previewColor: 'green' | 'redish-light'
-    ) {
-    super(uuid, name, minNumberOfPlayers, maxNumberOfPlayers, previewColor);
+    previewColor: PreviewColor
+  ) {
+    super(uuid, readableId, name, minNumberOfPlayers, maxNumberOfPlayers, previewColor);
     this.uuid = uuid;
+    this.readableId = readableId;
     this.name = name;
     this.minNumberOfPlayers = minNumberOfPlayers;
     this.maxNumberOfPlayers = maxNumberOfPlayers;

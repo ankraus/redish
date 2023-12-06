@@ -1,6 +1,7 @@
-import { PreviewColor } from "./preview-color.type";
+import { PreviewColor } from '@redish-shared/domain';
 
-export interface CreateGameDto {
+export interface Game {
+  uuid: string;
   readableId: string;
   name: string;
   minNumberOfPlayers: number;
