@@ -14,7 +14,8 @@ export function RedishLink({ children, to, external }: RedishLinkProps) {
       to={to}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
     >
-      {children}{external && <span className={styles.hint}>&nbsp;🡕</span>}
+      {children}
+      {external && <span className={styles.hint}>&nbsp;🡕</span>}
     </Link>
   );
 }

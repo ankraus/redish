@@ -6,9 +6,10 @@
 
   .hint {
     width: 0px;
+    height: 15px;
     overflow: hidden;
     display: inline-block;
-    vertical-align: bottom;
+    vertical-align: top;
     transition: width 0.3s ease-in-out;
   }
 
