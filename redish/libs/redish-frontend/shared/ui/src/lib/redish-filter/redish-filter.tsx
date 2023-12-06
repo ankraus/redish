@@ -1,10 +1,10 @@
 import cn from 'classnames';
 import RedishButton from '../redish-button/redish-button';
-import RedishCard from '../redish-card/redish-card';
 import styles from './redish-filter.module.scss';
 import { useState } from 'react';
 
 export interface RedishFilterViewModel {
+  filterDescription: string;
   filter?: string;
   skip: number;
   take: number;
@@ -14,6 +14,7 @@ export interface RedishFilterViewModel {
 }
 
 export function RedishFilter({
+  filterDescription,
   total,
   filter,
   skip,
@@ -43,7 +44,7 @@ export function RedishFilter({
           <input
             type="text"
             id="filter"
-            placeholder="filter"
+            placeholder={filterDescription}
             value={filter}
             onChange={(event) => handleFilterSet(event.target.value)}
           />

@@ -1,6 +1,5 @@
-import { RedishError } from '@redish-shared/domain';
+import { RedishError, Result } from '@redish-shared/domain';
 import { Game } from './game.model';
-import { Result } from '../result/result';
 import { User } from './user.model';
 
 export class GameSession {
