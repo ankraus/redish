@@ -12,13 +12,9 @@ export class ExternalDictionaryService extends DictionaryService {
   }
 
   override async validate(word: string): Promise<Result<boolean>> {
-    try {
-      const cacheResp = await this.redisCacheService.get(word);
-      if (cacheResp.success) {
-        return cacheResp;
-      }
-    } catch (err: unknown) {
-      // this does not do the trick
+    const cacheResp = await this.redisCacheService.get(word);
+    if (cacheResp.success) {
+      return Result.success(cacheResp.result === 'true');
     }
     try {
       const resp = await fetch(URL + word);
@@ -26,7 +22,7 @@ export class ExternalDictionaryService extends DictionaryService {
         this.redisCacheService.set(word, 'true');
         return Result.success(true);
       } else {
-        this.redisCacheService.set(word, 'true');
+        this.redisCacheService.set(word, 'false');
         return Result.success(false);
       }
     } catch (err: unknown) {
