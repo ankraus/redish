@@ -6,6 +6,7 @@
   padding: $space-2-small $space-2-small;
   gap: $space-2-small;
   flex-wrap: wrap;
+  @include font-small;
 
   > * {
     flex-grow: 1;
