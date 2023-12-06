@@ -3,6 +3,7 @@ import { ConfigService, registerAs } from '@nestjs/config';
 import { DatabaseConfiguration } from './database-configuration.model';
 import { JwtConfiguration } from './jwt-configuration.model';
 import { Configuration } from './configuration.model';
+import { DictionaryConfiguration } from './dictionary-configuration.model';
 
 const CONFIG_NAMESPACE = 'redish-backend';
 
@@ -24,6 +25,9 @@ export const redishBackendConfigurationService = registerAs(
     jwt: {
       secret: process.env['JWT_SECRET'] || '',
       expiry: process.env['JWT_EXPIRY'] || '',
+    },
+    dictionary: {
+      url: 'https://api.dictionaryapi.dev/api/v2/entries/en/',
     },
   })
 );
@@ -51,6 +55,19 @@ export class RedishBackendConfigurationService {
 
     if (!config) {
       throw new Error('missing jwt config');
+    }
+
+    return config;
+  }
+
+  getDictionaryConfig(): DictionaryConfiguration {
+    console.log('get dict config');
+    const config = this.configService.get<DictionaryConfiguration>(
+      CONFIG_NAMESPACE + '.dictionary'
+    );
+
+    if (!config) {
+      throw new Error('missing dictionary config');
     }
 
     return config;
