@@ -1,13 +1,16 @@
+import { Injectable } from '@nestjs/common';
 import { Result } from '@redish-backend/domain';
+import { ConfigurationService } from '@redish-backend/shared';
 import { DictionaryService } from '@redish-backend/usecases';
 import { RedishError } from '@redish-shared/domain';
 import { RedisCacheService } from './redis-cache.service';
-const URL = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
-
+@Injectable()
 export class ExternalDictionaryService extends DictionaryService {
+  private url: string;
   private redisCacheService: RedisCacheService;
-  constructor() {
+  constructor(configService: ConfigurationService) {
     super();
+    this.url = configService.getDictionaryConfig().url;
     this.redisCacheService = new RedisCacheService();
   }
 
@@ -17,7 +20,7 @@ export class ExternalDictionaryService extends DictionaryService {
       return Result.success(cacheResp.result === 'true');
     }
     try {
-      const resp = await fetch(URL + word);
+      const resp = await fetch(this.url + word);
       if (resp.status == 200) {
         this.redisCacheService.set(word, 'true');
         return Result.success(true);
