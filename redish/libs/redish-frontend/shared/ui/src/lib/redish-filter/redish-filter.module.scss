@@ -41,6 +41,7 @@
         @include unstyled-input;
         border-bottom: 1px solid $redish;
         height: $content-1-small;
+        min-width: 0;
       }
 
       .search {
