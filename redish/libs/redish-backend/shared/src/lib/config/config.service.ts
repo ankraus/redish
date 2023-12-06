@@ -25,6 +25,8 @@ export const redishBackendConfigurationService = registerAs(
     jwt: {
       secret: process.env['JWT_SECRET'] || '',
       expiry: process.env['JWT_EXPIRY'] || '',
+      refreshSecret: process.env['JWT_REFRESH_SECRET'] || '',
+      refreshExpiry: process.env['JWT_REFRESH_EXPIRY'] || '',
     },
     dictionary: {
       url: process.env['DICTIONARY_API'] || '',

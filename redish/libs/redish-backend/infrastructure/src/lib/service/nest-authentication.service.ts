@@ -40,15 +40,29 @@ export class NestAuthenticationService extends AuthenticationService {
     }
   }
 
-  public async createToken(
-    payload: string | object | Buffer
-  ): Promise<Result<string>> {
+  public async createAuthToken(payload: string | object | Buffer) {
     const jwtConfig = this.configService.getJwtConfig();
+    return this.createToken(payload, jwtConfig.secret, jwtConfig.expiry);
+  }
 
+  public async createRefreshToken(payload: string | object | Buffer) {
+    const jwtConfig = this.configService.getJwtConfig();
+    return this.createToken(
+      payload,
+      jwtConfig.refreshSecret,
+      jwtConfig.refreshExpiry
+    );
+  }
+
+  private async createToken(
+    payload: string | object | Buffer,
+    secret: string,
+    expiry: string
+  ): Promise<Result<string>> {
     try {
       return Result.success(
-        sign(payload, jwtConfig.secret, {
-          expiresIn: jwtConfig.expiry,
+        sign(payload, secret, {
+          expiresIn: expiry,
         })
       );
     } catch (error: unknown) {
@@ -58,8 +72,24 @@ export class NestAuthenticationService extends AuthenticationService {
     }
   }
 
+  public async validateRefreshToken(
+    refreshToken: string
+  ): Promise<Result<UuidDto>> {
+    const jwtConfig = this.configService.getJwtConfig();
+    const payloadResult = await this.readToken(
+      refreshToken,
+      jwtConfig.refreshSecret
+    );
+    if (payloadResult.error) {
+      return Result.error(payloadResult.error);
+    }
+
+    return Result.success<UuidDto>({ uuid: payloadResult.result!['uuid'] });
+  }
+
   public async verifyAuthenticated(token: string): Promise<Result<UuidDto>> {
-    const payloadResult = await this.readToken(token);
+    const jwtConfig = this.configService.getJwtConfig();
+    const payloadResult = await this.readToken(token, jwtConfig.secret);
     if (payloadResult.error) {
       return Result.error(payloadResult.error);
     }
@@ -68,7 +98,8 @@ export class NestAuthenticationService extends AuthenticationService {
   }
 
   public async verifyHasRole(token: string, role: Role): Promise<Result> {
-    const payload = await this.readToken(token);
+    const jwtConfig = this.configService.getJwtConfig();
+    const payload = await this.readToken(token, jwtConfig.secret);
     if (payload.error) {
       return Result.error(payload.error);
     }
@@ -80,10 +111,12 @@ export class NestAuthenticationService extends AuthenticationService {
     }
   }
 
-  private async readToken(token: string): Promise<Result<JwtPayload>> {
-    const jwtConfig = this.configService.getJwtConfig();
+  private async readToken(
+    token: string,
+    secret: string
+  ): Promise<Result<JwtPayload>> {
     try {
-      return Result.success(verify(token, jwtConfig.secret) as JwtPayload);
+      return Result.success(verify(token, secret) as JwtPayload);
     } catch (error: unknown) {
       return Result.error(RedishError.Domain.authenticationError(error));
     }

@@ -4,6 +4,7 @@ import {
   AuthenticateUserDto,
   CreateUserDto,
   RedishError,
+  RefreshTokenDto,
   TokenDto,
   UpdateUserDto,
   UserDto,
@@ -50,18 +51,59 @@ export class UserFacade {
       return Result.error(RedishError.Domain.authenticationError());
     }
 
-    const tokenResult = await this.authenticationService.createToken({
+    const tokenResult = await this.authenticationService.createAuthToken({
       uuid: userResult.result!.uuid,
     });
 
-    if (
-      tokenResult.error?.code ===
-      RedishError.Domain.Codes.TECHNICAL_AUTHENTICATION_ERROR
-    ) {
+    const refreshTokenResult =
+      await this.authenticationService.createRefreshToken({
+        uuid: userResult.result!.uuid,
+      });
+
+    if (tokenResult.error) {
       return Result.error(tokenResult.error);
     }
 
-    return Result.success({ token: tokenResult.result! });
+    if (refreshTokenResult.error) {
+      return Result.error(refreshTokenResult.error);
+    }
+
+    return Result.success({
+      token: tokenResult.result!,
+      refreshToken: refreshTokenResult.result!,
+    });
+  }
+
+  public async refreshToken(
+    refreshTokenDto: RefreshTokenDto
+  ): Promise<Result<TokenDto>> {
+    const validationResult =
+      await this.authenticationService.validateRefreshToken(
+        refreshTokenDto.refreshToken
+      );
+    if (
+      validationResult.error?.code ===
+      RedishError.Domain.Codes.TECHNICAL_AUTHENTICATION_ERROR
+    ) {
+      return Result.error(validationResult.error);
+    }
+
+    if (validationResult.error) {
+      return Result.error(RedishError.Domain.authenticationError());
+    }
+    const newToken = await this.authenticationService.createAuthToken({
+      uuid: validationResult.result?.uuid,
+    });
+
+    const newRefreshToken = await this.authenticationService.createRefreshToken(
+      {
+        uuid: validationResult.result?.uuid,
+      }
+    );
+    return Result.success({
+      token: newToken.result!,
+      refreshToken: newRefreshToken.result!,
+    });
   }
 
   public async createUser(user: CreateUserDto): Promise<Result<UuidDto>> {

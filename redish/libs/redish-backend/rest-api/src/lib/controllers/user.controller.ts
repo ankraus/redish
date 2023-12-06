@@ -30,7 +30,7 @@ import {
 import { AuthGuard } from '../guards/auth.guard';
 import { Response } from 'express';
 import { RedishErrorDto } from '../dtos/redish-error.dto';
-import { RedishError } from '@redish-shared/domain';
+import { RedishError, RefreshTokenDto } from '@redish-shared/domain';
 import { AuthenticatedRequest } from '../types/authenticated-request.type';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 
@@ -63,6 +63,29 @@ export class UserController {
       return authResult.error;
     }
     return authResult.result!;
+  }
+
+  @ApiOkResponse({ type: TokenDto })
+  @ApiBadRequestResponse({ type: RedishErrorDto })
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @Post('refreshtoken')
+  public async refreshToken(
+    @Res({ passthrough: true }) response: Response,
+    @Body() refreshTokenDto: RefreshTokenDto
+  ): Promise<TokenDto | RedishErrorDto> {
+    const refreshResult = await this.userFacade.refreshToken(refreshTokenDto);
+    if (refreshResult.error) {
+      if (
+        refreshResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.BAD_REQUEST);
+      }
+      return refreshResult.error;
+    }
+    return refreshResult.result!;
   }
 
   @ApiCreatedResponse({ type: UuidDto })
