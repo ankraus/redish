@@ -39,6 +39,7 @@ export function GamesFeature(props: GamesFeatureProps) {
           element={
             <div className={styles.main}>
               <RedishFilter
+                filterDescription='Search by name'
                 total={gamesState.totalGamesCount}
                 filter={gamesState.filter.filter}
                 skip={gamesState.filter.skip}

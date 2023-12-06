@@ -11,7 +11,7 @@ export function handleAxiosError<T>(error: unknown): Result<T> {
     // either RedishError or ApiError
     castError.message = data['message'] ?? data['error'] ?? castError.message;
     castError.code = data['code'] ?? data['statusCode'] ?? castError.code;
-    castError.cause = data['cause'] ?? data['error'] ?? castError.cause;
+    castError.cause = data['cause'] ?? data['message'] ?? castError.cause;
   }
 
   toast.error(`${castError.message} (${castError.code} - ${castError.cause})`, {
