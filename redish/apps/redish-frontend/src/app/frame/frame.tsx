@@ -2,9 +2,10 @@ import {
   authenticationRoutes,
   useAuth,
 } from '@redish-frontend/authentication-api';
-import { RedishFooter, RedishHeader } from '@redish-frontend/shared-ui';
+import { RedishFooter, RedishHeader, RedishLoading } from '@redish-frontend/shared-ui';
 import { useNavigate } from 'react-router-dom';
 import styles from './frame.module.scss';
+import { Suspense } from 'react';
 
 type FrameProps = { children: React.ReactNode };
 
@@ -46,7 +47,7 @@ export function Frame({ children }: Readonly<FrameProps>) {
         handleLogoClicked={() => navigate('/')}
       />
       <main>
-        {children}
+        <Suspense fallback={<RedishLoading />}>{children}</Suspense>
         <RedishFooter
           navigation={[
             {
