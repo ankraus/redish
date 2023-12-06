@@ -3,7 +3,6 @@ import {
   LoginUserForm,
   RegisterUserForm,
 } from '@redish-frontend/authentication-ui';
-import { RedishLink } from '@redish-frontend/shared-ui';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import styles from './authentication-feature.module.scss';
 import { authenticationRoutes as routes } from './authentication-feature.routes';
@@ -15,11 +14,7 @@ export function AuthenticationFeature() {
     useAuthenticationFacade(setToken);
 
   return (
-    <div className={styles['container']}>
-      <RedishLink to="/">Home</RedishLink>
-
-      <h1>Welcome to AuthenticationFeature!</h1>
-
+    <div className={styles.container}>
       <Routes>
         <Route
           path={routes.register.split('/').at(-1)}
