@@ -17,6 +17,7 @@ import { Response } from 'express';
 import { RedishErrorDto } from '../dtos/redish-error.dto';
 import { DictionaryFacade } from '@redish-backend/usecases';
 import { AuthGuard } from '../guards/auth.guard';
+import { RedishError } from '@redish-shared/domain';
 
 @ApiTags('game-utility')
 @Controller('game-utility')
@@ -33,13 +34,13 @@ export class GameUtilityController {
     @Res({ passthrough: true }) response: Response,
     @Param('word') word: string
   ): Promise<boolean | RedishErrorDto> {
+    if (!word) {
+      response.status(HttpStatus.BAD_REQUEST);
+      return RedishError.Domain.badRequestError();
+    }
     const validationResult = await this.dictionaryFacade.validate(word);
     if (validationResult.error) {
-      if (!word) {
-        response.status(HttpStatus.BAD_REQUEST);
-      } else {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
+      response.status(HttpStatus.INTERNAL_SERVER_ERROR);
       return validationResult.error;
     }
     return validationResult.result!;
