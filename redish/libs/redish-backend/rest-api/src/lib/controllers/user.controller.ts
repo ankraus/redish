@@ -33,6 +33,7 @@ import { RedishErrorDto } from '../dtos/redish-error.dto';
 import { RedishError } from '@redish-shared/domain';
 import { AuthenticatedRequest } from '../types/authenticated-request.type';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { Request } from 'express';
 
 @ApiTags('user')
 @Controller('user')
@@ -66,6 +67,39 @@ export class UserController {
       httpOnly: true,
     });
     return { token: authResult.result!.token };
+  }
+
+  @ApiOkResponse({ type: TokenDto })
+  @ApiBadRequestResponse({ type: RedishErrorDto })
+  @ApiInternalServerErrorResponse({ type: RedishErrorDto })
+  @Post('refreshtoken')
+  public async refreshToken(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response
+  ): Promise<TokenDto | RedishErrorDto> {
+    const refreshToken = request.cookies['refreshToken'];
+    if (!refreshToken) {
+      response.status(HttpStatus.BAD_REQUEST);
+      return RedishError.Domain.badRequestError();
+    }
+
+    const refreshResult = await this.userFacade.refreshToken(refreshToken);
+
+    if (refreshResult.error) {
+      if (
+        refreshResult.error.code ===
+        RedishError.Infrastructure.Codes.DATABASE_ERROR
+      ) {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      } else {
+        response.status(HttpStatus.BAD_REQUEST);
+      }
+      return refreshResult.error;
+    }
+    response.cookie('refreshToken', refreshResult.result!.refreshToken, {
+      httpOnly: true,
+    });
+    return { token: refreshResult.result!.token };
   }
 
   @ApiCreatedResponse({ type: UuidDto })

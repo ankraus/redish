@@ -73,6 +73,36 @@ export class UserFacade {
     });
   }
 
+  public async refreshToken(refreshToken: string): Promise<Result<InternalTokenDto>>{
+    const authenticationResult = await this.authenticationService.verifyAuthenticated(refreshToken);
+
+    if(authenticationResult.error){
+      return Result.error(authenticationResult.error);
+    }
+
+    const tokenResult = await this.authenticationService.createAccessToken({
+      uuid: authenticationResult.result!.uuid,
+    });
+
+    const refreshTokenResult =
+      await this.authenticationService.createRefreshToken({
+        uuid: authenticationResult.result!.uuid,
+      });
+
+    if (tokenResult.error != null) {
+      return Result.error(tokenResult.error);
+    }
+
+    if (refreshTokenResult.error != null) {
+      return Result.error(refreshTokenResult.error);
+    }
+
+    return Result.success({
+      token: tokenResult.result!,
+      refreshToken: refreshTokenResult.result!,
+    });
+  }
+
   public async createUser(user: CreateUserDto): Promise<Result<UuidDto>> {
     if (user.password.length === 0) {
       return Result.error(RedishError.Domain.passwordTooShort());
