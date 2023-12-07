@@ -1,5 +1,10 @@
 @import 'global-styles';
 
+.noGames {
+  padding: $space-3-small 0;
+  @include font-large;
+}
+
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, 1fr);

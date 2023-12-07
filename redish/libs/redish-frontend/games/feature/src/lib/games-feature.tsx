@@ -86,7 +86,6 @@ export function GamesFeature(props: GamesFeatureProps) {
                 skip={gamesState.filter.skip}
                 take={gamesState.filter.take}
                 handleSkipSet={handleSkipSet}
-                handleTakeSet={handleTakeSet}
               />
               {gamesState.loading && <RedishLoading absolute />}
             </div>
