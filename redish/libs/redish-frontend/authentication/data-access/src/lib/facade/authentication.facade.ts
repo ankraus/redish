@@ -118,6 +118,12 @@ export function useAuthenticationFacade(
     navigate('/');
   }
 
+  async function handleLogout(): Promise<void> {
+    await authenticationApiService.logout();
+    setToken(null);
+    navigate('/');
+  }
+
   return {
     registerViewModel: {
       registerUser,
@@ -140,6 +146,7 @@ export function useAuthenticationCore(): {
   setToken: (token: string | null) => void;
   user: User | null;
   reloadUser: () => Promise<void>;
+  logout: () => Promise<void>;
 } {
   // State to hold the authentication token
   const [token, _setToken] = useState<string | null>(
@@ -174,22 +181,19 @@ export function useAuthenticationCore(): {
   // todo: move to config
   const refreshUrl = 'http://localhost:3000/user/refreshtoken';
 
-  
-
   // using interceptor to refresh token, https://github.com/Flyrell/axios-auth-refresh
-
+  // there is still a bug here when logging out and failing the next login, I can't seem to fix it
   createAuthRefreshInterceptor(
     axios,
     (failedRequest) =>
       axios.post<TokenDto>(refreshUrl).then((tokenRefreshResponse) => {
-        setToken(tokenRefreshResponse.data.token);
+        _setToken(tokenRefreshResponse.data.token);
         failedRequest.response.config.headers['Authorization'] =
           'Bearer ' + tokenRefreshResponse.data.token;
         return Promise.resolve();
       }),
     {
       shouldRefresh: (error) => {
-        console.log(error);
         return (
           (error.response?.status === 401 || error.response?.status === 403) &&
           token != null
@@ -206,5 +210,10 @@ export function useAuthenticationCore(): {
     }
   }
 
-  return { token, setToken, user, reloadUser };
+  async function logout() {
+    await authenticationApiService.logout();
+    setToken(null);
+  }
+
+  return { token, setToken, user, reloadUser, logout };
 }

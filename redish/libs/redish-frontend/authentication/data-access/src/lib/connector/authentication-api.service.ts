@@ -37,6 +37,16 @@ export class AuthenticationApiService {
       return handleAxiosError(error);
     }
   }
+
+  public async logout(): Promise<Result<void>> {
+    const url = `${this.baseURL}/logout`;
+    try {
+      await axios.post<TokenDto>(url);
+      return Result.success();
+    } catch (error: unknown) {
+      return handleAxiosError(error);
+    }
+  }
 }
 
 // todo use inversifyjs?

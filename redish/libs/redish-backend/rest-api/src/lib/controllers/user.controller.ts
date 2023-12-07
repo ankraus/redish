@@ -69,6 +69,14 @@ export class UserController {
     return { token: authResult.result!.token };
   }
 
+  @ApiOkResponse()
+  @Post('logout')
+  public async logout(
+    @Res({ passthrough: true }) response: Response
+  ): Promise<void> {
+    response.clearCookie('refreshToken', { httpOnly: true });
+  }
+
   @ApiOkResponse({ type: TokenDto })
   @ApiBadRequestResponse({ type: RedishErrorDto })
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })

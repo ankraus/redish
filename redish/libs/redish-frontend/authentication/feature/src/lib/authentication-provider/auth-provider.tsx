@@ -11,12 +11,13 @@ export const AuthContext = createContext<{
   setToken: (newToken: string | null) => void;
   user: User | null;
   reloadUser: () => Promise<void>;
+  logout: () => Promise<void>
 } | null>(null);
 
 type AuthProviderProps = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { token, setToken, user, reloadUser } = useAuthenticationCore();
+  const { token, setToken, user, reloadUser, logout } = useAuthenticationCore();
 
   // Memoized value of the authentication context
   const contextValue = useMemo(
@@ -25,8 +26,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setToken,
       user,
       reloadUser,
+      logout
     }),
-    [token, setToken, user, reloadUser]
+    [token, setToken, user, reloadUser, logout]
   );
 
   // Provide the authentication context to the children components
