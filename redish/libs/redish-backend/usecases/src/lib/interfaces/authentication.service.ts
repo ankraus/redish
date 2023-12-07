@@ -11,7 +11,11 @@ export abstract class AuthenticationService {
     hash: string
   ): Promise<Result<boolean>>;
 
-  abstract createToken(
+  abstract createAccessToken(
+    payload: string | object | Buffer
+  ): Promise<Result<string>>;
+
+  abstract createRefreshToken(
     payload: string | object | Buffer
   ): Promise<Result<string>>;
 

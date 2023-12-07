@@ -62,7 +62,10 @@ export class UserController {
       }
       return authResult.error;
     }
-    return authResult.result!;
+    response.cookie('refreshToken', authResult.result!.refreshToken, {
+      httpOnly: true,
+    });
+    return { token: authResult.result!.token };
   }
 
   @ApiCreatedResponse({ type: UuidDto })

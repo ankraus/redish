@@ -11,6 +11,7 @@ export * from './lib/models/user.dto';
 export * from './lib/models/uuid.dto';
 export * from './lib/models/filter.dto';
 export * from './lib/models/results.dto';
+export * from './lib/models/internal-token.dto'
 export * from './lib/models/preview-color.type';
 export * from './lib/result/result';
 export * from './lib/error/api-error';

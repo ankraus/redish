@@ -3,8 +3,8 @@ import { Result, User } from '@redish-backend/domain';
 import {
   AuthenticateUserDto,
   CreateUserDto,
+  InternalTokenDto,
   RedishError,
-  TokenDto,
   UpdateUserDto,
   UserDto,
   UuidDto,
@@ -21,7 +21,7 @@ export class UserFacade {
 
   public async authenticateUser(
     user: AuthenticateUserDto
-  ): Promise<Result<TokenDto>> {
+  ): Promise<Result<InternalTokenDto>> {
     const userResult = await this.userRepository.findOneByEmail(user.email);
 
     if (
@@ -50,18 +50,27 @@ export class UserFacade {
       return Result.error(RedishError.Domain.authenticationError());
     }
 
-    const tokenResult = await this.authenticationService.createToken({
+    const tokenResult = await this.authenticationService.createAccessToken({
       uuid: userResult.result!.uuid,
     });
 
-    if (
-      tokenResult.error?.code ===
-      RedishError.Domain.Codes.TECHNICAL_AUTHENTICATION_ERROR
-    ) {
+    const refreshTokenResult =
+      await this.authenticationService.createRefreshToken({
+        uuid: userResult.result!.uuid,
+      });
+
+    if (tokenResult.error != null) {
       return Result.error(tokenResult.error);
     }
 
-    return Result.success({ token: tokenResult.result! });
+    if (refreshTokenResult.error != null) {
+      return Result.error(refreshTokenResult.error);
+    }
+
+    return Result.success({
+      token: tokenResult.result!,
+      refreshToken: refreshTokenResult.result!,
+    });
   }
 
   public async createUser(user: CreateUserDto): Promise<Result<UuidDto>> {
