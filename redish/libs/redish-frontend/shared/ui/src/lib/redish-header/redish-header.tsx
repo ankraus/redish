@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import RedishButton from '../redish-button/redish-button';
 import RedishLink from '../redish-link/redish-link';
 import styles from './redish-header.module.scss';
@@ -14,7 +14,7 @@ export function RedishHeader({
   actions,
   navigation,
   handleLogoClicked,
-}: RedishHeaderProps) {
+}: Readonly<RedishHeaderProps>) {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -41,10 +41,9 @@ export function RedishHeader({
       <div className={cn(styles.content, showMenu && styles.showMenu)}>
         <div className={styles.actions}>
           {actions.map((action) => (
-            <>
+            <Fragment key={action.label}>
               <RedishButton
                 className={styles.medium}
-                key={action.label}
                 onClick={() => {
                   action.onClick();
                   setShowMenu(false);
@@ -54,7 +53,6 @@ export function RedishHeader({
               </RedishButton>
               <RedishButton
                 className={styles.small}
-                key={`small-${action.labelSmall ?? action.label}`}
                 onClick={() => {
                   action.onClick();
                   setShowMenu(false);
@@ -62,7 +60,7 @@ export function RedishHeader({
               >
                 {action.labelSmall ?? action.label}
               </RedishButton>
-            </>
+            </Fragment>
           ))}
         </div>
         {navigation.length > 0 && (
