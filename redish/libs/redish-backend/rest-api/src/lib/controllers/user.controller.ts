@@ -59,7 +59,7 @@ export class UserController {
       ) {
         response.status(HttpStatus.INTERNAL_SERVER_ERROR);
       } else {
-        response.status(HttpStatus.BAD_REQUEST);
+        response.status(HttpStatus.UNAUTHORIZED);
       }
       return authResult.error;
     }
@@ -79,7 +79,7 @@ export class UserController {
   ): Promise<TokenDto | RedishErrorDto> {
     const refreshToken = request.cookies['refreshToken'];
     if (!refreshToken) {
-      response.status(HttpStatus.BAD_REQUEST);
+      response.status(HttpStatus.UNAUTHORIZED);
       return RedishError.Domain.badRequestError();
     }
 

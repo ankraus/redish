@@ -1,4 +1,4 @@
-import { RedishError } from '@redish-shared/domain';
+import { RedishError } from '../error/redish-error';
 
 export class Result<T = void> {
   constructor(

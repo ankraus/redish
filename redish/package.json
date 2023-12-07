@@ -16,6 +16,7 @@
     "@nestjs/typeorm": "^10.0.0",
     "@swc/helpers": "~0.5.2",
     "axios": "^1.0.0",
+    "axios-auth-refresh": "^3.3.6",
     "bcrypt": "^5.1.1",
     "classnames": "^2.3.2",
     "cookie-parser": "^1.4.6",

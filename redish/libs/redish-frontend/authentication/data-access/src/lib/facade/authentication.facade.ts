@@ -3,6 +3,7 @@ import {
   RegisterUser,
 } from '@redish-frontend/authentication-models';
 import axios from 'axios';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useImmer } from 'use-immer';
@@ -10,6 +11,7 @@ import { authenticationApiService } from '../connector/authentication-api.servic
 import { authenticationPersistenceService } from '../connector/authentication-persistence.service';
 import { userApiService } from '../connector/user-api.service';
 import { User } from '@redish-frontend/profile-api';
+import { TokenDto } from '@redish-shared/domain';
 
 /**
  * facade hook as described in https://thomasburlesonia.medium.com/https-medium-com-thomasburlesonia-react-hooks-rxjs-facades-4e116330bbe1
@@ -168,6 +170,33 @@ export function useAuthenticationCore(): {
       _setUser(null);
     }
   }, [token]);
+
+  // todo: move to config
+  const refreshUrl = 'http://localhost:3000/user/refreshtoken';
+
+  
+
+  // using interceptor to refresh token, https://github.com/Flyrell/axios-auth-refresh
+
+  createAuthRefreshInterceptor(
+    axios,
+    (failedRequest) =>
+      axios.post<TokenDto>(refreshUrl).then((tokenRefreshResponse) => {
+        setToken(tokenRefreshResponse.data.token);
+        failedRequest.response.config.headers['Authorization'] =
+          'Bearer ' + tokenRefreshResponse.data.token;
+        return Promise.resolve();
+      }),
+    {
+      shouldRefresh: (error) => {
+        console.log(error);
+        return (
+          (error.response?.status === 401 || error.response?.status === 403) &&
+          token != null
+        );
+      },
+    }
+  );
 
   async function reloadUser() {
     if (token) {
