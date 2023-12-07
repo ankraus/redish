@@ -18,6 +18,8 @@ const initialState: GamesState = {
     filter: '',
     skip: 0,
     take: 10,
+    minNumberOfPlayers: undefined,
+    maxNumberOfPlayers: undefined,
   },
 };
 
@@ -28,6 +30,8 @@ export function useGamesFacade(gameProps: GameProps): {
   gamesState: GamesState;
   gameModules: Array<React.ReactNode>;
   handleFilterSet: (filter?: string) => void;
+  handleMinNumberSet: (minNumberOfPlayers?: number) => void;
+  handleMaxNumberSet: (maxNumberOfPlayers?: number) => void;
   handleSkipSet: (skip: number) => void;
   handleTakeSet: (take: number) => void;
 } {
@@ -52,6 +56,18 @@ export function useGamesFacade(gameProps: GameProps): {
     });
   };
 
+  const handleMinNumberSet = (minNumberOfPlayers?: number) => {
+    setGamesState((state) => {
+      state.filter.minNumberOfPlayers = minNumberOfPlayers;
+    });
+  };
+
+  const handleMaxNumberSet = (maxNumberOfPlayers?: number) => {
+    setGamesState((state) => {
+      state.filter.maxNumberOfPlayers = maxNumberOfPlayers;
+    });
+  };
+
   const handleSkipSet = (skip: number) => {
     setGamesState((state) => {
       state.filter.skip = skip;
@@ -68,6 +84,8 @@ export function useGamesFacade(gameProps: GameProps): {
     gamesState,
     gameModules,
     handleFilterSet,
+    handleMinNumberSet,
+    handleMaxNumberSet,
     handleSkipSet,
     handleTakeSet,
   };

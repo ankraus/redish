@@ -121,12 +121,16 @@ export class GameController {
     @Res({ passthrough: true }) response: Response,
     @Query('skip') skip: number,
     @Query('take') take: number,
-    @Query('filter') filter?: string
+    @Query('filter') filter?: string,
+    @Query('minNumberOfPlayers') minNumberOfPlayers?: number,
+    @Query('maxNumberOfPlayers') maxNumberOfPlayers?: number
   ): Promise<ResultsDto<GameDto> | RedishErrorDto> {
     const getGamesResult = await this.gameFacade.getGames({
       filter,
       skip,
       take,
+      minNumberOfPlayers,
+      maxNumberOfPlayers,
     });
     if (getGamesResult.error) {
       if (

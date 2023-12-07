@@ -4,24 +4,32 @@ import styles from './redish-filter.module.scss';
 import { useState } from 'react';
 
 export interface RedishFilterViewModel {
-  filterDescription: string;
+  searchPlaceholder: string;
+  searchHoverText: string;
   filter?: string;
-  skip: number;
   take: number;
-  total: number;
   handleFilterSet: (filter?: string) => void;
   handleTakeSet: (take: number) => void;
+  numberFilterItems?: Array<{
+    label: string;
+    placeholder: string;
+    hoverText: string;
+    min?: number;
+    max?: number;
+    value?: number;
+    set: (value?: number) => void;
+  }>;
 }
 
 export function RedishFilter({
-  filterDescription,
-  total,
+  searchPlaceholder,
+  searchHoverText,
   filter,
-  skip,
   take,
   handleFilterSet,
   handleTakeSet,
-}: RedishFilterViewModel) {
+  numberFilterItems,
+}: Readonly<RedishFilterViewModel>) {
   const [showFilter, setShowFilter] = useState(false);
 
   return (
@@ -44,7 +52,8 @@ export function RedishFilter({
           <input
             type="text"
             id="filter"
-            placeholder={filterDescription}
+            placeholder={searchPlaceholder}
+            title={searchHoverText}
             value={filter}
             onChange={(event) => handleFilterSet(event.target.value)}
           />
@@ -54,6 +63,38 @@ export function RedishFilter({
             alt="search"
           />
         </div>
+        {numberFilterItems && (
+          <div className={styles.numberFilterItems}>
+            {numberFilterItems.map((filterItem, index) => (
+              <div
+                key={`filter-item-${filterItem.label.replace(' ', '')}`}
+                className={styles.filterItem}
+              >
+                <label htmlFor={`filter-item-${index}`}>
+                  {filterItem.label}
+                </label>
+                <input
+                  type="number"
+                  id={`filter-item-${index}`}
+                  min={filterItem.min}
+                  max={filterItem.max}
+                  value={filterItem.value}
+                  placeholder={filterItem.placeholder}
+                  title={filterItem.hoverText}
+                  onChange={(event) => {
+                    let num: number | undefined = parseInt(event.target.value);
+                    num = Math.max(
+                      filterItem.min ?? 0,
+                      Math.min(filterItem.max ?? Number.MAX_VALUE, num)
+                    );
+                    num = isNaN(num) ? filterItem.min : num;
+                    filterItem.set(num);
+                  }}
+                />
+              </div>
+            ))}{' '}
+          </div>
+        )}
         <div className={styles.filterItem}>
           <label htmlFor="take">Page size</label>
           <input
@@ -63,6 +104,7 @@ export function RedishFilter({
             min="1"
             max="100"
             value={take}
+            title='I want to see this many items per page.'
             onChange={(event) => {
               let num = parseInt(event.target.value);
               num = isNaN(num) ? 1 : num;

@@ -61,6 +61,12 @@
         flex-grow: 0;
       }
     }
+
+    .numberFilterItems {
+      display: flex;
+      gap: $space-2-small;
+      flex-wrap: wrap;
+    }
   }
 
   @media (min-width: $breakpoint-small) {
@@ -77,6 +83,7 @@
     .filter {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       gap: $space-2-medium;
       padding: $space-1-medium;
 

@@ -14,3 +14,4 @@ export * from './lib/models/results.dto';
 export * from './lib/models/preview-color.type';
 export * from './lib/result/result';
 export * from './lib/error/api-error';
+export * from './lib/models/game-filter.dto';
