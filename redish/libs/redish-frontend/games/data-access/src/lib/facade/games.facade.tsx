@@ -27,9 +27,6 @@ const initialState: GamesState = {
 export function useGamesFacade(gameProps: GameProps): {
   gamesState: GamesState;
   gameModules: Array<React.ReactNode>;
-  worm: {
-    handleWormLog: (test: string) => void;
-  };
   handleFilterSet: (filter?: string) => void;
   handleSkipSet: (skip: number) => void;
   handleTakeSet: (take: number) => void;
@@ -67,17 +64,9 @@ export function useGamesFacade(gameProps: GameProps): {
     });
   };
 
-  // todo remove WORM
-  const handleWormLog = (test: string) => {
-    console.log('WORM LOG', test);
-  };
-
   return {
-    gamesState: gamesState,
+    gamesState,
     gameModules,
-    worm: {
-      handleWormLog,
-    },
     handleFilterSet,
     handleSkipSet,
     handleTakeSet,
@@ -114,6 +103,7 @@ async function loadGames(setGamesState: Updater<GamesState>, filter: Filter) {
   });
 }
 
+// dynamic import of modules does not work, as typescript needs to know the exact name
 // https://stackoverflow.com/questions/65921524/running-into-error-error-cannot-find-module-when-using-dynamic-imports-react
 // https://github.com/webpack/webpack/issues/6680
 async function loadGameModules(

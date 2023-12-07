@@ -5,8 +5,6 @@ import { ConfigurationService } from '@redish-backend/shared';
 const typeOrmModule = TypeOrmModule.forRootAsync({
   useFactory: (configurationService: ConfigurationService) => {
     const options: TypeOrmModuleOptions = {
-      // todo dirname as env?
-      // entities: [__dirname + './../../**/*.entity{.ts,.js}'],
       ...configurationService.getDbConfig(),
       entities: [],
     };
