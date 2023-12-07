@@ -1,1 +1,1 @@
-export * from './lib/worm-app-props';
+export * from './lib/game-props';

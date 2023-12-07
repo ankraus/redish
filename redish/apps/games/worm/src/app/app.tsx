@@ -1,26 +1,21 @@
 import styles from './app.module.scss';
-import { WormAppProps as AppProps } from '@redish-frontend/shared-models';
+import { GameProps as AppProps } from '@redish-frontend/shared-models';
 import { WormFeature } from '@redish-games/worm-feature';
-import { ToastContainer } from 'react-toastify';
+import { Result } from '@redish-shared/domain';
 
 export function App(appProps: Readonly<AppProps>) {
   const username = appProps.username ?? 'test';
+  const verify =
+    appProps.verify ?? ((_: string) => Promise.resolve(Result.success(true)));
+  const toast =
+    appProps.toast ??
+    ((text: string, type: 'error' | 'info') => {
+      console.log(text);
+    });
 
   return (
     <div className={styles.container}>
-      <WormFeature username={username} />
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <WormFeature username={username} verify={verify} toast={toast} />
     </div>
   );
 }

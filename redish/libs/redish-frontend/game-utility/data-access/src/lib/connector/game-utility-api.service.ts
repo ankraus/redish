@@ -2,7 +2,7 @@ import { handleAxiosError } from '@redish-frontend/shared-util';
 import { Result } from '@redish-shared/domain';
 import axios from 'axios';
 
-export class GameUtilityApiService {
+class GameUtilityApiService {
   // todo: move to config
   private baseURL = 'http://localhost:3000/game-utility';
 
