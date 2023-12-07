@@ -16,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 type FrameProps = { children: React.ReactNode };
 
 export function Frame({ children }: Readonly<FrameProps>) {
-  const { token, setToken, user, logout } = useAuth();
+  const { token, user, logout } = useAuth();
   const navigate = useNavigate();
 
   const headerActions: Array<{
