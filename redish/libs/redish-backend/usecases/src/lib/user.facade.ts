@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Result, User } from '@redish-backend/domain';
+import { InternalTokenDto, Result, User } from '@redish-backend/domain';
 import {
   AuthenticateUserDto,
   CreateUserDto,
   RedishError,
-  TokenDto,
   UpdateUserDto,
   UserDto,
   UuidDto,
@@ -21,7 +20,7 @@ export class UserFacade {
 
   public async authenticateUser(
     user: AuthenticateUserDto
-  ): Promise<Result<TokenDto>> {
+  ): Promise<Result<InternalTokenDto>> {
     const userResult = await this.userRepository.findOneByEmail(user.email);
 
     if (
@@ -50,18 +49,61 @@ export class UserFacade {
       return Result.error(RedishError.Domain.authenticationError());
     }
 
-    const tokenResult = await this.authenticationService.createToken({
-      uuid: userResult.result!.uuid,
+    const tokensResult = await this.createTokens(userResult.result!.uuid);
+
+    if (!tokensResult.success) {
+      return Result.error(tokensResult.error!);
+    }
+
+    return Result.success({
+      token: tokensResult.result![0],
+      refreshToken: tokensResult.result![1],
+    });
+  }
+
+  public async refreshToken(
+    refreshToken: string
+  ): Promise<Result<InternalTokenDto>> {
+    const authenticationResult =
+      await this.authenticationService.verifyAuthenticated(refreshToken);
+
+    if (authenticationResult.error) {
+      return Result.error(authenticationResult.error);
+    }
+
+    const tokensResult = await this.createTokens(
+      authenticationResult.result!.uuid
+    );
+
+    if (!tokensResult.success) {
+      return Result.error(tokensResult.error!);
+    }
+
+    return Result.success({
+      token: tokensResult.result![0],
+      refreshToken: tokensResult.result![1],
+    });
+  }
+
+  private async createTokens(uuid: string): Promise<Result<[string, string]>> {
+    const tokenResult = await this.authenticationService.createAccessToken({
+      uuid: uuid,
     });
 
-    if (
-      tokenResult.error?.code ===
-      RedishError.Domain.Codes.TECHNICAL_AUTHENTICATION_ERROR
-    ) {
+    const refreshTokenResult =
+      await this.authenticationService.createRefreshToken({
+        uuid: uuid,
+      });
+
+    if (tokenResult.error != null) {
       return Result.error(tokenResult.error);
     }
 
-    return Result.success({ token: tokenResult.result! });
+    if (refreshTokenResult.error != null) {
+      return Result.error(refreshTokenResult.error);
+    }
+
+    return Result.success([tokenResult.result!, refreshTokenResult.result!]);
   }
 
   public async createUser(user: CreateUserDto): Promise<Result<UuidDto>> {

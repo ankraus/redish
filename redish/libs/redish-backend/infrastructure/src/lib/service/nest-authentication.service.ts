@@ -40,15 +40,24 @@ export class NestAuthenticationService extends AuthenticationService {
     }
   }
 
-  public async createToken(
-    payload: string | object | Buffer
-  ): Promise<Result<string>> {
+  public async createAccessToken(payload: string | object | Buffer): Promise<Result<string>> {
     const jwtConfig = this.configService.getJwtConfig();
+    return this.createToken(payload, jwtConfig.secret, jwtConfig.expiry);
+  }
+  public async createRefreshToken(payload: string | object | Buffer): Promise<Result<string>> {
+    const jwtConfig = this.configService.getJwtConfig();
+    return this.createToken(payload, jwtConfig.secret, jwtConfig.refreshExpiry);
+  }
 
+  private async createToken(
+    payload: string | object | Buffer,
+    secret: string,
+    expiry: string
+  ): Promise<Result<string>> {
     try {
       return Result.success(
-        sign(payload, jwtConfig.secret, {
-          expiresIn: jwtConfig.expiry,
+        sign(payload, secret, {
+          expiresIn: expiry,
         })
       );
     } catch (error: unknown) {

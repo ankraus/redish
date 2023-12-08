@@ -16,8 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 type FrameProps = { children: React.ReactNode };
 
 export function Frame({ children }: Readonly<FrameProps>) {
-  const { token, setToken, user } = useAuth();
-  const logout = () => setToken(null);
+  const { token, user, logout } = useAuth();
   const navigate = useNavigate();
 
   const headerActions: Array<{
@@ -32,7 +31,13 @@ export function Frame({ children }: Readonly<FrameProps>) {
             label: `Hello, ${user.username}`,
             onClick: () => navigate('/profile'),
           },
-          { label: 'Logout', onClick: logout },
+          {
+            label: 'Logout',
+            onClick: () => {
+              logout();
+              navigate('/');
+            },
+          },
         ]
       : [
           {
