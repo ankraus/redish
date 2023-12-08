@@ -41,7 +41,7 @@ export class AuthenticationApiService {
   public async logout(): Promise<Result<void>> {
     const url = `${this.baseURL}/logout`;
     try {
-      await axios.post<TokenDto>(url);
+      await axios.post<void>(url);
       return Result.success();
     } catch (error: unknown) {
       return handleAxiosError(error);

@@ -50,43 +50,50 @@ export class UserFacade {
       return Result.error(RedishError.Domain.authenticationError());
     }
 
-    const tokenResult = await this.authenticationService.createAccessToken({
-      uuid: userResult.result!.uuid,
-    });
+    const tokensResult = await this.createTokens(userResult.result!.uuid);
 
-    const refreshTokenResult =
-      await this.authenticationService.createRefreshToken({
-        uuid: userResult.result!.uuid,
-      });
-
-    if (tokenResult.error != null) {
-      return Result.error(tokenResult.error);
-    }
-
-    if (refreshTokenResult.error != null) {
-      return Result.error(refreshTokenResult.error);
+    if (!tokensResult.success) {
+      return Result.error(tokensResult.error!);
     }
 
     return Result.success({
-      token: tokenResult.result!,
-      refreshToken: refreshTokenResult.result!,
+      token: tokensResult.result![0],
+      refreshToken: tokensResult.result![1],
     });
   }
 
-  public async refreshToken(refreshToken: string): Promise<Result<InternalTokenDto>>{
-    const authenticationResult = await this.authenticationService.verifyAuthenticated(refreshToken);
+  public async refreshToken(
+    refreshToken: string
+  ): Promise<Result<InternalTokenDto>> {
+    const authenticationResult =
+      await this.authenticationService.verifyAuthenticated(refreshToken);
 
-    if(authenticationResult.error){
+    if (authenticationResult.error) {
       return Result.error(authenticationResult.error);
     }
 
+    const tokensResult = await this.createTokens(
+      authenticationResult.result!.uuid
+    );
+
+    if (!tokensResult.success) {
+      return Result.error(tokensResult.error!);
+    }
+
+    return Result.success({
+      token: tokensResult.result![0],
+      refreshToken: tokensResult.result![1],
+    });
+  }
+
+  private async createTokens(uuid: string): Promise<Result<[string, string]>> {
     const tokenResult = await this.authenticationService.createAccessToken({
-      uuid: authenticationResult.result!.uuid,
+      uuid: uuid,
     });
 
     const refreshTokenResult =
       await this.authenticationService.createRefreshToken({
-        uuid: authenticationResult.result!.uuid,
+        uuid: uuid,
       });
 
     if (tokenResult.error != null) {
@@ -97,10 +104,7 @@ export class UserFacade {
       return Result.error(refreshTokenResult.error);
     }
 
-    return Result.success({
-      token: tokenResult.result!,
-      refreshToken: refreshTokenResult.result!,
-    });
+    return Result.success([tokenResult.result!, refreshTokenResult.result!]);
   }
 
   public async createUser(user: CreateUserDto): Promise<Result<UuidDto>> {
