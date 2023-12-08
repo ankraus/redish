@@ -7,4 +7,6 @@ export interface GameViewModel {
   route: string;
   previewImages: { small: string; large: string };
   previewColor: PreviewColor;
+  minNumberOfPlayers: number;
+  maxNumberOfPlayers: number;
 }

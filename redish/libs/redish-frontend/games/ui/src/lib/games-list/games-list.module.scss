@@ -47,6 +47,10 @@
         background-color: $redish-light;
       }
     }
+
+    p {
+      @include font-medium;
+    }
   }
 
   @media (min-width: $breakpoint-small) {
