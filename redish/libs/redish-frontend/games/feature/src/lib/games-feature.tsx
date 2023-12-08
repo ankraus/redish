@@ -1,4 +1,4 @@
-import { ProtectedRoute } from '@redish-frontend/authentication-api';
+import { ProtectedRoute, useAuth } from '@redish-frontend/authentication-api';
 import { useGamesFacade } from '@redish-frontend/games-data-access';
 import { GamesList } from '@redish-frontend/games-ui';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
@@ -9,18 +9,30 @@ import {
   RedishLoading,
   RedishPagination,
 } from '@redish-frontend/shared-ui';
+import { GameProps } from '@redish-frontend/shared-models';
+import { verify } from '@redish-frontend/game-utility-api';
+import { toast } from 'react-toastify';
 
 /* eslint-disable-next-line */
 export interface GamesFeatureProps {}
 
 export function GamesFeature(props: GamesFeatureProps) {
+  const { user } = useAuth();
+
+  const gameProps: GameProps = {
+    username: user?.username ?? 'Player',
+    verify,
+    toast: (text, type) =>
+      type === 'error' ? toast.error(text) : toast.info(text),
+  };
+
   const {
     gamesState,
     gameModules,
     handleFilterSet,
     handleSkipSet,
     handleTakeSet,
-  } = useGamesFacade();
+  } = useGamesFacade(gameProps);
   const navigate = useNavigate();
 
   if (gamesState.loading && !gamesState.initialized) {
@@ -39,7 +51,7 @@ export function GamesFeature(props: GamesFeatureProps) {
           element={
             <div className={styles.main}>
               <RedishFilter
-                filterDescription='Search by name'
+                filterDescription="Search by name"
                 total={gamesState.totalGamesCount}
                 filter={gamesState.filter.filter}
                 skip={gamesState.filter.skip}

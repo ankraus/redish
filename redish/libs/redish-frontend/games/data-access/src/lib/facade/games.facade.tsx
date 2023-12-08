@@ -3,12 +3,11 @@ import {
   GameViewModel,
   GamesState,
 } from '@redish-frontend/games-models';
-import { RedishError } from '@redish-shared/domain';
 import { Updater, useImmer } from 'use-immer';
 import { gameApiService } from '../connector/game-api.service';
 import { Route } from 'react-router-dom';
-import { useEffect } from 'react';
-import React from 'react';
+import { lazy, useEffect } from 'react';
+import { GameProps } from '@redish-frontend/shared-models';
 
 const initialState: GamesState = {
   initialized: false,
@@ -25,12 +24,9 @@ const initialState: GamesState = {
 /**
  * facade hook as described in https://thomasburlesonia.medium.com/https-medium-com-thomasburlesonia-react-hooks-rxjs-facades-4e116330bbe1
  */
-export function useGamesFacade(): {
+export function useGamesFacade(gameProps: GameProps): {
   gamesState: GamesState;
   gameModules: Array<React.ReactNode>;
-  worm: {
-    handleWormLog: (test: string) => void;
-  };
   handleFilterSet: (filter?: string) => void;
   handleSkipSet: (skip: number) => void;
   handleTakeSet: (take: number) => void;
@@ -47,7 +43,7 @@ export function useGamesFacade(): {
   }, [gamesState.filter, setGamesState]);
 
   useEffect(() => {
-    loadGameModules(gamesState.games, setGameModules);
+    loadGameModules(gamesState.games, setGameModules, gameProps);
   }, [gamesState.games, setGameModules]);
 
   const handleFilterSet = (filter?: string) => {
@@ -68,17 +64,9 @@ export function useGamesFacade(): {
     });
   };
 
-  // todo remove WORM
-  const handleWormLog = (test: string) => {
-    console.log('WORM LOG', test);
-  };
-
   return {
-    gamesState: gamesState,
+    gamesState,
     gameModules,
-    worm: {
-      handleWormLog,
-    },
     handleFilterSet,
     handleSkipSet,
     handleTakeSet,
@@ -115,18 +103,22 @@ async function loadGames(setGamesState: Updater<GamesState>, filter: Filter) {
   });
 }
 
+// dynamic import of modules does not work, as typescript needs to know the exact name
 // https://stackoverflow.com/questions/65921524/running-into-error-error-cannot-find-module-when-using-dynamic-imports-react
 // https://github.com/webpack/webpack/issues/6680
 async function loadGameModules(
   games: Array<GameViewModel>,
-  setGameModules: Updater<Array<React.ReactNode>>
+  setGameModules: Updater<Array<React.ReactNode>>,
+  gameProps: GameProps
 ): Promise<void> {
   setGameModules(
     await Promise.all(
       games.map(async (game) => {
-        // const E = React.lazy(() => import(game.module));
-        const E = React.lazy(() => import('games-worm/Module'));
-        return <Route key={game.id} path={game.id} element={<E />} />;
+        // const E = lazy(() => import(game.module));
+        const E = lazy(() => import('games-worm/Module'));
+        return (
+          <Route key={game.id} path={game.id} element={<E {...gameProps} />} />
+        );
       })
     )
   );
