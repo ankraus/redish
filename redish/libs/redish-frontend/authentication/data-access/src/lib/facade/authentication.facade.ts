@@ -118,12 +118,6 @@ export function useAuthenticationFacade(
     navigate('/');
   }
 
-  async function handleLogout(): Promise<void> {
-    await authenticationApiService.logout();
-    setToken(null);
-    navigate('/');
-  }
-
   return {
     registerViewModel: {
       registerUser,
@@ -178,15 +172,12 @@ export function useAuthenticationCore(): {
     }
   }, [token]);
 
-  // todo: move to config
-  const refreshUrl = 'http://localhost:3000/user/refreshtoken';
-
   // using interceptor to refresh token, https://github.com/Flyrell/axios-auth-refresh
   // there is still a bug here when logging out and failing the next login, I can't seem to fix it
   createAuthRefreshInterceptor(
     axios,
     (failedRequest) =>
-      axios.post<TokenDto>(refreshUrl).then((tokenRefreshResponse) => {
+      axios.post<TokenDto>(authenticationApiService.refreshTokenUrl()).then((tokenRefreshResponse) => {
         _setToken(tokenRefreshResponse.data.token);
         failedRequest.response.config.headers['Authorization'] =
           'Bearer ' + tokenRefreshResponse.data.token;

@@ -47,6 +47,10 @@ export class AuthenticationApiService {
       return handleAxiosError(error);
     }
   }
+
+  public refreshTokenUrl(): string {
+    return `${this.baseURL}/refreshtoken`;
+  }
 }
 
 // todo use inversifyjs?
