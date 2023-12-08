@@ -48,7 +48,7 @@ export function useGamesFacade(gameProps: GameProps): {
 
   useEffect(() => {
     loadGameModules(gamesState.games, setGameModules, gameProps);
-  }, [gamesState.games, setGameModules, gameProps]);
+  }, [gamesState.games, setGameModules]);
 
   const handleFilterSet = (filter?: string) => {
     setGamesState((state) => {
