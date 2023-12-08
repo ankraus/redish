@@ -53,18 +53,21 @@ export function useGamesFacade(gameProps: GameProps): {
   const handleFilterSet = (filter?: string) => {
     setGamesState((state) => {
       state.filter.filter = filter;
+      state.filter.skip = 0;
     });
   };
 
   const handleMinNumberSet = (minNumberOfPlayers?: number) => {
     setGamesState((state) => {
       state.filter.minNumberOfPlayers = minNumberOfPlayers;
+      state.filter.skip = 0;
     });
   };
 
   const handleMaxNumberSet = (maxNumberOfPlayers?: number) => {
     setGamesState((state) => {
       state.filter.maxNumberOfPlayers = maxNumberOfPlayers;
+      state.filter.skip = 0;
     });
   };
 
@@ -77,6 +80,7 @@ export function useGamesFacade(gameProps: GameProps): {
   const handleTakeSet = (take: number) => {
     setGamesState((state) => {
       state.filter.take = take;
+      state.filter.skip = 0;
     });
   };
 
