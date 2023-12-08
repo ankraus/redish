@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Result, User } from '@redish-backend/domain';
+import { InternalTokenDto, Result, User } from '@redish-backend/domain';
 import {
   AuthenticateUserDto,
   CreateUserDto,
-  InternalTokenDto,
   RedishError,
   UpdateUserDto,
   UserDto,
