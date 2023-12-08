@@ -12,9 +12,9 @@ To start host and remotes in dev mode, run `nx serve redish-frontend --open --de
 
 ### Backend
 
-todo: add documentation for database
-
 Copy `apps/redish-backend/example.env` to `apps/redish-backend/.env` and replace values to fit your configuration (at least `DATABASE_PASSWORD`).
+
+We advise you to install and run a postgres database on localhost, but you can choose anything that works in TypeORM, as long as you add the configuration in the `.env` file.
 
 To start the development server run `nx serve redish-backend`.
 
