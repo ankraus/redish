@@ -25,7 +25,7 @@ import { RedishError } from '@redish-shared/domain';
 export class GameUtilityController {
   constructor(private dictionaryFacade: DictionaryFacade) {}
 
-  @ApiOkResponse()
+  @ApiOkResponse({ type: Boolean })
   @ApiBadRequestResponse({ type: RedishErrorDto })
   @ApiInternalServerErrorResponse({ type: RedishErrorDto })
   @UseGuards(AuthGuard)

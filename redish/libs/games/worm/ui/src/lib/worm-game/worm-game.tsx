@@ -3,6 +3,7 @@ import { WormGameViewModel } from '@redish-games/worm-models';
 import { useRef } from 'react';
 import { ChooseNumber } from './choose-number/choose-number';
 import styles from './worm-game.module.scss';
+import cn from 'classnames';
 
 const characterRegex = /^[a-zA-Z]$/;
 
@@ -63,13 +64,21 @@ export function WormGame({
 
       {showGame && (
         <>
+          <p>
+            Enter a word and submit. Enter another word, starting with the last
+            letter of the previous one.
+          </p>
+          <p>Keep up hope! Stay positive! You are loved!</p>
           <div className={styles.word}>
             {state.word.map((character, index) => (
               <div key={index} className={styles.character}>
                 <input
-                  className={
-                    index < state.currentWordIndex ? styles.disabled : ''
-                  }
+                  className={cn(
+                    index < state.currentWordIndex ? styles.disabled : '',
+                    index === state.currentWordIndex - 1
+                      ? styles.currentFirstLetter
+                      : ''
+                  )}
                   type="text"
                   maxLength={1}
                   value={character}
@@ -82,7 +91,7 @@ export function WormGame({
             ))}
           </div>
           {won ? (
-            <p>You won, {username}!</p>
+            <h2>You won, {username}!</h2>
           ) : (
             <RedishButton onClick={handleSubmitWord}>Submit Word</RedishButton>
           )}

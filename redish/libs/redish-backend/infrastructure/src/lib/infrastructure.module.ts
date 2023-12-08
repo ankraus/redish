@@ -9,12 +9,17 @@ import { TypeOrmGameRepository } from './typeorm-repositories/typeorm.game.repos
 import { TypeOrmUserRepository } from './typeorm-repositories/typeorm.user.repository';
 import { Game } from './typeorm-entities/typeorm.game.entity';
 import { ExternalDictionaryService } from './service/external-dictionary.service';
+import { RedisCacheService } from './service/redis-cache.service';
 
 const repositories = [TypeOrmUserRepository, TypeOrmGameRepository];
 
 const entities = [User, Game];
 
-const services = [NestAuthenticationService, ExternalDictionaryService];
+const services = [
+  NestAuthenticationService,
+  ExternalDictionaryService,
+  RedisCacheService,
+];
 
 @Module({
   imports: [

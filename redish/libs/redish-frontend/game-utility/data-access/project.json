@@ -1,0 +1,18 @@
+{
+  "name": "game-utility-data-access",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/redish-frontend/game-utility/data-access/src",
+  "projectType": "library",
+  "tags": ["platform:web", "scope:game-utility", "type:data-access"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/redish-frontend/game-utility/data-access/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  }
+}

@@ -38,6 +38,12 @@
       "@redish-frontend/authentication-ui": [
         "libs/redish-frontend/authentication/ui/src/index.ts"
       ],
+      "@redish-frontend/game-utility-api": [
+        "libs/redish-frontend/game-utility/api/src/index.ts"
+      ],
+      "@redish-frontend/game-utility-data-access": [
+        "libs/redish-frontend/game-utility/data-access/src/index.ts"
+      ],
       "@redish-frontend/games-data-access": [
         "libs/redish-frontend/games/data-access/src/index.ts"
       ],

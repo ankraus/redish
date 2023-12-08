@@ -125,6 +125,10 @@ export class RedishError {
       static DATABASE_ERROR = repositoryError + 3;
 
       static UNKNOWN_CQRS_ERROR = cqrsError + 1;
+
+      static EXTERNAL_API_ERROR = utilityError + 1;
+      static NOT_IN_CACHE = utilityError + 2;
+      static CACHE_ERROR = utilityError + 3;
     };
 
     public static environmentVariableMissing(environmentVariableName: string) {
@@ -161,6 +165,30 @@ export class RedishError {
         RedishError.Infrastructure.Codes.UNKNOWN_CQRS_ERROR,
         'Some Problem with cqrs',
         exception
+      );
+    }
+
+    public static externalApiError(cause?: unknown): RedishError {
+      return new RedishError(
+        RedishError.Infrastructure.Codes.EXTERNAL_API_ERROR,
+        'External API Error',
+        cause
+      );
+    }
+
+    public static notInCacheError(cause?: unknown): RedishError {
+      return new RedishError(
+        RedishError.Infrastructure.Codes.NOT_IN_CACHE,
+        'Not in cache',
+        cause
+      );
+    }
+
+    public static cacheError(cause?: unknown): RedishError {
+      return new RedishError(
+        RedishError.Infrastructure.Codes.CACHE_ERROR,
+        'Cache error',
+        cause
       );
     }
   };

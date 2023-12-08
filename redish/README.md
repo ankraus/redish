@@ -18,6 +18,10 @@ Copy `apps/redish-backend/example.env` to `apps/redish-backend/.env` and replace
 
 To start the development server run `nx serve redish-backend`.
 
+### Cache
+
+To use the caching functionality for the dictionary API, a Redis instance must be available at `localhost:6379`. Warning: Due to the optional nature of the caching layer there won't be any errors if the cache is unreachable. Any requests just forgo the cache and are sent directly to the external API.
+
 ## Architecture
 
 ### Backend

@@ -1,8 +1,12 @@
 @import 'global-styles';
 
 .container {
-  h1, p {
+  h1, h2 {
     @include font-xlarge;
+  }
+
+  p {
+    @include font-medium;
   }
 
   .word {
@@ -40,6 +44,12 @@
         &.disabled {
           color: $black;
           border-color: transparent;
+        }
+
+        &.currentFirstLetter {
+          background-color: $greenish;
+          transition: transform 300ms ease-in-out;
+          transform: rotate(360deg);
         }
       }
     }
