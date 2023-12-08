@@ -5,7 +5,6 @@ export interface RedishPaginationViewModel {
   skip: number;
   take: number;
   handleSkipSet: (skip: number) => void;
-  handleTakeSet: (take: number) => void;
 }
 
 export function RedishPagination({
@@ -13,8 +12,11 @@ export function RedishPagination({
   skip,
   take,
   handleSkipSet,
-  handleTakeSet,
 }: Readonly<RedishPaginationViewModel>) {
+  if (total === 0) {
+    return null;
+  }
+
   return (
     <div className={styles.container}>
       <button

@@ -30,6 +30,8 @@ export function GamesFeature(props: GamesFeatureProps) {
     gamesState,
     gameModules,
     handleFilterSet,
+    handleMinNumberSet,
+    handleMaxNumberSet,
     handleSkipSet,
     handleTakeSet,
   } = useGamesFacade(gameProps);
@@ -51,13 +53,29 @@ export function GamesFeature(props: GamesFeatureProps) {
           element={
             <div className={styles.main}>
               <RedishFilter
-                filterDescription="Search by name"
-                total={gamesState.totalGamesCount}
+                searchPlaceholder="Search by name"
+                searchHoverText="I want to play a game with this name."
                 filter={gamesState.filter.filter}
-                skip={gamesState.filter.skip}
                 take={gamesState.filter.take}
                 handleFilterSet={handleFilterSet}
                 handleTakeSet={handleTakeSet}
+                numberFilterItems={[
+                  {
+                    label: 'Min. Player Count',
+                    placeholder: 'min',
+                    hoverText:
+                      'I want to play with at least this many players.',
+                    value: gamesState.filter.minNumberOfPlayers,
+                    set: (value) => handleMinNumberSet(value),
+                  },
+                  {
+                    label: 'Max. Player Count',
+                    placeholder: 'max',
+                    hoverText: 'I want to play with at most this many players.',
+                    value: gamesState.filter.maxNumberOfPlayers,
+                    set: (value) => handleMaxNumberSet(value),
+                  },
+                ]}
               />
               <GamesList
                 games={gamesState.games}
@@ -68,7 +86,6 @@ export function GamesFeature(props: GamesFeatureProps) {
                 skip={gamesState.filter.skip}
                 take={gamesState.filter.take}
                 handleSkipSet={handleSkipSet}
-                handleTakeSet={handleTakeSet}
               />
               {gamesState.loading && <RedishLoading absolute />}
             </div>

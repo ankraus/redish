@@ -4,7 +4,7 @@ import cn from 'classnames';
 import styles from './games-list.module.scss';
 import { SyntheticEvent } from 'react';
 
-export function GamesList({ games, handleGameClicked }: GamesListViewModel) {
+export function GamesList({ games, handleGameClicked }: Readonly<GamesListViewModel>) {
   const handleImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.stopPropagation();
     const img = e.target as HTMLImageElement;
@@ -15,6 +15,10 @@ export function GamesList({ games, handleGameClicked }: GamesListViewModel) {
       img.parentElement?.replaceChildren(l);
     }
   };
+
+  if (games.length === 0) {
+    return <h1 className={styles.noGames}>No games found.</h1>;
+  }
 
   return (
     <div className={styles.container}>

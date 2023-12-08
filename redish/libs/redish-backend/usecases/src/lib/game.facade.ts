@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Game, Result } from '@redish-backend/domain';
 import {
   CreateGameDto,
-  FilterDto,
+  GameFilterDto,
   ResultsDto,
   UpdateGameDto,
 } from '@redish-shared/domain';
@@ -39,11 +39,13 @@ export class GameFacade {
     return t;
   }
 
-  public async getGames(filter: FilterDto): Promise<Result<ResultsDto<Game>>> {
+  public async getGames(filter: GameFilterDto): Promise<Result<ResultsDto<Game>>> {
     const result = await this.gameRepository.findAll(
       filter.skip,
       filter.take,
-      filter.filter
+      filter.filter,
+      filter.minNumberOfPlayers,
+      filter.maxNumberOfPlayers
     );
 
     if (result.success) {
